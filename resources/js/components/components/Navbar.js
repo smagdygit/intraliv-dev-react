@@ -3,7 +3,7 @@ import { UserContext } from './UserContext';
 import { Input, Menu, Divider } from 'semantic-ui-react'
 
 function Navbar() {
-	const [activeItem, setActiveItem] = useState('home');
+	const [activeItem, setActiveItem] = useState('Personal');
 
 	function handleItemClick(e, { name }) {
 		setActiveItem(name);
@@ -19,18 +19,23 @@ function Navbar() {
 						</h2>
 					</div>
 					<Menu.Item
+						name='Dashboard'
+						active={activeItem === 'Dashboard'}
+						onClick={handleItemClick}
+					/>
+					<Menu.Item
 						name='Personal'
-						active={activeItem === 'home'}
+						active={activeItem === 'Personal'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
 						name='Telefoner'
-						active={activeItem === 'messages'}
+						active={activeItem === 'Telefoner'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
 						name='Användare'
-						active={activeItem === 'friends'}
+						active={activeItem === 'Användare'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Menu position='right'>
