@@ -14,9 +14,9 @@ function ViewEmployees() {
 	const [reloadTable, setReloadTable] = useState(0);
 
 	useEffect(() => {
-		console.log('SemPEffect');
+
 		return () => {
-			console.log('semp bye bye');
+
 		}
 	}, []);
 

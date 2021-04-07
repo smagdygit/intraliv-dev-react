@@ -164,11 +164,11 @@ function SmallEmployeeTable() {
 	}
 
 	function handleChange(e) {
-		setTableSize(e.target.value); console.log(tableSize);
+		setTableSize(e.target.value);
 	}
 
 	function handleSizeChange(value) {
-		setTableSize(value); console.log(tableSize);
+		setTableSize(value);
 	}
 
 	const headerHtml = [['name', 'Namn', 8], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2]].map((item, index) => {
