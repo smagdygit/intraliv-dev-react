@@ -47,7 +47,7 @@ function ViewEmployees() {
 					<PersonEditModule
 					className="p-5"
 					data={{
-						name: '', email: '', active: '', phone: '', sith: '',
+						name: '', email: '', active: '', phone_id: '', sith: '',
 						admin: '', east: '', angered: '', lundby: '', id: '',
 						care_id_1: '', care_id_2: '', comment: ''
 					}}
@@ -56,9 +56,7 @@ function ViewEmployees() {
 				}
 			</div>
 			<div className="container-fluid center">
-				<center>
-					<Semantic key={reloadTable}></Semantic>
-				</center>
+				<Semantic key={reloadTable}></Semantic>
 			</div>
 		</div>
 	);

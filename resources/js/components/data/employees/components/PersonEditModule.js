@@ -16,21 +16,18 @@ import {
 
 
 
-const optionsStatus = [
-	{ key: 'Usable', text: 'Användbar', value: 'Usable' },
-	{ key: 'Need Checkup', text: 'Måste Undersökas', value: 'Need Checkup' },
-	{ key: 'Does not Work', text: 'Fungerar Ej', value: 'Does not Work' },
-	{ key: 'To Register', text: 'Ska Registreras', value: 'To Register' },
-	{ key: 'To Install', text: 'Ska Installeras', value: 'To Install' },
-	{ key: 'Waiting for Mail', text: 'Väntar på Post', value: 'Waiting for Mail' },
-	{ key: 'Missing Case', text: 'Saknar Skal', value: 'Missing Case' }
-];
-const optionsPhoniro = [
-	{ key: 'Yes', text: 'Finns med Stadsdel', value: 'Yes' },
-	{ key: 'Half', text: 'Finns utan Stadsdel', value: 'Half' },
-	{ key: 'No', text: 'Finns Ej', value: 'No' },
-];
-
+const optionsSith = [
+	{ key: 'Yes', text: 'Yes', value: 'Yes' },
+	{ key: 'N Never', text: 'No', value: 'N Never' },
+	{ key: 'To Install', text: 'To Install', value: 'To Install' },
+	{ key: 'Ordered', text: 'Ordered', value: 'Ordered' },
+	{ key: 'To Order', text: 'To Order', value: 'To Order' }
+]
+const optionsPolicyIt = [
+	{ key: 'N Do', text: 'Ej Klar', value: 'N Do' },
+	{ key: '210208A', text: '210208A', value: '210208A' },
+	{ key: '210312A', text: '210312A', value: '210312A' },
+]
 
 function PersonEditModule(props) {
 	const [form, setForm] = useState("");
@@ -41,8 +38,8 @@ function PersonEditModule(props) {
 	if (props.data !== undefined && isLoading === true) {
 		setIsLoading(false);
 		const newForm = { ...props.data };
-		newForm.free = props.data.free === 1 ? true : false;
-		newForm.personal = props.data.personal === 1 ? true : false;
+		newForm.active = props.data.active === 1 ? true : false;
+		newForm.admin = props.data.admin === 1 ? true : false;
 		newForm.east = props.data.east === 1 ? true : false;
 		newForm.angered = props.data.angered === 1 ? true : false;
 		newForm.lundby = props.data.lundby === 1 ? true : false;
@@ -71,7 +68,7 @@ function PersonEditModule(props) {
 		event.preventDefault();
 		setUploadingStatus({ status: 'uploading', text: 'Updaterar data, vänligen vänta...' });
 
-		fetch('http://localhost:8000/api/phones', {
+		fetch('http://localhost:8000/api/people', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -81,10 +78,10 @@ function PersonEditModule(props) {
 			.then(response => response.json())
 			.then(data => {
 				if (data.status === 'success') {
-					setUploadingStatus(form.id !== '' ? { status: 'success', text: 'Telefonen har blivit uppdaterad' } : { status: 'success', text: 'Telefonen har lags till' });
+					setUploadingStatus(form.id !== '' ? { status: 'success', text: 'Personen har blivit uppdaterad' } : { status: 'success', text: 'Personen har lags till' });
 					const newForm = { ...form };
-					newForm.free = newForm.free === true ? 1 : 0;
-					newForm.personal = newForm.personal === true ? 1 : 0;
+					newForm.active = newForm.active === true ? 1 : 0;
+					newForm.admin = newForm.admin === true ? 1 : 0;
 					newForm.east = newForm.east === true ? 1 : 0;
 					newForm.angered = newForm.angered === true ? 1 : 0;
 					newForm.lundby = newForm.lundby === true ? 1 : 0;
@@ -102,7 +99,7 @@ function PersonEditModule(props) {
 
 	function handleRemoveConfirm() {
 		setDeleteConfirmOpen(false);
-		fetch('http://localhost:8000/api/phones', {
+		fetch('http://localhost:8000/api/people', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'
@@ -112,7 +109,7 @@ function PersonEditModule(props) {
 			.then(response => response.json())
 			.then(data => {
 				if (data.status === 'success') {
-					setUploadingStatus({ status: 'success', text: 'Telefonen har tagits bort' });
+					setUploadingStatus({ status: 'success', text: 'Personen har tagits bort' });
 					props.sendDataToParent({ status: 'deleted', id: form.id });
 				} else {
 					setUploadingStatus({ status: 'error', text: 'Error: ' + data.text });
@@ -128,27 +125,35 @@ function PersonEditModule(props) {
 					<Form.Input
 						name='name'
 						fluid
-						label='Telefonsiffra WPXX (Skriv bara numret, ej WP)'
-						placeholder='99'
+						label='Fullt Namn'
+						placeholder='Fullt Namn'
 						value={form.name}
 						onChange={e => handleInputChange(e)}
 					/>
-					<Form.Select
-						name='status'
-						options={optionsStatus}
+					<Form.Input
+						name='email'
 						fluid
-						label='Status'
-						defaultValue={form.status}
-						onChange={(e, val) => handleSelectChange(e, 'status', val)}
+						label='Mejl'
+						placeholder='Mejl'
+						value={form.email}
+						onChange={e => handleInputChange(e)}
+					/>
+					<Form.Select
+						name='sith'
+						options={optionsSith}
+						fluid
+						label='SITH Status'
+						defaultValue={form.sith}
+						onChange={(e, val) => handleSelectChange(e, 'sith', val)}
 					/>
 				</Form.Group>
 				<Form.Group widths='equal'>
 					<Form.Input
-						name='user'
+						name='phone'
 						fluid
-						label='Användare'
-						placeholder='Klas Bertilsson'
-						value={form.user}
+						label='Telefon ID & Status'
+						placeholder='Telefon ID & Status'
+						value={form.phone_id}
 						onChange={e => handleInputChange(e)}
 					/>
 					<Form.Input
@@ -160,28 +165,36 @@ function PersonEditModule(props) {
 						value={form.id}
 						onChange={(e, value) => handleInputChange(e, value)}
 					/>
-					<Form.Select
-						name='phoniro_status'
-						options={optionsPhoniro}
+					<Form.Input
+						name='care_id_2'
 						fluid
-						label='Phoniro Status'
-						defaultValue={form.phoniro_status}
-						onChange={(e, val) => handleSelectChange(e, 'phoniro_status', val)}
+						label='Carefox ID'
+						value={form.care_id_2}
+						onChange={e => handleInputChange(e)}
+					/>
+					<Form.Select
+						name='policy_it_signed'
+						options={optionsPolicyIt}
+						fluid
+						label='It Policy Status'
+						defaultValue={form.policy_it_signed}
+						onChange={(e, val) => handleSelectChange(e, 'policy_it_signed', val)}
 					/>
 				</Form.Group>
+
 				<Form.Field
 					control={Checkbox}
-					label='Ledig'
-					name='free'
-					defaultChecked={form.free}
-					onChange={e => handleCheckboxChange(e, 'free')}
+					label='Aktiv'
+					name='active'
+					defaultChecked={form.active}
+					onChange={e => handleCheckboxChange(e, 'active')}
 				/>
 				<Form.Field
 					control={Checkbox}
-					label='Personlig'
-					name='personal Telefon'
-					defaultChecked={form.personal}
-					onChange={e => handleCheckboxChange(e, 'personal')}
+					label='Admin'
+					name='admin'
+					defaultChecked={form.admin}
+					onChange={e => handleCheckboxChange(e, 'admin')}
 				/>
 				<Form.Field
 					control={Checkbox}
@@ -212,19 +225,19 @@ function PersonEditModule(props) {
 					value={form.comment}
 					onChange={e => handleInputChange(e)}
 				/>
-				<Button type='submit' className="w-100 mb-3" disabled={isLoading} onClick={event => handleSubmit(event)}>{(props.data.id !== '') ? 'Uppdatera Telefon' : 'Lägg Till Telefon'}</Button>
+				<Button type='submit' className="w-100 mb-3" onClick={event => handleSubmit(event)}>{(props.data.id !== '') ? 'Uppdatera Person' : 'Lägg Till Person'}</Button>
 				{props.data.id !== '' &&
 					<div>
-						<Button type='submit' color="red" className="w-100" onClick={event => handleRemovePress(event)}>Ta Bort Telefonen Från Systemet</Button>
+						<Button type='submit' color="red" className="w-100" onClick={event => handleRemovePress(event)}>Ta Bort Personal Från Systemet</Button>
 						<Confirm
 							open={deleteConfirmOpen}
 							onConfirm={() => handleRemoveConfirm()}
 							onCancel={() => setDeleteConfirmOpen(false)}
 							cancelButton="Avbryt"
-							confirmButton="Ta Bort Telefon"
-							content="Ta inte bort en telefon för att den inte används, ändra istället telefonens status till ledig. 
-							Är du säker på att du vill ta bort telefonen? Detta går inte att ångra."
-							header="Ta Bort Telefonen"
+							confirmButton="Ta Bort Person"
+							content="Ta inte bort en person för att den har slutat, ändra istället personens status till inaktiv. 
+							Är du säker på att du vill ta bort personen? Detta går inte att ångra."
+							header="Ta Bort Personen"
 						/>
 					</div>
 				}

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Link, useParams } from 'react-r
 import Navbar from './components/Navbar';
 import Login from './Login';
 import LoggedIn from './LoggedIn';
+import Dashboard from './data/Dashboard';
 import DataEmployeesView from './data/employees/view';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css'
@@ -23,6 +24,7 @@ function App() {
 						<Route path="/login" component={Login} exact />
 						<Route path="/loggedin" component={LoggedIn} exact />
 						<Route path="/data/employees/view" component={DataEmployeesView} exact />
+						<Route path="/data/dashboard" component={Dashboard} exact />
 						{/*<Route component={Error} />*/}
 					</UserContext.Provider>
 				</Switch>
