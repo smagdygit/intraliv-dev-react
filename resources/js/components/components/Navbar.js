@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './UserContext';
 import { Link, useHistory } from 'react-router-dom';
-import { Input, Menu, Divider } from 'semantic-ui-react'
+import { Input, Menu, Divider } from 'semantic-ui-react';
 
 function Navbar() {
 	const [activeItem, setActiveItem] = useState('Personal');

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import Semantic from './components/TablePeopleSemantic';
+import Semantic from '../../components/table/EmployeeTableAndFilter';
 import { Button } from 'semantic-ui-react';
-import PersonEditModule from './components/PersonEditModule';
+import PersonEditModule from '../../components/table/EmployeeEditModule';
 
 
 
