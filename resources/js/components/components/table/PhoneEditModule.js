@@ -1,3 +1,4 @@
+import { initial } from 'lodash';
 import React, { useState, useEffect } from 'react';
 import {
 	Checkbox,
@@ -5,7 +6,7 @@ import {
 	TextArea,
 	Button,
 	Confirm,
-	Dropdown,
+	Message,
 } from 'semantic-ui-react'
 
 
@@ -33,7 +34,10 @@ function PersonEditModule(props) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [uploadingStatus, setUploadingStatus] = useState({ status: 'standby', text: '' });
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-	const [formUser, setFormUser] = useState([]);
+	const initialEmployeeList = props.data.employees.map((item) => {
+		return(item.id);
+	});
+	const [formUser, setFormUser] = useState([...initialEmployeeList]);
 	const [employeeList, setEmployeeList] = useState([]);
 	const [userPhoneLog, setUserPhoneLog] = useState([]);
 
@@ -42,8 +46,8 @@ function PersonEditModule(props) {
 			.then(response => response.json())
 			.then(data => {
 				setEmployeeList(data.map((item) => {
-					return(
-						{key: item.id, text: item.name, value: item.id, phone_id: data.phone_id}
+					return (
+						{ key: item.id, text: item.name, value: item.id, phone_id: item.phone_id, phone_name: item.phone.name }
 					);
 				}));
 			});
@@ -67,17 +71,21 @@ function PersonEditModule(props) {
 	}
 
 	function handleUserInputChange(e, data) {
-		const target = e.target;
+		const target = e.target; console.log(data);
 		setFormUser(data.value);
-		if (data.value[data.value.length - 1].phone_id !== '') {
-			userPhoneLog.push(
-				<div key={data.value[data.value.length - 1].key}>
-					Varning, {employeeList.find(x => x.id === data.value[data.value.length - 1].key).text} har redan telefon WP{employeeList.find(x => x.id === data.value[data.value.length - 1].key).phone_id},
-					om du lägger till denna telefonen på han kommer den gamla att överskrivas.
-				</div>
-			);console.log(data.value);
-			setUserPhoneLog([...userPhoneLog]);
-		}
+		const newPhoneLog = data.value.map((item) => {
+			if (item.phone_id !== '') {
+				return (
+					<Message negative key={'message ' + item}>
+						<Message.Header>Varning, {employeeList.find(x => x.key === item).text} har redan telefon WP{employeeList.find(x => x.key === item).phone_name}</Message.Header>
+						<p>
+							Om du lägger till denna telefonen på han kommer den gamla att överskrivas då en anställd endast kan ha en telefon registrerad på sig.
+					</p>
+					</Message>
+				);
+			}
+		});
+		setUserPhoneLog([...newPhoneLog]);
 	}
 
 	function handleSelectChange(e, name, val) {
@@ -95,13 +103,24 @@ function PersonEditModule(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 		setUploadingStatus({ status: 'uploading', text: 'Updaterar data, vänligen vänta...' });
-
+		const postMethod = (props.data.id !== '') ? 'PUT' : 'POST';
 		fetch('http://localhost:8000/api/phones', {
-			method: 'POST',
+			method: postMethod,
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(form),
+			body: JSON.stringify({
+				name: form.name,
+				status: form.status,
+				employees: formUser,
+				phoniro_status: form.phoniro_status,
+				free: form.free,
+				personal: form.personal,
+				east: form.east,
+				angered: form.angered,
+				lundby: form.lundby,
+				comment: form.comment,
+			}),
 		})
 			.then(response => response.json())
 			.then(data => {
@@ -132,7 +151,7 @@ function PersonEditModule(props) {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({id: form.id}),
+			body: JSON.stringify({ id: form.id }),
 		})
 			.then(response => response.json())
 			.then(data => {

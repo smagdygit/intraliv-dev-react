@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Checkbox,
 	Form,
@@ -28,6 +28,27 @@ function PersonEditModule(props) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [uploadingStatus, setUploadingStatus] = useState({ status: 'standby', text: '' });
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+	const [formPhone, setFormPhone] = useState(props.data.phone_id);
+	const [phoneList, setPhoneList] = useState([]);
+	const [phoneUserLog, setPhoneUserLog] = useState([]);
+	
+	useEffect(() => {
+		fetch('http://localhost:8000/api/phones')
+			.then(response => response.json())
+			.then(data => {
+				setPhoneList(data.map((item) => {
+					const phoneUserList = item.employees.map((subItem) => {
+						return(
+							' - ' + subItem.name
+						);
+					});
+					const renamePhone = (item.name === -1) ? 'Vet Ej' : (item.name === 0) ? 'Ingen Telefon' : `WP${item.name}`;
+					return (
+						{ key: item.id, text: renamePhone + phoneUserList, value: item.id, employees: item.employees}
+					);
+				}));
+			});
+	}, []);
 
 	if (props.data !== undefined && isLoading === true) {
 		setIsLoading(false);
@@ -46,6 +67,24 @@ function PersonEditModule(props) {
 		setForm({ ...form });
 	}
 
+	function handlePhoneInputChange(e, data) {
+		//const target = e.target; console.log(data);
+		setFormPhone(data.value);
+		/*const newPhoneLog = data.value.map((item) => {
+			if (item.phone_id !== '') {
+				return (
+					<Message warning key={'message ' + item}>
+						<Message.Header>OBS, {phoneList.find(x => x.key === item).employees} har redan telefon WP{phoneList.find(x => x.key === item).}</Message.Header>
+						<p>
+							Om du lägger till denna telefonen på han kommer den gamla att överskrivas då en anställd endast kan ha en telefon registrerad på sig.
+					</p>
+					</Message>
+				);
+			}
+		});*/
+		//setPhoneUserLog([...newPhoneLog]);
+	}
+
 	function handleSelectChange(e, name, val) {
 		const target = e.target;
 		form[name] = val.value;
@@ -61,13 +100,27 @@ function PersonEditModule(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 		setUploadingStatus({ status: 'uploading', text: 'Updaterar data, vänligen vänta...' });
-
-		fetch('http://localhost:8000/api/people', {
-			method: 'POST',
+		const postMethod = (props.data.id !== '') ? 'PUT' : 'POST';
+		fetch('http://localhost:8000/api/employees', {
+			method: postMethod,
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(form),
+			body: JSON.stringify({
+				id: form.id,
+				name: form.name,
+				email: form.email,
+				care_id_2: form.care_id_2,
+				phone_id: formPhone,
+				sith: form.sith,
+				admin: form.admin,
+				active: form.active,
+				east: form.east,
+				lundby: form.lundby,
+				angered: form.angered,
+				policy_it_signed: form.policy_it_signed,
+				comment: form.comment
+			}),
 		})
 			.then(response => response.json())
 			.then(data => {
@@ -142,22 +195,16 @@ function PersonEditModule(props) {
 					/>
 				</Form.Group>
 				<Form.Group widths='equal'>
-					<Form.Input
+					<Form.Dropdown
 						name='phone'
+						label='Telefon ID'
+						placeholder='WPXX'
+						disabled={phoneList.length === 0}
 						fluid
-						label='Telefon ID & Status'
-						placeholder='Telefon ID & Status'
-						value={form.phone_id}
-						onChange={e => handleInputChange(e)}
-					/>
-					<Form.Input
-						disabled
-						fluid
-						readOnly
-						label='Intraliv ID'
-						placeholder='Intraliv ID'
-						value={form.id}
-						onChange={(e, value) => handleInputChange(e, value)}
+						selection
+						options={phoneList}
+						value={formPhone}
+						onChange={(e, data) => handlePhoneInputChange(e, data)}
 					/>
 					<Form.Input
 						name='care_id_2'

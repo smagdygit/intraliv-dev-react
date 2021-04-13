@@ -23,12 +23,16 @@ class PhoneController extends Controller
     public function create(Request $request)
     {
         if ((!isset($request->name)) || (!isset($request->status)) || (!isset($request->free)) || (!isset($request->personal)) || (!isset($request->east)) ||
-            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->phoniro_status)) || (!isset($request->comment))
+            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->phoniro_status))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
 
-        $newPerson = Phone::create([
+        if (Phone::where('name', $request->name)->exists()) {
+            return ['status' => 'duplicate', 'id' => 'duplicate_phone_name', 'text' => 'En telefon med detta namn existerar redan'];
+        }
+
+        $newPhone= Phone::create([
             'name' => $request->name,
             'status' => $request->status,
             'free' => $request->free,
@@ -37,7 +41,11 @@ class PhoneController extends Controller
             'lundby' => $request->lundby,
             'angered' => $request->angered,
             'phoniro_status' => $request->phoniro_status,
-            'comment' => $request->comment,
+            'comment' => $request->comment ?? '',
+        ]);
+
+        Employee::whereIn('id', $request->employees)->update([
+            'phone_id' => $newPhone->id
         ]);
 
         return ['status' => 'success', 'phones' => $this->getAll()];
@@ -46,7 +54,7 @@ class PhoneController extends Controller
     public function update(Request $request)
     {
         if ((!isset($request->name)) || (!isset($request->status)) || (!isset($request->free)) || (!isset($request->personal)) || (!isset($request->east)) ||
-            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->phoniro_status)) || (!isset($request->comment))
+            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->phoniro_status))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -63,7 +71,11 @@ class PhoneController extends Controller
                 'lundby' => $request->lundby,
                 'angered' => $request->angered,
                 'phoniro_status' => $request->phoniro_status,
-                'comment' => $request->comment,
+                'comment' => $request->comment ?? '',
+            ]);
+
+            Employee::whereIn('id', $request->employees)->update([
+                'phone_id' => $oldPhone->id
             ]);
 
             return ['status' => 'success', 'employees' => $this->getAll()];

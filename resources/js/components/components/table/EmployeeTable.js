@@ -12,7 +12,7 @@ function Main(props) {
 		{
 			name: 'Laddar...', email: 'Laddar...', active: 'Laddar...', phone_id: 'Laddar...', sith: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
-			care_id_2: 'Laddar...', comment: 'Laddar...'
+			care_id_2: 'Laddar...', comment: 'Laddar...', phone: {id: 'loading'}
 		},
 	]);
 	const [expandedRows, setExpandedRows] = useState([]);
@@ -79,7 +79,7 @@ function Main(props) {
 				<Table.Cell>{item.name}</Table.Cell>
 				<Table.Cell>{item.email}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.phone_id}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.phone.name}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '❌' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.admin === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.east === 0 ? '❌' : '✔️'}</Table.Cell>

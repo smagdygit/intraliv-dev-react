@@ -34,7 +34,7 @@ class EmployeeController extends Controller
 
         if ((!isset($request->name)) || (!isset($request->email)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
             (!isset($request->admin)) || (!isset($request->active)) || (!isset($request->east)) || (!isset($request->lundby)) || (!isset($request->angered)) ||
-            (!isset($request->policy_it_signed)) || (!isset($request->comment))
+            (!isset($request->policy_it_signed))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -52,7 +52,7 @@ class EmployeeController extends Controller
             'lundby' => $request->lundby,
             'angered' => $request->angered,
             'policy_it_signed' => $request->policy_it_signed,
-            'comment' => $request->comment,
+            'comment' => $request->comment ?? '',
         ]);
 
         return ['status' => 'success', 'employees' => $this->getAll()];
@@ -74,7 +74,7 @@ class EmployeeController extends Controller
 
         if ((!isset($request->name)) || (!isset($request->email)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
             (!isset($request->admin)) || (!isset($request->active)) || (!isset($request->east)) || (!isset($request->lundby)) || (!isset($request->angered)) ||
-            (!isset($request->policy_it_signed)) || (!isset($request->comment))
+            (!isset($request->policy_it_signed))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -95,7 +95,7 @@ class EmployeeController extends Controller
                 'lundby' => $request->lundby,
                 'angered' => $request->angered,
                 'policy_it_signed' => $request->policy_it_signed,
-                'comment' => $request->comment,
+                'comment' => $request->comment ?? '',
             ]);
 
             return ['status' => 'success', 'employees' => $this->getAll()];
