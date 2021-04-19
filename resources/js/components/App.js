@@ -7,13 +7,15 @@ import LoggedIn from './LoggedIn';
 import Dashboard from './data/Dashboard';
 import DataEmployeesView from './data/employees/view';
 import DataPhonesView from './data/phones/view';
+import DataUsersView from './data/users/view';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css'
 import { UserContext } from './components/UserContext';
 import { Image } from 'semantic-ui-react';
 
 function App() {
-	const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || null);
+	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+	const userObject = JSON.parse(localStorage.getItem('user'));
 
 	const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
@@ -22,20 +24,30 @@ function App() {
 			<Image src="/livara_logga_0.png" size="small" alt="Livara Logga" />
 		</p>
 	));
-	
+
 	return (
 		<Router>
-			<header  className="">
+			<header className="">
 				<Navbar />
 			</header>
 			<div id="app">
 				<Switch>
 					<UserContext.Provider value={value}>
-						<Route path="/login" component={Login} exact />
-						<Route path="/loggedin" component={LoggedIn} exact />
-						<Route path="/data/employees/view" component={DataEmployeesView} exact />
-						<Route path="/data/phones/view" component={DataPhonesView} exact />
-						<Route path="/data/dashboard" component={Dashboard} exact />
+						{(userObject !== null) &&
+							<>
+								<Route path="/login" component={Login} exact />
+								<Route path="/loggedin" component={LoggedIn} exact />
+								<Route path="/data/employees/view" component={DataEmployeesView} exact />
+								<Route path="/data/phones/view" component={DataPhonesView} exact />
+								<Route path="/data/users/view" component={DataUsersView} exact />
+								<Route path="/data/dashboard" component={Dashboard} exact />
+							</>
+						}
+						{(userObject === null) &&
+							<>
+								<Route path="/*" component={Login} exact />
+							</>
+						}
 						{/*<Route component={Error} />*/}
 					</UserContext.Provider>
 				</Switch>

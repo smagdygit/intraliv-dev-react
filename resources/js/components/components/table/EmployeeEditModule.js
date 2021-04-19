@@ -146,7 +146,7 @@ function PersonEditModule(props) {
 
 	function handleRemoveConfirm() {
 		setDeleteConfirmOpen(false);
-		fetch('http://localhost:8000/api/people', {
+		fetch('http://localhost:8000/api/employees', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'

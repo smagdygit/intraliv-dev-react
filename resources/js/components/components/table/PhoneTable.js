@@ -16,11 +16,17 @@ function Main(props) {
 	]);
 	const [expandedRows, setExpandedRows] = useState([]);
 	const [refresher, setRefresher] = useState(false);
+	const userObject = JSON.parse(localStorage.getItem('user'));
 
 
 
 	useEffect(() => {
-		fetch('http://localhost:8000/api/phones')
+		fetch('http://localhost:8000/api/phones', {
+			method: 'GET',
+			headers: {
+				'Authorization': userObject.token,
+			}
+		})
 			.then(response => response.json())
 			.then(data => {
 				setFetching(false);

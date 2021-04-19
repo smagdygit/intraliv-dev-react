@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { UserContext } from './components/UserContext';
 
@@ -19,7 +19,7 @@ const Login = function () {
 		e.preventDefault();
 		setLoadingStatus('uploading');
 		setIsLoading(true);
-		fetch(`http://localhost:8113/api/login`, {
+		fetch(`http://localhost:8000/api/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const Login = function () {
 						setUser(result.user);
 						localStorage.setItem('user', JSON.stringify(result.user));
 						localStorage.setItem('token', result.user.token);
-						history.push('/loggedin');
+						history.push('/data/employees/view');
 					} else {
 						setErrorText(result.text);
 						setIsError(true);

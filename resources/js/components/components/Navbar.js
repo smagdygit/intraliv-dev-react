@@ -3,8 +3,11 @@ import { UserContext } from './UserContext';
 import { Link, useHistory } from 'react-router-dom';
 import { Input, Menu, Divider } from 'semantic-ui-react';
 
+
 function Navbar() {
 	const [activeItem, setActiveItem] = useState('Personal');
+	const { user, setUser } = useContext(UserContext);
+	const userObject = JSON.parse(localStorage.getItem('user'));
 
 	const history = useHistory();
 
@@ -19,7 +22,7 @@ function Navbar() {
 				<Menu secondary>
 					<div className="d-flex justify-content-center mr-5" style={{}}>
 						<h2 className="my-auto">
-							Intraliv
+							Intraliv <pre>{JSON.stringify(user, 0, '.')}</pre>
 						</h2>
 					</div>
 					<Menu.Item
@@ -46,15 +49,37 @@ function Navbar() {
 						active={activeItem === 'Användare'}
 						onClick={handleItemClick}
 					/>
+					<Menu.Item
+						name='sss'
+						url='/data/users/view'
+						active={activeItem === 'Användare'}
+						onClick={handleItemClick}
+					/>
 					<Menu.Menu position='right'>
 						<Menu.Item>
 							<Input icon='search' placeholder='Search...' />
 						</Menu.Item>
-						<Menu.Item
-							name='Logga Ut'
-							active={activeItem === 'logout'}
-							onClick={handleItemClick}
-						/>
+						{userObject !== null &&
+							<>
+								<Menu.Item
+									name={userObject.name}
+									active={activeItem === 'logout'}
+									onClick={handleItemClick}
+								/>
+								<Menu.Item
+									name='Logga Ut'
+									active={activeItem === 'logout'}
+									onClick={handleItemClick}
+								/>
+							</>
+						}
+						{userObject === null &&
+							<Menu.Item
+								name='Logga In'
+								active={activeItem === 'logout'}
+								onClick={handleItemClick}
+							/>
+						}
 					</Menu.Menu>
 				</Menu>
 			</div>
