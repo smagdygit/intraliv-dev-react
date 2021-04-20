@@ -30,7 +30,7 @@ class UserController extends Controller
             $newUser = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'admin' => $request->admin,
             ]);
 
@@ -52,7 +52,7 @@ class UserController extends Controller
                 $oldUser->update([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'password' => ($request->password == '') ? $oldUser->password : $request->password,
+                    'password' => ($request->password == '') ? $oldUser->password : bcrypt($request->password),
                     'admin' => $request->admin,
                 ]);
 
