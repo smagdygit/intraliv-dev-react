@@ -117,6 +117,7 @@ function PersonEditModule(props) {
 				'Authorization': userObject.token,
 			},
 			body: JSON.stringify({
+				id: form.id,
 				name: form.name,
 				status: form.status,
 				employees: formUser,
