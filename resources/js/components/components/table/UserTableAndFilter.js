@@ -20,7 +20,7 @@ function Main() {
 
 
 	useEffect(() => {
-		fetch('http://localhost:8000/api/users')
+		fetch('/api/users')
 			.then(response => response.json())
 			.then(data => {
 				setFetching(false);

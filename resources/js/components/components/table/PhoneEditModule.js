@@ -42,7 +42,7 @@ function PersonEditModule(props) {
 	const [userPhoneLog, setUserPhoneLog] = useState([]);
 
 	useEffect(() => {
-		fetch('http://localhost:8000/api/employees')
+		fetch('/api/employees')
 			.then(response => response.json())
 			.then(data => {
 				setEmployeeList(data.map((item) => {
@@ -104,7 +104,7 @@ function PersonEditModule(props) {
 		event.preventDefault();
 		setUploadingStatus({ status: 'uploading', text: 'Updaterar data, vänligen vänta...' });
 		const postMethod = (props.data.id !== '') ? 'PUT' : 'POST';
-		fetch('http://localhost:8000/api/phones', {
+		fetch('/api/phones', {
 			method: postMethod,
 			headers: {
 				'Content-Type': 'application/json'
@@ -146,7 +146,7 @@ function PersonEditModule(props) {
 
 	function handleRemoveConfirm() {
 		setDeleteConfirmOpen(false);
-		fetch('http://localhost:8000/api/phones', {
+		fetch('/api/phones', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'

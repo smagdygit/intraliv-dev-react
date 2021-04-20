@@ -20,7 +20,7 @@ function Main(props) {
 
 
 	useEffect(() => {
-		fetch('http://localhost:8000/api/users', {
+		fetch('/api/users', {
 			method: 'GET',
 			headers: {
 				'Authorization': userObject.token,

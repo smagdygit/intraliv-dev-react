@@ -19,7 +19,7 @@ const Login = function () {
 		e.preventDefault();
 		setLoadingStatus('uploading');
 		setIsLoading(true);
-		fetch(`http://localhost:8000/api/login`, {
+		fetch(`/api/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
