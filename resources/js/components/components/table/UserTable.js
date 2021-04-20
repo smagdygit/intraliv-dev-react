@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import _ from 'lodash';
-//import PersonEditModule from './PhoneEditModule';
+import UserEditModule from './UserEditModule';
 import TableFunctionCaret from './TableFunctionCaret';
 
 
@@ -133,9 +133,10 @@ function Main(props) {
 	}
 
 	function renderItemDetails(item) {
+		item.password = '';
 		return (
 			<Segment basic>
-				
+				<UserEditModule data={item} className="m-5" sendDataToParent={sendDataToParent}></UserEditModule>
 			</Segment>
 		);
 	}

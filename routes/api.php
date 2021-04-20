@@ -40,4 +40,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('phones', [PhoneController::class, 'delete']);
     Route::put('phones', [PhoneController::class, 'update']);
     Route::get('users', [UserController::class, 'getAll']);
+    Route::post('users', [UserController::class, 'create']);
+    Route::delete('users', [UserController::class, 'delete']);
+    Route::put('users', [UserController::class, 'update']);
 });

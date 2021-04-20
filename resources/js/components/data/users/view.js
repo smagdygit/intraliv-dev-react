@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import Semantic from '../../components/table/UserTableAndFilter';
 import { Button } from 'semantic-ui-react';
-//import PhoneEditModule from '../../components/table/PhoneEditModule';
+import UserEditModule from '../../components/table/UserEditModule';
 import { UserContext } from '../../components/UserContext';
 
 
@@ -43,9 +43,20 @@ function ViewUsers() {
 					<Button type='submit' className="w-100" onClick={event => handleOpenNewPerson(event)}>{!newPersonOpen ? 'Lägg Till Ny Personal' : 'Stäng Ny Personal Ruta'}</Button>
 				</center>
 				{newPersonOpen &&
-				<div className="p-5">
+					<div className="p-5">
+						<UserEditModule
+							data={{
+								name: '',
+								email: '',
+								password: '',
+								admin: 0,
+								id: '',
+							}}
+							className="m-5"
+							sendDataToParent={sendDataToParent}>
 
-				</div>
+						</UserEditModule>
+					</div>
 				}
 			</div>
 			<div className="container-fluid center">
