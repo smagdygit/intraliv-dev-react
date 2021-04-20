@@ -16,11 +16,16 @@ function Main() {
 	]);
 	const [refresher, setRefresher] = useState(false);
 	const [tableSize, setTableSize] = useState(2);
-
+	const userObject = JSON.parse(localStorage.getItem('user'));
 
 
 	useEffect(() => {
-		fetch('/api/employees')
+		fetch('/api/employees', {
+			method: 'GET',
+			headers: {
+				'Authorization': userObject.token,
+			}
+		})
 			.then(response => response.json())
 			.then(data => {
 				setFetching(false);

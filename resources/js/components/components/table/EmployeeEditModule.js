@@ -31,9 +31,15 @@ function PersonEditModule(props) {
 	const [formPhone, setFormPhone] = useState(props.data.phone_id);
 	const [phoneList, setPhoneList] = useState([]);
 	const [phoneUserLog, setPhoneUserLog] = useState([]);
+	const userObject = JSON.parse(localStorage.getItem('user'));
 	
 	useEffect(() => {
-		fetch('/api/phones')
+		fetch('/api/phones', {
+			method: 'GET',
+			headers: {
+				'Authorization': userObject.token,
+			}
+		})
 			.then(response => response.json())
 			.then(data => {
 				setPhoneList(data.map((item) => {

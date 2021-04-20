@@ -40,9 +40,15 @@ function PersonEditModule(props) {
 	const [formUser, setFormUser] = useState([...initialEmployeeList]);
 	const [employeeList, setEmployeeList] = useState([]);
 	const [userPhoneLog, setUserPhoneLog] = useState([]);
+	const userObject = JSON.parse(localStorage.getItem('user'));
 
 	useEffect(() => {
-		fetch('/api/employees')
+		fetch('/api/employees', {
+			method: 'GET',
+			headers: {
+				'Authorization': userObject.token,
+			}
+		})
 			.then(response => response.json())
 			.then(data => {
 				setEmployeeList(data.map((item) => {
