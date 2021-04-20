@@ -48,7 +48,7 @@ function ViewPhones() {
 					data={{
 						name: '', email: '', active: '', phone_id: '', sith: '',
 						admin: '', east: '', angered: '', lundby: '', id: '',
-						care_id_1: '', care_id_2: '', comment: ''
+						care_id_1: '', care_id_2: '', comment: '', employees: []
 					}}
 					sendDataToParent={sendDataToParent}></PhoneEditModule>
 				</div>
