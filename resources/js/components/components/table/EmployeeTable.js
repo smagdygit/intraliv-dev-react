@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Segment, Dimmer, Loader } from 'semantic-ui-react'
-import _ from 'lodash';
+import _, { filter } from 'lodash';
 import PersonEditModule from './EmployeeEditModule';
 import TableFunctionCaret from './TableFunctionCaret';
 
@@ -12,14 +12,19 @@ function Main(props) {
 		{
 			name: 'Laddar...', email: 'Laddar...', active: 'Laddar...', phone_id: 'Laddar...', sith: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
-			care_id_2: 'Laddar...', comment: 'Laddar...', phone: {id: 'loading'}
+			care_id_2: 'Laddar...', education: 'Laddar...', comment: 'Laddar...', phone: { id: 'loading' }
+		},
+	]);
+	const [fetchedPeople, setFetchedPeople] = useState([
+		{
+			name: 'Laddar...', email: 'Laddar...', active: 'Laddar...', phone_id: 'Laddar...', sith: 'Laddar...',
+			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
+			care_id_2: 'Laddar...', education: 'Laddar...', comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
 	const [expandedRows, setExpandedRows] = useState([]);
 	const [refresher, setRefresher] = useState(false);
 	const userObject = JSON.parse(localStorage.getItem('user'));
-
-
 
 	useEffect(() => {
 		fetch(`/api/employees`, {
@@ -31,9 +36,66 @@ function Main(props) {
 			.then(response => response.json())
 			.then(data => {
 				setFetching(false);
-				setPeople([...data]);
+				const filteredEmployees = filterInput(data, props.data.filter);
+				setPeople(filteredEmployees);
+				setFetchedPeople(data);
+				props.updateResultCount(filteredEmployees.length)
 			});
 	}, [refresher]);
+
+	useEffect(() => {
+		const filteredEmployees = filterInput(fetchedPeople, props.data.filter);
+		props.updateResultCount(filteredEmployees.length)
+		setPeople(filteredEmployees);
+	}, [props.data.filter])
+
+	function filterInput(input, filter) {
+		const output = input.flatMap((item, index) => {
+
+			if (filter.text !== '') {
+				if (!((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.email.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
+					return [];
+				}
+			}
+
+			let boolFail = false;
+			if (['active', 'admin', 'education', 'east', 'lundby', 'angered', 'vh', 'backa'].forEach((filterItem) => {
+				if (filter[filterItem]) {
+					if (!item[filterItem]) boolFail = true;
+				}
+			}));
+			if (boolFail) return [];
+
+			if (filter.sith !== 'null') {console.log(filter.sith)
+				if (item.sith !== filter.sith) return [];
+			}
+
+			if (filter.policy_it_signed !== 'null') {console.log(filter.policy_it_signed)
+				if (item.policy_it_signed !== filter.policy_it_signed) return [];
+			}
+
+			return [item];
+		});
+
+	/*
+	if (filter.text !== '') {
+			if (item !== undefined) {
+				if ((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.email.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))
+					return [item]; else {
+
+					return [];
+				}
+			}
+		} else {
+			return [item];
+		}
+	});*/
+		return output;
+	}
+
+	function passFilter(item, filter) {
+
+	}
 
 	function exampleReducer(state, action) {
 		switch (action.type) {
@@ -81,7 +143,7 @@ function Main(props) {
 	function renderRow(item, index) {
 		const itemRows = [
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
-				<TableFunctionCaret data={{index: index, expandedRows: expandedRows}}/>
+				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
 				<Table.Cell>{item.name}</Table.Cell>
 				<Table.Cell>{item.email}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
@@ -91,9 +153,12 @@ function Main(props) {
 				<Table.Cell textAlign='center'>{item.east === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.angered === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.lundby === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.vh === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.backa === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.id}</Table.Cell>
 				<Table.Cell>{item.care_id_2}</Table.Cell>
 				<Table.Cell>{item.policy_it_signed === 'N Do' ? 'Ej Klar' : item.policy_it_signed}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.education === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];
@@ -101,7 +166,7 @@ function Main(props) {
 		if (expandedRows.includes(index)) {
 			itemRows.push(
 				<Table.Row key={"row-expanded-" + index}>
-					<Table.Cell colSpan="16">{renderItemDetails(item)}</Table.Cell>
+					<Table.Cell colSpan="22">{renderItemDetails(item)}</Table.Cell>
 				</Table.Row>
 			);
 		}

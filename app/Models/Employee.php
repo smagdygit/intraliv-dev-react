@@ -25,6 +25,9 @@ class Employee extends Model
         'east',
         'lundby',
         'angered',
+        'vh',
+        'backa',
+        'education',
     ];
 
     public function phone()
