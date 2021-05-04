@@ -220,7 +220,8 @@ function ViewEmployees2() {
 					className="p-5"
 					data={{
 						name: '', email: '', active: '', phone_id: '', sith: '',
-						admin: '', east: '', angered: '', lundby: '', id: '',
+						admin: '', east: '', angered: '', lundby: '', vh: '',
+						backa: '', education: '' , id: '',
 						care_id_1: '', care_id_2: '', comment: ''
 					}}
 					sendDataToParent={sendDataToParent} />

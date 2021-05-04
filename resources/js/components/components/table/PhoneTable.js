@@ -8,7 +8,13 @@ import TableFunctionCaret from './TableFunctionCaret';
 
 function Main(props) {
 	const [fetching, setFetching] = useState(true);
-	const [people, setPeople] = useState([
+	const [phones, setPhones] = useState([
+		{
+			id: 0, name: 'Laddar...', status: 'Laddar...', free: 'Laddar...', personal: 'Laddar...', east: 'Laddar...',
+			lundby: 'Laddar...', angered: 'Laddar...', phoniro_status: 'Laddar...', employees: [{ id: '9998', name: 'Laddar...' }, { id: '9999', name: 'Laddar...' }], comment: 'Laddar...',
+		},
+	]);
+	const [fetchedPhones, setFetchedPhones] = useState([
 		{
 			id: 0, name: 'Laddar...', status: 'Laddar...', free: 'Laddar...', personal: 'Laddar...', east: 'Laddar...',
 			lundby: 'Laddar...', angered: 'Laddar...', phoniro_status: 'Laddar...', employees: [{ id: '9998', name: 'Laddar...' }, { id: '9999', name: 'Laddar...' }], comment: 'Laddar...',
@@ -30,28 +36,69 @@ function Main(props) {
 			.then(response => response.json())
 			.then(data => {
 				setFetching(false);
-				setPeople([...data]);
+				const filteredPhones = filterInput(data, props.data.filter);
+				setPhones(filteredPhones);
+				setFetchedPhones(data);
+				props.updateResultCount(filteredPhones.length);
 			});
 	}, [refresher]);
+
+	useEffect(() => {
+		const filteredPhones = filterInput(fetchedPhones, props.data.filter);
+		props.updateResultCount(filteredPhones.length)
+		setPhones(filteredPhones);
+	}, [props.data.filter]);
+
+	function filterInput(input, filter) {
+		const output = input.flatMap((item, index) => {
+
+			if (filter.text !== '') {
+				if (!((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
+					return [];
+				}
+			}
+
+			let boolFail = false;
+			if (['free', 'personal', 'east', 'lundby', 'angered', 'vh', 'backa'].forEach((filterItem) => {
+				if (filter[filterItem]) {
+					if (!item[filterItem]) boolFail = true;
+				}
+			}));
+
+			if (boolFail) return [];
+
+			if (filter.status !== 'null') {
+				if (item.status !== filter.status) return [];
+			}
+
+			if (filter.phoniro_status) {
+				if (item.phoniro_status === 'No') return [];
+			}
+
+			return [item];
+		});
+
+		return output;
+	}
 
 	function exampleReducer(state, action) {
 		switch (action.type) {
 			case 'CHANGE_SORT':
 				if (state.column === action.column) {
-					setPeople([...people.slice().reverse(),])
+					setPhones([...phones.slice().reverse(),])
 					return {
 						...state,
-						data: people.slice().reverse(),
+						data: phones.slice().reverse(),
 						direction:
 							state.direction === 'ascending' ? 'descending' : 'ascending',
 					}
 
 				}
 
-				setPeople([..._.sortBy(people, [action.column]),])
+				setPhones([..._.sortBy(phones, [action.column]),])
 				return {
 					column: action.column,
-					data: _.sortBy(people, [action.column]),
+					data: _.sortBy(phones, [action.column]),
 					direction: 'ascending',
 				}
 			default:
@@ -61,7 +108,7 @@ function Main(props) {
 
 	let [state, dispatch] = React.useReducer(exampleReducer, {
 		column: null,
-		data: people,
+		data: phones,
 		direction: null,
 	})
 	let { column, data, direction } = state
@@ -92,14 +139,16 @@ function Main(props) {
 		const itemRows = [
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
-				<Table.Cell>{item.name}</Table.Cell>
-				<Table.Cell>{item.status}</Table.Cell>
+				<Table.Cell>{item.name === -1 ? 'Okänd Telefon' : item.name === 0 ? 'Ingen Telefon' : `WP${item.name}`}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.status === 'Usable' ? '✔️' : item.status === 'Need Checkup' ? '👁️' : item.status === 'Does not Work' ? '🔥' : item.status === 'To Register' ? '🔜' : item.status === 'To Install' ? '💤' : item.status === 'Waiting for Mail' ? '✉️' : item.status === 'Missing Case' ? '💼' : '???'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.free === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.personal === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.east === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.lundby === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.angered === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell>{item.phoniro_status}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.vh === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.backa === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.phoniro_status === 'Yes' ? '✔️' : item.phoniro_status === 'Half' ? '🗨️' : item.phoniro_status === 'No' ? '❌' : '???'}</Table.Cell>
 				<Table.Cell>{employeeList}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
@@ -117,7 +166,7 @@ function Main(props) {
 	}
 
 	let renderAllRows = [];
-	people.forEach((item, index) => {
+	phones.forEach((item, index) => {
 		const perItemRows = renderRow(item, index);
 		renderAllRows = renderAllRows.concat(perItemRows);
 	});
@@ -126,23 +175,23 @@ function Main(props) {
 
 	function sendDataToParent(newPerson) {
 		if (newPerson.status === 'updated') {
-			setPeople((oldPeople) => {
-				const newPeople = [...oldPeople];
-				const index = newPeople.findIndex(x => x.id === newPerson.id);
+			setPhones((oldphones) => {
+				const newphones = [...oldphones];
+				const index = newphones.findIndex(x => x.id === newPerson.id);
 				if (index !== -1) {
-					newPeople[index] = newPerson;
+					newphones[index] = newPerson;
 				} else {
 					setFetching(true);
 					setRefresher(!refresher);
 				}
-				return newPeople;
+				return newphones;
 			});
 		} else {
-			setPeople((oldPeople) => {
-				const newPeople = [...oldPeople];
-				const index = newPeople.findIndex(x => x.id === newPerson.id);
-				newPeople.splice(index, 1);
-				return newPeople;
+			setPhones((oldphones) => {
+				const newphones = [...oldphones];
+				const index = newphones.findIndex(x => x.id === newPerson.id);
+				newphones.splice(index, 1);
+				return newphones;
 			});
 		}
 	}

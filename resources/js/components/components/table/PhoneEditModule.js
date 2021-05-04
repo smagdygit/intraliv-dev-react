@@ -1,4 +1,3 @@
-import { initial } from 'lodash';
 import React, { useState, useEffect } from 'react';
 import {
 	Checkbox,
@@ -6,7 +5,9 @@ import {
 	TextArea,
 	Button,
 	Confirm,
-	Message,
+	GridColumn,
+	Grid,
+	Divider,
 } from 'semantic-ui-react'
 
 
@@ -35,7 +36,7 @@ function PersonEditModule(props) {
 	const [uploadingStatus, setUploadingStatus] = useState({ status: 'standby', text: '' });
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 	const initialEmployeeList = props.data.employees.map((item) => {
-		return(item.id);
+		return (item.id);
 	});
 	const [formUser, setFormUser] = useState([...initialEmployeeList]);
 	const [employeeList, setEmployeeList] = useState([]);
@@ -67,6 +68,8 @@ function PersonEditModule(props) {
 		newForm.east = props.data.east === 1 ? true : false;
 		newForm.angered = props.data.angered === 1 ? true : false;
 		newForm.lundby = props.data.lundby === 1 ? true : false;
+		newForm.vh = props.data.vh === 1 ? true : false;
+		newForm.backa = props.data.backa === 1 ? true : false;
 		setForm({ ...newForm });
 	}
 
@@ -127,6 +130,8 @@ function PersonEditModule(props) {
 				east: form.east,
 				angered: form.angered,
 				lundby: form.lundby,
+				vh: form.vh,
+				backa: form.backa,
 				comment: form.comment,
 			}),
 		})
@@ -140,6 +145,8 @@ function PersonEditModule(props) {
 					newForm.east = newForm.east === true ? 1 : 0;
 					newForm.angered = newForm.angered === true ? 1 : 0;
 					newForm.lundby = newForm.lundby === true ? 1 : 0;
+					newForm.vh = newForm.vh === true ? 1 : 0;
+					newForm.backa = newForm.backa === true ? 1 : 0;
 					props.sendDataToParent({ status: 'updated', newForm: newForm });
 				} else {
 					setUploadingStatus({ status: 'error', text: 'Error: ' + data.text });
@@ -150,6 +157,10 @@ function PersonEditModule(props) {
 	function handleRemovePress(event) {
 		event.preventDefault();
 		setDeleteConfirmOpen(true);
+	}
+
+	function handleCancelPress() {
+		props.sendDataToParent('cancel');
 	}
 
 	function handleRemoveConfirm() {
@@ -175,108 +186,147 @@ function PersonEditModule(props) {
 
 	return (
 		<>
-			<Form>
-				<Form.Group widths='equal'>
-					<Form.Input
-						name='name'
-						fluid
-						label='Telefonsiffra WPXX (Skriv bara numret, ej WP)'
-						placeholder='99'
-						value={form.name}
-						onChange={e => handleInputChange(e)}
+			<Grid>
+				<GridColumn width={2}>
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Ledig'
+						name='free'
+						checked={form.free}
+						onChange={e => handleCheckboxChange(e, 'free')}
 					/>
-					<Form.Select
-						name='status'
-						options={optionsStatus}
-						fluid
-						label='Status'
-						defaultValue={form.status}
-						onChange={(e, val) => handleSelectChange(e, 'status', val)}
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Personlig'
+						name='personal'
+						checked={form.personal}
+						onChange={e => handleCheckboxChange(e, 'personal')}
 					/>
-				</Form.Group>
-				<Form.Group widths='equal'>
-					<Form.Dropdown
-						name='user'
-						label='Användare'
-						placeholder='Klas Bertilsson'
-						disabled={employeeList.length === 0}
-						fluid
-						multiple
-						selection
-						options={employeeList}
-						value={formUser}
-						onChange={(e, data) => handleUserInputChange(e, data)}
+					<Divider />
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Östra'
+						name='east'
+						checked={form.east}
+						onChange={e => handleCheckboxChange(e, 'east')}
 					/>
-					<Form.Select
-						name='phoniro_status'
-						options={optionsPhoniro}
-						fluid
-						label='Phoniro Status'
-						defaultValue={form.phoniro_status}
-						onChange={(e, val) => handleSelectChange(e, 'phoniro_status', val)}
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Angered'
+						name='angered'
+						checked={form.angered}
+						onChange={e => handleCheckboxChange(e, 'angered')}
 					/>
-				</Form.Group>
-				{userPhoneLog}
-				<Form.Field
-					control={Checkbox}
-					label='Ledig'
-					name='free'
-					defaultChecked={form.free}
-					onChange={e => handleCheckboxChange(e, 'free')}
-				/>
-				<Form.Field
-					control={Checkbox}
-					label='Personlig'
-					name='personal Telefon'
-					defaultChecked={form.personal}
-					onChange={e => handleCheckboxChange(e, 'personal')}
-				/>
-				<Form.Field
-					control={Checkbox}
-					label='Östra'
-					name='east'
-					defaultChecked={form.east}
-					onChange={e => handleCheckboxChange(e, 'east')}
-				/>
-				<Form.Field
-					control={Checkbox}
-					label='Angered'
-					name='angered'
-					defaultChecked={form.angered}
-					onChange={e => handleCheckboxChange(e, 'angered')}
-				/>
-				<Form.Field
-					control={Checkbox}
-					label='Lundby'
-					name='lundby'
-					defaultChecked={form.lundby}
-					onChange={e => handleCheckboxChange(e, 'lundby')}
-				/>
-				<Form.Field
-					control={TextArea}
-					label='Kommentar'
-					name='comment'
-					placeholder='Kommentar'
-					value={form.comment}
-					onChange={e => handleInputChange(e)}
-				/>
-				<Button type='submit' className="w-100 mb-3" disabled={isLoading} onClick={event => handleSubmit(event)}>{(props.data.id !== '') ? 'Uppdatera Telefon' : 'Lägg Till Telefon'}</Button>
-				{props.data.id !== '' &&
-					<div>
-						<Button type='submit' color="red" className="w-100" onClick={event => handleRemovePress(event)}>Ta Bort Telefonen Från Systemet</Button>
-						<Confirm
-							open={deleteConfirmOpen}
-							onConfirm={() => handleRemoveConfirm()}
-							onCancel={() => setDeleteConfirmOpen(false)}
-							cancelButton="Avbryt"
-							confirmButton="Ta Bort Telefon"
-							content="Ta inte bort en telefon för att den inte används, ändra istället telefonens status till ledig. 
-							Är du säker på att du vill ta bort telefonen? Detta går inte att ångra."
-							header="Ta Bort Telefonen"
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Lundby'
+						name='lundby'
+						checked={form.lundby}
+						onChange={e => handleCheckboxChange(e, 'lundby')}
+					/>
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='V-H'
+						name='vh'
+						checked={form.vh}
+						onChange={e => handleCheckboxChange(e, 'vh')}
+					/>
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Backa'
+						name='backa'
+						checked={form.backa}
+						onChange={e => handleCheckboxChange(e, 'backa')}
+					/>
+				</GridColumn>
+				<GridColumn width={14}>
+					<Form>
+						<Form.Group widths='equal'>
+							<Form.Input
+								name='name'
+								fluid
+								label='Siffra (WP-XX)'
+								placeholder='99'
+								value={form.name}
+								onChange={e => handleInputChange(e)}
+							/>
+							<Form.Select
+								name='status'
+								options={optionsStatus}
+								fluid
+								label='Status'
+								defaultValue={form.status}
+								onChange={(e, val) => handleSelectChange(e, 'status', val)}
+							/>
+						</Form.Group>
+						<Form.Group widths='equal'>
+							<Form.Dropdown
+								name='user'
+								label='Användare'
+								placeholder='Klas Bertilsson'
+								disabled={employeeList.length === 0}
+								fluid
+								multiple
+								selection
+								options={employeeList}
+								value={formUser}
+								onChange={(e, data) => handleUserInputChange(e, data)}
+							/>
+							<Form.Select
+								name='phoniro_status'
+								options={optionsPhoniro}
+								fluid
+								label='Phoniro Status'
+								defaultValue={form.phoniro_status}
+								onChange={(e, val) => handleSelectChange(e, 'phoniro_status', val)}
+							/>
+						</Form.Group>
+
+
+						<Form.Field
+							control={TextArea}
+							label='Kommentar'
+							name='comment'
+							placeholder='Kommentar'
+							value={form.comment}
+							onChange={e => handleInputChange(e)}
 						/>
-					</div>
-				}
-			</Form>
+						<Button positive type='submit' className="w-100 mb-3" onClick={event => handleSubmit(event)}>{(props.data.id !== '') ? 'Uppdatera Telefon' : 'Lägg Till Telefon'}</Button>
+						{props.data.id !== '' &&
+							<div>
+								<Button type='submit' color="red" className="w-100" onClick={event => handleRemovePress(event)}>Ta Bort Telefonen Från Systemet</Button>
+								<Confirm
+									open={deleteConfirmOpen}
+									onConfirm={() => handleRemoveConfirm()}
+									onCancel={() => setDeleteConfirmOpen(false)}
+									cancelButton="Avbryt"
+									confirmButton="Ta Bort Telefon"
+									content="Ta inte bort en telefon för att den inte används, ändra istället telefonens status till ledig. 
+									Är du säker på att du vill ta bort telefonen? Detta går inte att ångra."
+									header="Ta Bort Telefonen"
+								/>
+							</div>
+						}
+						{props.data.id === '' &&
+							<Button type='submit' color="red" className="w-100" onClick={event => handleCancelPress(event)}>Avbryt</Button>
+						}
+					</Form>
+				</GridColumn>
+			</Grid>
 			<center>
 				<h2 className="mt-3">{uploadingStatus.text}</h2>
 			</center>

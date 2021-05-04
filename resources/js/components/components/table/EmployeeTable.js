@@ -39,7 +39,7 @@ function Main(props) {
 				const filteredEmployees = filterInput(data, props.data.filter);
 				setPeople(filteredEmployees);
 				setFetchedPeople(data);
-				props.updateResultCount(filteredEmployees.length)
+				props.updateResultCount(filteredEmployees.length);
 			});
 	}, [refresher]);
 
@@ -47,7 +47,7 @@ function Main(props) {
 		const filteredEmployees = filterInput(fetchedPeople, props.data.filter);
 		props.updateResultCount(filteredEmployees.length)
 		setPeople(filteredEmployees);
-	}, [props.data.filter])
+	}, [props.data.filter]);
 
 	function filterInput(input, filter) {
 		const output = input.flatMap((item, index) => {
@@ -66,35 +66,18 @@ function Main(props) {
 			}));
 			if (boolFail) return [];
 
-			if (filter.sith !== 'null') {console.log(filter.sith)
+			if (filter.sith !== 'null') {
 				if (item.sith !== filter.sith) return [];
 			}
 
-			if (filter.policy_it_signed !== 'null') {console.log(filter.policy_it_signed)
+			if (filter.policy_it_signed !== 'null') {
 				if (item.policy_it_signed !== filter.policy_it_signed) return [];
 			}
 
 			return [item];
 		});
 
-	/*
-	if (filter.text !== '') {
-			if (item !== undefined) {
-				if ((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.email.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))
-					return [item]; else {
-
-					return [];
-				}
-			}
-		} else {
-			return [item];
-		}
-	});*/
 		return output;
-	}
-
-	function passFilter(item, filter) {
-
 	}
 
 	function exampleReducer(state, action) {

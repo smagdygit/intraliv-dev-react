@@ -8,7 +8,7 @@ import {
 	GridColumn,
 	Grid,
 	Divider,
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
 
 
