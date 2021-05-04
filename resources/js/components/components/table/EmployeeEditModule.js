@@ -67,6 +67,9 @@ function PersonEditModule(props) {
 		newForm.east = props.data.east === 1 ? true : false;
 		newForm.angered = props.data.angered === 1 ? true : false;
 		newForm.lundby = props.data.lundby === 1 ? true : false;
+		newForm.backa = props.data.backa === 1 ? true : false;
+		newForm.vh = props.data.vh === 1 ? true : false;
+		newForm.education = props.data.education === 1 ? true : false;
 		setForm({ ...newForm });
 	}
 
@@ -128,6 +131,9 @@ function PersonEditModule(props) {
 				east: form.east,
 				lundby: form.lundby,
 				angered: form.angered,
+				backa: form.backa,
+				vh: form.vh,
+				education: form.education,
 				policy_it_signed: form.policy_it_signed,
 				comment: form.comment
 			}),
@@ -142,6 +148,9 @@ function PersonEditModule(props) {
 					newForm.east = newForm.east === true ? 1 : 0;
 					newForm.angered = newForm.angered === true ? 1 : 0;
 					newForm.lundby = newForm.lundby === true ? 1 : 0;
+					newForm.backa = newForm.backa === true ? 1 : 0;
+					newForm.vh = newForm.vh === true ? 1 : 0;
+					newForm.education = newForm.education === true ? 1 : 0;
 					props.sendDataToParent({ status: 'updated', newForm: newForm });
 				} else {
 					setUploadingStatus({ status: 'error', text: 'Error: ' + data.text });
@@ -189,7 +198,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Aktiv'
 						name='active'
-						defaultChecked={form.active}
+						checked={form.active}
 						onChange={e => handleCheckboxChange(e, 'active')}
 					/>
 					<Form.Field
@@ -198,7 +207,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Admin'
 						name='admin'
-						defaultChecked={form.admin}
+						checked={form.admin}
 						onChange={e => handleCheckboxChange(e, 'admin')}
 					/>
 					<Form.Field
@@ -207,7 +216,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Utbildning'
 						name='education'
-						defaultChecked={form.education}
+						checked={form.education}
 						onChange={e => handleCheckboxChange(e, 'education')}
 					/>
 					<Divider />
@@ -217,7 +226,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Östra'
 						name='east'
-						defaultChecked={form.east}
+						checked={form.east}
 						onChange={e => handleCheckboxChange(e, 'east')}
 					/>
 					<Form.Field
@@ -226,7 +235,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Angered'
 						name='angered'
-						defaultChecked={form.angered}
+						checked={form.angered}
 						onChange={e => handleCheckboxChange(e, 'angered')}
 					/>
 					<Form.Field
@@ -235,7 +244,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Lundby'
 						name='lundby'
-						defaultChecked={form.lundby}
+						checked={form.lundby}
 						onChange={e => handleCheckboxChange(e, 'lundby')}
 					/>
 					<Form.Field
@@ -244,7 +253,7 @@ function PersonEditModule(props) {
 						toggle
 						label='V-H'
 						name='vh'
-						defaultChecked={form.vh}
+						checked={form.vh}
 						onChange={e => handleCheckboxChange(e, 'vh')}
 					/>
 					<Form.Field
@@ -253,7 +262,7 @@ function PersonEditModule(props) {
 						toggle
 						label='Backa'
 						name='backa'
-						defaultChecked={form.backa}
+						checked={form.backa}
 						onChange={e => handleCheckboxChange(e, 'backa')}
 					/>
 				</GridColumn>

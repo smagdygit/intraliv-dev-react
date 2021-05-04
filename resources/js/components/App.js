@@ -6,7 +6,7 @@ import Login from './Login';
 import LoggedIn from './LoggedIn';
 import Dashboard from './data/Dashboard';
 import DataEmployeesView from './data/employees/view';
-import DataEmployeesView2 from './data/employees/view2';
+//import DataEmployeesView2 from './data/employees/view2';
 import DataPhonesView from './data/phones/view';
 import DataUsersView from './data/users/view';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -39,7 +39,6 @@ function App() {
 								<Route path="/login" component={Login} exact />
 								<Route path="/loggedin" component={LoggedIn} exact />
 								<Route path="/data/employees/view" component={DataEmployeesView} exact />
-								<Route path="/data/employees/view2" component={DataEmployeesView2} exact />
 								<Route path="/data/phones/view" component={DataPhonesView} exact />
 								<Route path="/data/users/view" component={DataUsersView} exact />
 								<Route path="/data/dashboard" component={Dashboard} exact />

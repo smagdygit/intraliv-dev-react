@@ -10,14 +10,14 @@ function Main(props) {
 	const [fetching, setFetching] = useState(true);
 	const [people, setPeople] = useState([
 		{
-			name: 'Laddar...', email: 'Laddar...', active: 'Laddar...', phone_id: 'Laddar...', sith: 'Laddar...',
+			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
 			care_id_2: 'Laddar...', education: 'Laddar...', comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
 	const [fetchedPeople, setFetchedPeople] = useState([
 		{
-			name: 'Laddar...', email: 'Laddar...', active: 'Laddar...', phone_id: 'Laddar...', sith: 'Laddar...',
+			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
 			care_id_2: 'Laddar...', education: 'Laddar...', comment: 'Laddar...', phone: { id: 'loading' }
 		},
@@ -144,10 +144,10 @@ function Main(props) {
 		const itemRows = [
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
-				<Table.Cell>{item.name}</Table.Cell>
+				<Table.Cell singleLine>{item.name}</Table.Cell>
 				<Table.Cell>{item.email}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.phone.name}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.phone.name === 0 ? '❌' : item.phone.name}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '❌' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.admin === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.east === 0 ? '❌' : '✔️'}</Table.Cell>
@@ -157,7 +157,7 @@ function Main(props) {
 				<Table.Cell textAlign='center'>{item.backa === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.id}</Table.Cell>
 				<Table.Cell>{item.care_id_2}</Table.Cell>
-				<Table.Cell>{item.policy_it_signed === 'N Do' ? 'Ej Klar' : item.policy_it_signed}</Table.Cell>
+				<Table.Cell>{item.policy_it_signed === 'N Do' ? '❌' : item.policy_it_signed}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.education === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>

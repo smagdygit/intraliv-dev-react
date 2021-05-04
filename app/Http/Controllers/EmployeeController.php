@@ -32,16 +32,16 @@ class EmployeeController extends Controller
             return ['status' => 'bad-data', 'field' => 'phone_id', 'text' => 'Telefon-id\'t du valde existerar ej, vänligen skapa denna telefon först eller välj en annan'];
         }
 
-        if ((!isset($request->name)) || (!isset($request->email)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
+        if ((!isset($request->name)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
             (!isset($request->admin)) || (!isset($request->active)) || (!isset($request->east)) || (!isset($request->lundby)) || (!isset($request->angered)) ||
-            (!isset($request->policy_it_signed))
+            (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->education)) || (!isset($request->policy_it_signed))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
 
         $newPerson = Employee::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $request->email ?: '',
             'care_id_1' => '-1',
             'care_id_2' => $request->care_id_2,
             'phone_id' => $request->phone_id,
@@ -51,6 +51,9 @@ class EmployeeController extends Controller
             'east' => $request->east,
             'lundby' => $request->lundby,
             'angered' => $request->angered,
+            'vh' => $request->vh,
+            'backa' => $request->backa,
+            'education' => $request->education,
             'policy_it_signed' => $request->policy_it_signed,
             'comment' => $request->comment ?? '',
         ]);
@@ -72,9 +75,9 @@ class EmployeeController extends Controller
             return ['status' => 'bad-data', 'field' => 'phone_id', 'text' => 'Telefon-id\'t du valde existerar ej, vänligen skapa denna telefon först eller välj en annan'];
         }
 
-        if ((!isset($request->name)) || (!isset($request->email)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
+        if ((!isset($request->name)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
             (!isset($request->admin)) || (!isset($request->active)) || (!isset($request->east)) || (!isset($request->lundby)) || (!isset($request->angered)) ||
-            (!isset($request->policy_it_signed))
+            (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->education)) || (!isset($request->policy_it_signed))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -84,7 +87,7 @@ class EmployeeController extends Controller
             $oldPerson = Employee::where('id', $personId)->first();
             $oldPerson->update([
                 'name' => $request->name,
-                'email' => $request->email,
+                'email' => $request->email ?: '',
                 'care_id_1' => '-1',
                 'care_id_2' => $request->care_id_2,
                 'phone_id' => $request->phone_id,
@@ -94,6 +97,9 @@ class EmployeeController extends Controller
                 'east' => $request->east,
                 'lundby' => $request->lundby,
                 'angered' => $request->angered,
+                'vh' => $request->vh,
+                'backa' => $request->backa,
+                'education' => $request->education,
                 'policy_it_signed' => $request->policy_it_signed,
                 'comment' => $request->comment ?? '',
             ]);
