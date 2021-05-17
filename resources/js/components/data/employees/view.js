@@ -219,7 +219,7 @@ function ViewEmployees() {
 				<PersonEditModule
 					className="p-5"
 					data={{
-						name: '', email: '', active: '', phone_id: '', sith: '',
+						name: '', email: '', active: 1, phone_id: '', sith: 'N Never', policy_it_signed: 'N Do',
 						admin: '', east: '', angered: '', lundby: '', vh: '',
 						backa: '', education: '' , id: '',
 						care_id_1: '', care_id_2: '', comment: ''

@@ -310,7 +310,8 @@ function PersonEditModule(props) {
 							<Form.Input
 								name='care_id_2'
 								fluid
-								label='Carefox ID'
+								placeholder='-1'
+								label='Anställningsnummer (-1 om du ej vet)'
 								value={form.care_id_2}
 								onChange={e => handleInputChange(e)}
 							/>
