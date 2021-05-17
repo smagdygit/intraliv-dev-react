@@ -20,6 +20,7 @@ function Navbar() {
 		setActiveItem(name);
 		localStorage.removeItem('user');
 		localStorage.removeItem('token');
+		history.push('/login');
 	}
 
 	return (

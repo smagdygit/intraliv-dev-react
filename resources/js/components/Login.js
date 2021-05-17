@@ -4,8 +4,8 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 import { UserContext } from './components/UserContext';
 
 const Login = function () {
-	const [loginEmail, setLoginEmail] = useState('felixlinne@livara.se');
-	const [loginPassword, setLoginPassword] = useState('password');
+	const [loginEmail, setLoginEmail] = useState('');
+	const [loginPassword, setLoginPassword] = useState('');
 	const [loadingStatus, setLoadingStatus] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorText, setErrorText] = useState('');
