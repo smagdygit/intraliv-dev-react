@@ -10,7 +10,7 @@ class EmployeeController extends Controller
 {
     public function renameOrCreate($create, $id, $newName)
     {
-        $dir = $_ENV['PATH_FOLDERS'];
+        $dir = $_ENV['PATH_FOLDERS'].'/personell/';
         if (!$create) {
             $folders = scandir($dir);
             $result = '';

@@ -8,8 +8,14 @@ function Navbar() {
 	const [activeItem, setActiveItem] = useState('Personal');
 	const { user, setUser } = useContext(UserContext);
 	const userObject = JSON.parse(localStorage.getItem('user'));
+	const [oldPathName, setOldPathName] = useState(window.location.pathname);
 
 	const history = useHistory();
+
+	useEffect(() => {
+		console.log(window.location.pathname);
+		setActiveItem(window.location.pathname);
+	}, [window.location.pathname])
 
 	function handleItemClick(e, { name, url }) {
 		setActiveItem(name);
@@ -35,31 +41,31 @@ function Navbar() {
 					<Menu.Item
 						name='Dashboard'
 						url='/data/dashboard'
-						active={activeItem === 'Dashboard'}
+						active={activeItem === '/data/dashboard'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
 						name='Personal'
 						url='/data/employees/view'
-						active={activeItem === 'Personal'}
+						active={activeItem === '/data/employees/view'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
 						name='Telefoner'
 						url='/data/phones/view'
-						active={activeItem === 'Telefoner'}
+						active={activeItem === '/data/phones/view'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
 						name='Användare'
 						url='/data/users/view'
-						active={activeItem === 'Användare'}
+						active={activeItem === '/data/users/view'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
-						name='sss'
-						url='/data/users/view'
-						active={activeItem === 'Användare'}
+						name='Brukare'
+						url='/data/clients/view'
+						active={activeItem === '/data/clients/view'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Menu position='right'>
