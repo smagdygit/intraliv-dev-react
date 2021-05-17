@@ -17,7 +17,7 @@ const optionsStatus = [
 ]
 
 
-function ViewEmployees2() {
+function ViewPhones() {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
 	const [filter, setFilter] = useState({ free: false, personal: false, phoniro_status: false, east: false, lundby: false, angered: false, vh: false, backa: false, text: '', status: 'null' });
@@ -228,4 +228,4 @@ function ViewEmployees2() {
 	);
 }
 
-export default ViewEmployees2;
+export default ViewPhones;

@@ -21,7 +21,7 @@ const optionsPolicyIt = [
 ]
 
 
-function ViewEmployees2() {
+function ViewEmployees() {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
 	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, text: '', sith: 'null', policy_it_signed: 'null' });
@@ -233,4 +233,4 @@ function ViewEmployees2() {
 	);
 }
 
-export default ViewEmployees2;
+export default ViewEmployees;

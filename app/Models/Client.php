@@ -20,5 +20,6 @@ class Client extends Model
         'ssn',
         'address',
         'permitted_hours',
+        'comment',
     ];
 }

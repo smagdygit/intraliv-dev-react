@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('employees', [EmployeeController::class, 'create']);
     Route::delete('employees', [EmployeeController::class, 'delete']);
     Route::put('employees', [EmployeeController::class, 'update']);
+    Route::get('test', [EmployeeController::class, 'test']);
     Route::get('phones', [PhoneController::class, 'getAll']);
     Route::post('phones', [PhoneController::class, 'create']);
     Route::delete('phones', [PhoneController::class, 'delete']);
@@ -43,4 +45,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('users', [UserController::class, 'create']);
     Route::delete('users', [UserController::class, 'delete']);
     Route::put('users', [UserController::class, 'update']);
+    Route::get('clients', [ClientController::class, 'getAll']);
+    Route::post('clients', [ClientController::class, 'create']);
+    Route::delete('clients', [ClientController::class, 'delete']);
+    Route::put('clients', [ClientController::class, 'update']);
 });

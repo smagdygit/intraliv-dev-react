@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { UserContext } from './components/UserContext';
 
@@ -12,6 +12,7 @@ const Login = function () {
 	const [isError, setIsError] = useState(false);
 	const { user, setUser } = useContext(UserContext);
 	const history = useHistory();
+	
 
 	function postLogin(e) {
 		setIsError(false);
@@ -37,6 +38,8 @@ const Login = function () {
 						localStorage.setItem('user', JSON.stringify(result.user));
 						localStorage.setItem('token', result.user.token);
 						history.push('/data/employees/view');
+						
+
 					} else {
 						setErrorText(result.text);
 						setIsError(true);

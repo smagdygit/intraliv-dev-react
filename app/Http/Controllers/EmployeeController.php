@@ -8,6 +8,27 @@ use App\Models\Phone;
 
 class EmployeeController extends Controller
 {
+    public function renameOrCreate($create, $id, $newName)
+    {
+        $dir = $_ENV['PATH_FOLDERS'];
+        if (!$create) {
+            $folders = scandir($dir);
+            $result = '';
+            foreach ($folders as $folder) {
+                if (str_contains($folder, 'id-' . $id . '-id')) {
+                    $result = $folder;
+                    break;
+                }
+            }
+            $oldFolder = $dir . '/' . $result;
+            $newFolder = $dir . '/' . $newName . ' id-' . $id . '-id';
+            rename($oldFolder, $newFolder);
+        } else {
+            mkdir($dir . '/' . $newName . ' id-' . $id . '-id', 0700);
+        }
+        return true;
+    }
+
     public function getAll()
     {
         $employeeList = array();
@@ -58,6 +79,8 @@ class EmployeeController extends Controller
             'comment' => $request->comment ?? '',
         ]);
 
+        $this->renameOrCreate(true, $newPerson->id, $request->name);
+
         return ['status' => 'success', 'employees' => $this->getAll()];
     }
 
@@ -103,6 +126,8 @@ class EmployeeController extends Controller
                 'policy_it_signed' => $request->policy_it_signed,
                 'comment' => $request->comment ?? '',
             ]);
+
+            $this->renameOrCreate(false, $personId, $request->name);
 
             return ['status' => 'success', 'employees' => $this->getAll()];
         } else {

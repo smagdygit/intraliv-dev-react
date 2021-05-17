@@ -16,6 +16,12 @@ function Navbar() {
 		history.push(`${url}`);
 	}
 
+	function handleLogout(e, { name, url }) {
+		setActiveItem(name);
+		localStorage.removeItem('user');
+		localStorage.removeItem('token');
+	}
+
 	return (
 		<div>
 			<div className="p-3 pl-5">
@@ -69,7 +75,7 @@ function Navbar() {
 								<Menu.Item
 									name='Logga Ut'
 									active={activeItem === 'logout'}
-									onClick={handleItemClick}
+									onClick={handleLogout}
 								/>
 							</>
 						}

@@ -25,6 +25,7 @@ class CreateClientsTable extends Migration
             $table->string('ssn');
             $table->string('address');
             $table->string('permitted_hours');
+            $table->string('comment');
             $table->timestamps();
         });
     }
