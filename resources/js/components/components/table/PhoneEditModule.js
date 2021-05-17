@@ -168,7 +168,8 @@ function PersonEditModule(props) {
 		fetch('/api/phones', {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': userObject.token,
 			},
 			body: JSON.stringify({ id: form.id }),
 		})

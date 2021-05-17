@@ -131,7 +131,8 @@ function ClientEditModule(props) {
 		fetch('/api/client', {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': userObject.token,
 			},
 			body: JSON.stringify({ id: form.id }),
 		})
