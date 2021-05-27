@@ -80,7 +80,7 @@ function PersonEditModule(props) {
 	}
 
 	function handleUserInputChange(e, data) {
-		const target = e.target; console.log(data);
+		const target = e.target;
 		setFormUser(data.value);
 		const newPhoneLog = data.value.map((item) => {
 			if (item.phone_id !== '') {

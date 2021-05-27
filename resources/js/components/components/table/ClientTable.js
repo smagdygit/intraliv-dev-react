@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Segment, Dimmer, Loader, ItemContent } from 'semantic-ui-react'
 import _ from 'lodash';
-import PersonEditModule from './PhoneEditModule';
+import ClientEditModule from './ClientEditModule';
 import TableFunctionCaret from './TableFunctionCaret';
 
 
@@ -190,7 +190,7 @@ function Main(props) {
 	function renderItemDetails(item) {
 		return (
 			<Segment basic>
-				<PersonEditModule data={item} className="m-5" sendDataToParent={sendDataToParent}></PersonEditModule>
+				<ClientEditModule data={item} className="m-5" sendDataToParent={sendDataToParent}></ClientEditModule>
 			</Segment>
 		);
 	}

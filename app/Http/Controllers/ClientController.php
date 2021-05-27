@@ -61,8 +61,8 @@ class ClientController extends Controller
             'angered' => $request->angered,
             'vh' => $request->vh,
             'backa' => $request->backa,
-            'ssn' => $request->education ?: '',
-            'address' => $request->policy_it_signed ?: '',
+            'ssn' => $request->ssn ?: '',
+            'address' => $request->address ?: '',
             'permitted_hours' => $request->permitted_hours ?: 0,
             'comment' => $request->comment ?: '',
         ]);
@@ -99,8 +99,8 @@ class ClientController extends Controller
                 'angered' => $request->angered,
                 'vh' => $request->vh,
                 'backa' => $request->backa,
-                'ssn' => $request->education ?: '',
-                'address' => $request->policy_it_signed ?: '',
+                'ssn' => $request->ssn ?: '',
+                'address' => $request->address ?: '',
                 'permitted_hours' => $request->permitted_hours ?: 0,
                 'comment' => $request->comment ?: '',
             ]);

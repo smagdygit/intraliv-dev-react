@@ -45,24 +45,6 @@ function ClientEditModule(props) {
 		setForm({ ...form });
 	}
 
-	function handleUserInputChange(e, data) {
-		const target = e.target; console.log(data);
-		setFormUser(data.value);
-		const newPhoneLog = data.value.map((item) => {
-			if (item.phone_id !== '') {
-				return (
-					<Message negative key={'message ' + item}>
-						<Message.Header>Varning, {employeeList.find(x => x.key === item).text} har redan telefon WP{employeeList.find(x => x.key === item).phone_name}</Message.Header>
-						<p>
-							Om du lägger till denna telefonen på han kommer den gamla att överskrivas då en anställd endast kan ha en telefon registrerad på sig.
-					</p>
-					</Message>
-				);
-			}
-		});
-		setUserPhoneLog([...newPhoneLog]);
-	}
-
 	function handleSelectChange(e, name, val) {
 		const target = e.target;
 		form[name] = val.value;
@@ -79,7 +61,7 @@ function ClientEditModule(props) {
 		event.preventDefault();
 		setUploadingStatus({ status: 'uploading', text: 'Updaterar data, vänligen vänta...' });
 		const postMethod = (props.data.id !== '') ? 'PUT' : 'POST';
-		fetch('/api/client', {
+		fetch('/api/clients', {
 			method: postMethod,
 			headers: {
 				'Content-Type': 'application/json',
@@ -103,7 +85,7 @@ function ClientEditModule(props) {
 			.then(response => response.json())
 			.then(data => {
 				if (data.status === 'success') {
-					setUploadingStatus(form.id !== '' ? { status: 'success', text: 'Telefonen har blivit uppdaterad' } : { status: 'success', text: 'Telefonen har lags till' });
+					setUploadingStatus(form.id !== '' ? { status: 'success', text: 'Brukaren har blivit uppdaterad' } : { status: 'success', text: 'Brukaren har lags till' });
 					const newForm = { ...form };
 					newForm.east = newForm.east === true ? 1 : 0;
 					newForm.angered = newForm.angered === true ? 1 : 0;
@@ -128,7 +110,7 @@ function ClientEditModule(props) {
 
 	function handleRemoveConfirm() {
 		setDeleteConfirmOpen(false);
-		fetch('/api/client', {
+		fetch('/api/clients', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -139,7 +121,7 @@ function ClientEditModule(props) {
 			.then(response => response.json())
 			.then(data => {
 				if (data.status === 'success') {
-					setUploadingStatus({ status: 'success', text: 'Telefonen har tagits bort' });
+					setUploadingStatus({ status: 'success', text: 'Brukaren har tagits bort' });
 					props.sendDataToParent({ status: 'deleted', id: form.id });
 				} else {
 					setUploadingStatus({ status: 'error', text: 'Error: ' + data.text });
@@ -254,19 +236,18 @@ function ClientEditModule(props) {
 							value={form.comment}
 							onChange={e => handleInputChange(e)}
 						/>
-						<Button positive type='submit' className="w-100 mb-3" onClick={event => handleSubmit(event)}>{(props.data.id !== '') ? 'Uppdatera Telefon' : 'Lägg Till Telefon'}</Button>
+						<Button positive type='submit' className="w-100 mb-3" onClick={event => handleSubmit(event)}>{(props.data.id !== '') ? 'Uppdatera Brukare' : 'Lägg Till Brukare'}</Button>
 						{props.data.id !== '' &&
 							<div>
-								<Button type='submit' color="red" className="w-100" onClick={event => handleRemovePress(event)}>Ta Bort Telefonen Från Systemet</Button>
+								<Button type='submit' color="red" className="w-100" onClick={event => handleRemovePress(event)}>Ta Bort Brukaren Från Systemet</Button>
 								<Confirm
 									open={deleteConfirmOpen}
 									onConfirm={() => handleRemoveConfirm()}
 									onCancel={() => setDeleteConfirmOpen(false)}
 									cancelButton="Avbryt"
-									confirmButton="Ta Bort Telefon"
-									content="Ta inte bort en telefon för att den inte används, ändra istället telefonens status till ledig. 
-									Är du säker på att du vill ta bort telefonen? Detta går inte att ångra."
-									header="Ta Bort Telefonen"
+									confirmButton="Ta Bort Brukare"
+									content="Är du säker på att du vill ta bort brukaren? Detta går inte att ångra."
+									header="Ta Bort Brukaren"
 								/>
 							</div>
 						}

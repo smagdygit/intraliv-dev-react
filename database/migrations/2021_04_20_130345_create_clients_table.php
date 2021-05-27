@@ -17,11 +17,11 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('care_type');
-            $table->string('east');
-            $table->string('lundby');
-            $table->string('angered');
-            $table->string('vh');
-            $table->string('backa');
+            $table->boolean('east');
+            $table->boolean('lundby');
+            $table->boolean('angered');
+            $table->boolean('vh');
+            $table->boolean('backa');
             $table->string('ssn');
             $table->string('address');
             $table->string('permitted_hours');

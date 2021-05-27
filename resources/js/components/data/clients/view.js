@@ -16,7 +16,7 @@ const optionsCareType = [
 function ViewClients() {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
-	const [filter, setFilter] = useState({ care_type: 'null', personal: false, east: false, lundby: false, angered: false, vh: false, backa: false, text: '' });
+	const [filter, setFilter] = useState({ text: '', care_type: 'null', east: false, lundby: false, angered: false, vh: false, backa: false });
 	const [newEmployeeWindow, setNewEmployeeWindow] = useState(false);
 	const [resultCount, setResultCount] = useState(0);
 
@@ -197,9 +197,10 @@ function ViewClients() {
 				<ClientEditModule
 					className="p-5"
 					data={{
-						free: '', personal: '', phoniro_status: '', id: '',
-						east: '', angered: '', lundby: '', vh: '',
-						backa: '', status: '', comment: '', employees: []
+						name: '', care_type: 'null', east: '', lundby: '',
+						angered: '', vh: '', backa: '', ssn: '',
+						address: '', permitted_hours: '', comment: '',
+						id: '',
 					}}
 					sendDataToParent={sendDataToParent} />
 			}

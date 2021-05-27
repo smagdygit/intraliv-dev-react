@@ -36,7 +36,7 @@ function PersonEditModule(props) {
 	const [phoneUserLog, setPhoneUserLog] = useState([]);
 	const userObject = JSON.parse(localStorage.getItem('user'));
 
-	useEffect(() => {
+	useEffect(() => {console.log(form.name);
 		fetch('/api/phones', {
 			method: 'GET',
 			headers: {

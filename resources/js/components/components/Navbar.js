@@ -13,7 +13,6 @@ function Navbar() {
 	const history = useHistory();
 
 	useEffect(() => {
-		console.log(window.location.pathname);
 		setActiveItem(window.location.pathname);
 	}, [window.location.pathname])
 
