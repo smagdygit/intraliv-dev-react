@@ -177,6 +177,7 @@ function Main(props) {
 					setFetching(true);
 					setRefresher(!refresher);
 				}
+				setExpandedRows([]);
 				return newphones;
 			});
 		} else {
@@ -184,6 +185,7 @@ function Main(props) {
 				const newphones = [...oldphones];
 				const index = newphones.findIndex(x => x.id === newPerson.id);
 				newphones.splice(index, 1);
+				setExpandedRows([]);
 				return newphones;
 			});
 		}

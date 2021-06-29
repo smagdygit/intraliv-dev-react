@@ -70,8 +70,8 @@ function ViewClients() {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 2], ['active', 'Aktiv', 2], ['care_type', 'Vårdtyp', 4], ['location', 'Stadsdel', 4], ['ssn', 'Personnummer', 3], ['address', 'Adress', 6],
-	['permitted_hours', 'Beviljade timmar', 4], ['comment', 'Kommentar', 14]];
+	const headers = [['name', 'Namn', 6], ['active', 'Aktiv', 2], ['care_type', 'Vårdtyp', 3], ['location', 'Stadsdel', 3], ['ssn', 'Personnummer', 3], ['address', 'Adress', 6],
+	['permitted_hours', 'Beviljade timmar', 3], ['comment', 'Kommentar', 8]];
 
 	return (
 		<div className="container-fluid center" style={{ width: "90%" }}>
