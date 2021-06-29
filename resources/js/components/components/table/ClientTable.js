@@ -49,6 +49,11 @@ function Main(props) {
 		setPhones(filteredPhones);
 	}, [props.data.filter]);
 
+	//Auto close any opened items when filter changes
+	useEffect(() => {
+		setExpandedRows([]);
+	}, [props.data.filter]);
+
 	function filterInput(input, filter) {
 		const output = input.flatMap((item, index) => {
 
