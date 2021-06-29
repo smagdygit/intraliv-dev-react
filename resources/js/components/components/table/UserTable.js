@@ -120,6 +120,7 @@ function Main(props) {
 					setFetching(true);
 					setRefresher(!refresher);
 				}
+				setExpandedRows([]);
 				return newPeople;
 			});
 		} else {
@@ -127,6 +128,7 @@ function Main(props) {
 				const newPeople = [...oldPeople];
 				const index = newPeople.findIndex(x => x.id === newPerson.id);
 				newPeople.splice(index, 1);
+				setExpandedRows([]);
 				return newPeople;
 			});
 		}

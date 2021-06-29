@@ -24,7 +24,7 @@ const optionsPolicyIt = [
 function ViewEmployees() {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
-	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, text: '', sith: 'null', policy_it_signed: 'null' });
+	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, doorkey: false, text: '', sith: 'null', policy_it_signed: 'null', });
 	const [newEmployeeWindow, setNewEmployeeWindow] = useState(false);
 	const [resultCount, setResultCount] = useState(0);
 
@@ -78,9 +78,9 @@ function ViewEmployees() {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 8], ['mail', 'Mejl', 6], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], ['admin', 'Adm.', 2], ['east', 'Östra', 2],
-	['angered', 'Ang.', 2], ['lundby', 'Lund.', 2], ['vh', 'V-H', 2], ['backa', 'Back.', 2], ['id', 'ID', 2], ['care_id_2', 'Carefox ID', 3],
-	['policy_it_signed', 'IT Policy', 3], ['education', 'UB', 2], ['comment', 'Kommentar', 12]];
+	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], ['admin', 'Adm.', 2], ['east', 'Östra', 2],
+	['angered', 'Ang.', 2], ['lundby', 'Lund.', 2], ['vh', 'V-H', 2], ['backa', 'Back.', 2], ['id', 'ID', 2], ['care_id_2', 'Anst. ID', 3],
+	['policy_it_signed', 'IT Policy', 3], ['education', 'UB', 2], ['doorkey', 'Nyckel', 2], ['comment', 'Kommentar', 12]];
 
 	return (
 		<div className="container-fluid center" style={{ width: "90%" }}>
@@ -112,6 +112,7 @@ function ViewEmployees() {
 								<Input
 									name='name'
 									fluid
+									autoComplete="off"
 									label='Sök Text'
 									labelPosition='right'
 									placeholder='Text'
@@ -221,7 +222,7 @@ function ViewEmployees() {
 					data={{
 						name: '', email: '', active: 1, phone_id: '', sith: 'N Never', policy_it_signed: 'N Do',
 						admin: '', east: '', angered: '', lundby: '', vh: '',
-						backa: '', education: '' , id: '',
+						backa: '', education: '', doorkey: '', id: '',
 						care_id_1: '', care_id_2: '', comment: ''
 					}}
 					sendDataToParent={sendDataToParent} />

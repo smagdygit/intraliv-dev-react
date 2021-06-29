@@ -19,6 +19,8 @@ class Phone extends Model
         'east',
         'lundby',
         'angered',
+        'vh',
+        'backa',
         'phoniro_status',
         'comment',
     ];

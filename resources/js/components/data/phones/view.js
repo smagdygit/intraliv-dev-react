@@ -74,8 +74,7 @@ function ViewPhones() {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 2], ['status', 'Status', 2], ['free', 'Ledig', 2], ['personal', 'Personlig', 2], ['east', 'Östra', 2], ['lundby', 'Lundby', 2],
-	['angered', 'Angered', 2], ['vh', 'V-H', 2], ['backa', 'Backa', 2], ['phoniro_status', 'Phoniro Status', 4], ['employees', 'Användare', 6], ['comment', 'Kommentar', 14]];
+	const headers = [['name', 'Namn', 2], ['status', 'Status', 2], ['free', 'Ledig', 2], ['personal', 'Personlig', 2], ['location', 'Stadsdel', 4], ['phoniro_status', 'Phoniro Status', 4], ['employees', 'Användare', 6], ['comment', 'Kommentar', 14]];
 
 	return (
 		<div className="container-fluid center" style={{ width: "90%" }}>
@@ -107,6 +106,7 @@ function ViewPhones() {
 								<Input
 									name='name'
 									fluid
+									autoComplete="off"
 									label='Sök Text'
 									labelPosition='right'
 									placeholder='Text'

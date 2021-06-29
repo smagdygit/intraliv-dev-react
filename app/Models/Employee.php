@@ -28,6 +28,7 @@ class Employee extends Model
         'vh',
         'backa',
         'education',
+        'doorkey',
     ];
 
     public function phone()

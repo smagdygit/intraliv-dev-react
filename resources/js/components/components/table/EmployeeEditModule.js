@@ -70,6 +70,7 @@ function PersonEditModule(props) {
 		newForm.backa = props.data.backa === 1 ? true : false;
 		newForm.vh = props.data.vh === 1 ? true : false;
 		newForm.education = props.data.education === 1 ? true : false;
+		newForm.doorkey = props.data.doorkey === 1 ? true : false;
 		setForm({ ...newForm });
 	}
 
@@ -135,7 +136,8 @@ function PersonEditModule(props) {
 				vh: form.vh,
 				education: form.education,
 				policy_it_signed: form.policy_it_signed,
-				comment: form.comment
+				comment: form.comment,
+				doorkey: form.doorkey
 			}),
 		})
 			.then(response => response.json())
@@ -151,6 +153,7 @@ function PersonEditModule(props) {
 					newForm.backa = newForm.backa === true ? 1 : 0;
 					newForm.vh = newForm.vh === true ? 1 : 0;
 					newForm.education = newForm.education === true ? 1 : 0;
+					newForm.doorkey = newForm.doorkey === true ? 1 : 0;
 					props.sendDataToParent({ status: 'updated', newForm: newForm });
 				} else {
 					setUploadingStatus({ status: 'error', text: 'Error: ' + data.text });
@@ -219,6 +222,15 @@ function PersonEditModule(props) {
 						name='education'
 						checked={form.education}
 						onChange={e => handleCheckboxChange(e, 'education')}
+					/>
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Nyckelbricka'
+						name='doorkey'
+						checked={form.doorkey}
+						onChange={e => handleCheckboxChange(e, 'doorkey')}
 					/>
 					<Divider />
 					<Form.Field

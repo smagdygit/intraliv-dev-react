@@ -80,6 +80,7 @@ function ClientEditModule(props) {
 				address: form.address,
 				permitted_hours: form.permitted_hours,
 				comment: form.comment,
+				active: form.active,
 			}),
 		})
 			.then(response => response.json())
@@ -178,6 +179,15 @@ function ClientEditModule(props) {
 						name='backa'
 						checked={form.backa}
 						onChange={e => handleCheckboxChange(e, 'backa')}
+					/>
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
+						label='Aktiv'
+						name='active'
+						checked={form.active}
+						onChange={e => handleCheckboxChange(e, 'active')}
 					/>
 				</GridColumn>
 				<GridColumn width={14}>

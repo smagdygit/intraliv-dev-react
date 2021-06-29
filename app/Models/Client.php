@@ -21,5 +21,6 @@ class Client extends Model
         'address',
         'permitted_hours',
         'comment',
+        'active',
     ];
 }

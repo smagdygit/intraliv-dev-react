@@ -12,14 +12,14 @@ function Main(props) {
 		{
 			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
-			care_id_2: 'Laddar...', education: 'Laddar...', comment: 'Laddar...', phone: { id: 'loading' }
+			care_id_2: 'Laddar...', education: 'Laddar...', doorkey: false, comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
 	const [fetchedPeople, setFetchedPeople] = useState([
 		{
 			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
-			care_id_2: 'Laddar...', education: 'Laddar...', comment: 'Laddar...', phone: { id: 'loading' }
+			care_id_2: 'Laddar...', education: 'Laddar...', doorkey: false, comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
 	const [expandedRows, setExpandedRows] = useState([]);
@@ -37,6 +37,10 @@ function Main(props) {
 			.then(data => {
 				setFetching(false);
 				const filteredEmployees = filterInput(data, props.data.filter);
+				/*const hed = props.data.headers;
+				filteredEmployees.splice(10, 0, {id: 999999, phone: { id: 'loading' }, name: hed[0][1], active: hed[1][1], phone_id: hed[2][1], sith: hed[3][1],
+					admin: hed[4][1], east: hed[5][1], angered: hed[6][1], lundby: hed[7][1], vh: hed[8][1], backa: hed[9][1], id: hed[10][1], care_id_2: hed[11][1],
+					policy_it_signed: hed[12][1], education: hed[13][1], doorkey: hed[14][1], comment: hed[15][1]});*/
 				setPeople(filteredEmployees);
 				setFetchedPeople(data);
 				props.updateResultCount(filteredEmployees.length);
@@ -49,6 +53,11 @@ function Main(props) {
 		setPeople(filteredEmployees);
 	}, [props.data.filter]);
 
+	//Auto close any opened items when filter changes
+	useEffect(() => {
+		setExpandedRows([]);
+	}, [props.data.filter]);
+
 	function filterInput(input, filter) {
 		const output = input.flatMap((item, index) => {
 
@@ -59,7 +68,7 @@ function Main(props) {
 			}
 
 			let boolFail = false;
-			if (['active', 'admin', 'education', 'east', 'lundby', 'angered', 'vh', 'backa'].forEach((filterItem) => {
+			if (['active', 'admin', 'education', 'east', 'lundby', 'angered', 'vh', 'backa', 'doorkey'].forEach((filterItem) => {
 				if (filter[filterItem]) {
 					if (!item[filterItem]) boolFail = true;
 				}
@@ -128,7 +137,6 @@ function Main(props) {
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
 				<Table.Cell singleLine>{item.name}</Table.Cell>
-				<Table.Cell>{item.email}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.phone.name === 0 ? '❌' : item.phone.name}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '❌' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
@@ -142,6 +150,7 @@ function Main(props) {
 				<Table.Cell>{item.care_id_2}</Table.Cell>
 				<Table.Cell>{item.policy_it_signed === 'N Do' ? '❌' : item.policy_it_signed}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.education === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.doorkey === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];
@@ -176,6 +185,7 @@ function Main(props) {
 					setFetching(true);
 					setRefresher(!refresher);
 				}
+				setExpandedRows([]);
 				return newPeople;
 			});
 		} else {
@@ -183,6 +193,7 @@ function Main(props) {
 				const newPeople = [...oldPeople];
 				const index = newPeople.findIndex(x => x.id === newPerson.id);
 				newPeople.splice(index, 1);
+				setExpandedRows([]);
 				return newPeople;
 			});
 		}

@@ -23,7 +23,7 @@ class PhoneController extends Controller
     public function create(Request $request)
     {
         if ((!isset($request->name)) || (!isset($request->status)) || (!isset($request->free)) || (!isset($request->personal)) || (!isset($request->east)) ||
-            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->phoniro_status))
+            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->vh)) ||(!isset($request->backa)) ||(!isset($request->phoniro_status))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -40,10 +40,13 @@ class PhoneController extends Controller
             'east' => $request->east,
             'lundby' => $request->lundby,
             'angered' => $request->angered,
+            'vh' => $request->vh,
+            'backa' => $request->backa,
             'phoniro_status' => $request->phoniro_status,
             'comment' => $request->comment ?? '',
         ]);
 
+        //Update phone_id for every employee now assigned to this phone
         Employee::whereIn('id', $request->employees)->update([
             'phone_id' => $newPhone->id
         ]);
@@ -54,7 +57,7 @@ class PhoneController extends Controller
     public function update(Request $request)
     {
         if ((!isset($request->name)) || (!isset($request->status)) || (!isset($request->free)) || (!isset($request->personal)) || (!isset($request->east)) ||
-            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->phoniro_status))
+            (!isset($request->lundby)) || (!isset($request->angered)) || (!isset($request->vh)) ||(!isset($request->backa)) || (!isset($request->phoniro_status))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -70,13 +73,24 @@ class PhoneController extends Controller
                 'east' => $request->east,
                 'lundby' => $request->lundby,
                 'angered' => $request->angered,
+                'vh' => $request->vh,
+                'backa' => $request->backa,
                 'phoniro_status' => $request->phoniro_status,
                 'comment' => $request->comment ?? '',
             ]);
 
+            //Update phone_id for every employee now assigned to this phone
             Employee::whereIn('id', $request->employees)->update([
                 'phone_id' => $oldPhone->id
             ]);
+
+            //Reset phone_id for every employee no longer assigned to this phone
+            Employee::whereNotIn('id', $request->employees)->where('phone_id', $oldPhone->id)->update([
+                'phone_id' => 2
+            ]);
+
+            /*if (!isset($request->employees) || empty($request->employees))
+            }*/
 
             return ['status' => 'success', 'employees' => $this->getAll()];
         } else {

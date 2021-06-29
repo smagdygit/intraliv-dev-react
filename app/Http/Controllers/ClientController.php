@@ -48,7 +48,7 @@ class ClientController extends Controller
         }
 
         if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) || 
-            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa))
+            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -65,6 +65,7 @@ class ClientController extends Controller
             'address' => $request->address ?: '',
             'permitted_hours' => $request->permitted_hours ?: 0,
             'comment' => $request->comment ?: '',
+            'active' => $request->active,
         ]);
 
         $this->renameOrCreate(true, $newPerson->id, $request->name);
@@ -83,7 +84,7 @@ class ClientController extends Controller
         }
 
         if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) || 
-            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa))
+            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -103,6 +104,7 @@ class ClientController extends Controller
                 'address' => $request->address ?: '',
                 'permitted_hours' => $request->permitted_hours ?: 0,
                 'comment' => $request->comment ?: '',
+                'active' => $request->active,
             ]);
 
             $this->renameOrCreate(false, $personId, $request->name);
