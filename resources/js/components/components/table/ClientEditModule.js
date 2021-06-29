@@ -139,6 +139,16 @@ function ClientEditModule(props) {
 						className="p-2"
 						control={Checkbox}
 						toggle
+						label='Aktiv'
+						name='active'
+						checked={form.active}
+						onChange={e => handleCheckboxChange(e, 'active')}
+					/>
+					<Divider />
+					<Form.Field
+						className="p-2"
+						control={Checkbox}
+						toggle
 						label='Östra'
 						name='east'
 						checked={form.east}
@@ -179,15 +189,6 @@ function ClientEditModule(props) {
 						name='backa'
 						checked={form.backa}
 						onChange={e => handleCheckboxChange(e, 'backa')}
-					/>
-					<Form.Field
-						className="p-2"
-						control={Checkbox}
-						toggle
-						label='Aktiv'
-						name='active'
-						checked={form.active}
-						onChange={e => handleCheckboxChange(e, 'active')}
 					/>
 				</GridColumn>
 				<GridColumn width={14}>

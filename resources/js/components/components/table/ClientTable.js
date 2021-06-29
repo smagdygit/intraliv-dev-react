@@ -132,7 +132,7 @@ function Main(props) {
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
 				<Table.Cell>{item.name}</Table.Cell>
-				<Table.Cell>{item.active}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.care_type === 'oldcare' ? 'äldreomsorg' : item.care_type === 'youngcare' ? 'yngreomsorg' : 'handikappsomsorg'}</Table.Cell>
 				<Table.Cell>{item.east === 1 ? 'Östra' : item.lundby === 1 ? 'Lundby' : item.angered === 1 ? 'Angered' : item.vh === 1 ? 'Västra Frölunda' : item.backa === 1 ? 'Backa' : ''}</Table.Cell>
 				<Table.Cell>{item.ssn}</Table.Cell>
