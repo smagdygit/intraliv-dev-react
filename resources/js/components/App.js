@@ -10,6 +10,7 @@ import DataEmployeesView from './data/employees/view';
 import DataPhonesView from './data/phones/view';
 import DataUsersView from './data/users/view';
 import DataClientsView from './data/clients/view';
+import Test from './test/EmployeeFilterModule';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css'
 import { UserContext } from './components/UserContext';
@@ -47,6 +48,7 @@ function App() {
 							<PrivateRoute path="/data/clients/view" component={DataClientsView} exact />
 							<PrivateRoute path="/data/dashboard" component={Dashboard} exact />
 							<PrivateRoute path="/login" component={Login} exact />
+							<PrivateRoute path="/test" component={Test} exact />
 
 
 							{/*<Route component={Error} />*/}

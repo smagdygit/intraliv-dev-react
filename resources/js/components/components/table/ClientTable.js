@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Segment, Dimmer, Loader, ItemContent } from 'semantic-ui-react'
 import _ from 'lodash';
-import ClientEditModule from './ClientEditModule';
+import ClientEditModule from '../../test/ClientFilterModule';
 import TableFunctionCaret from './TableFunctionCaret';
 
 
@@ -64,7 +64,7 @@ function Main(props) {
 			}
 
 			let boolFail = false;
-			if (['east', 'lundby', 'angered', 'vh', 'backa'].forEach((filterItem) => {
+			if (['east', 'lundby', 'angered', 'vh', 'backa', 'active'].forEach((filterItem) => {
 				if (filter[filterItem]) {
 					if (!item[filterItem]) boolFail = true;
 				}

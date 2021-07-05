@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import Semantic from '../../components/table/EmployeeTable';
 import { Button, Header, Icon, Grid, Image, Form, Checkbox, GridColumn, Input, Label, Select } from 'semantic-ui-react';
-import PersonEditModule from '../../components/table/EmployeeEditModule';
+import PersonEditModule from '../../test/EmployeeFilterModule';
 
 
 const optionsSith = [

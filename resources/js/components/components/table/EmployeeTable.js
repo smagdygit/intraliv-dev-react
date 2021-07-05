@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import _, { filter } from 'lodash';
-import PersonEditModule from './EmployeeEditModule';
+import PersonEditModule from '../../test/EmployeeFilterModule';
 import TableFunctionCaret from './TableFunctionCaret';
 
 

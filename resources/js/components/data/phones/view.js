@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import Semantic from '../../components/table/PhoneTable';
 import { Button, Header, Icon, Grid, Image, Form, Checkbox, GridColumn, Input, Label, Select } from 'semantic-ui-react';
-import PhoneEditModule from '../../components/table/PhoneEditModule';
+import PhoneEditModule from '../../test/PhoneFilterModule';
 
 
 const optionsStatus = [
@@ -215,9 +215,9 @@ function ViewPhones() {
 				<PhoneEditModule
 					className="p-5"
 					data={{
-						free: '', personal: '', phoniro_status: '', id: '',
+						name: '', free: '', personal: '', phoniro_status: 'No', id: '',
 						east: '', angered: '', lundby: '', vh: '',
-						backa: '', status: '', comment: '', employees: []
+						backa: '', status: 'Usable', comment: '', employees: []
 					}}
 					sendDataToParent={sendDataToParent} />
 			}
