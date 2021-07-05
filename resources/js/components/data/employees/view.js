@@ -78,9 +78,9 @@ function ViewEmployees() {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], ['admin', 'Adm.', 2], ['east', 'Östra', 2],
-	['angered', 'Ang.', 2], ['lundby', 'Lund.', 2], ['vh', 'V-H', 2], ['backa', 'Back.', 2], ['id', 'ID', 2], ['care_id_2', 'Anst. ID', 3],
-	['policy_it_signed', 'IT Policy', 3], ['education', 'UB', 2], ['doorkey', 'Nyckel', 2], ['comment', 'Kommentar', 12]];
+	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], ['admin', 'Adm.', 2], 
+	['location', 'Stadsdel', 2], ['id', 'ID', 2], ['care_id_2', 'Anst. ID', 3], ['policy_it_signed', 'IT Policy', 3], ['education', 'UTB', 2],
+	['doorkey', 'Nyckel', 2], ['card', 'Foto', 2], ['comment', 'Kommentar', 12]];
 
 	return (
 		<div className="container-fluid center" style={{ width: "90%" }}>
@@ -211,7 +211,16 @@ function ViewEmployees() {
 							<Grid.Column width={5}>
 								<Button positive fluid onClick={event => handleAddPress(event)}>Lägg Till Ny Person</Button>
 							</Grid.Column>
-
+						</Grid.Row>
+						<Grid.Row className="p-1">
+							<Grid.Column width={3}>
+								<Checkbox
+									toggle
+									label="Foto"
+									checked={filter.card}
+									onChange={(e, data) => handleInputChange(e, data, 'card')}
+								/>
+							</Grid.Column>
 						</Grid.Row>
 					</Grid>
 				</div >

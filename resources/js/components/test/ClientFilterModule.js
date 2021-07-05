@@ -16,8 +16,7 @@ import FilterModule from './components/FilterModule';
 const optionsCareType = [
 	{ key: 'null', text: 'Filtrera Vårdtyp', value: 'null' },
 	{ key: 'old', text: 'Äldreomsorg', value: 'old' },
-	{ key: 'young', text: 'Yngreomsorg', value: 'young' },
-	{ key: 'disabled', text: 'Handikappsomsorg', value: 'disabled' },
+	{ key: 'disabled', text: 'Funktionshinder', value: 'disabled' },
 ];
 
 

@@ -55,7 +55,8 @@ class EmployeeController extends Controller
 
         if ((!isset($request->name)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
             (!isset($request->admin)) || (!isset($request->active)) || (!isset($request->east)) || (!isset($request->lundby)) || (!isset($request->angered)) ||
-            (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->education)) || (!isset($request->policy_it_signed)) || (!isset($request->doorkey))
+            (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->education)) || (!isset($request->policy_it_signed)) ||
+            (!isset($request->doorkey)) || (!isset($request->card))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -78,6 +79,7 @@ class EmployeeController extends Controller
             'policy_it_signed' => $request->policy_it_signed,
             'comment' => $request->comment ?? '',
             'doorkey' => $request->doorkey,
+            'card' => $request->card,
         ]);
 
         $this->renameOrCreate(true, $newPerson->id, $request->name);
@@ -101,7 +103,8 @@ class EmployeeController extends Controller
 
         if ((!isset($request->name)) || (!isset($request->care_id_2)) || (!isset($request->phone_id)) || (!isset($request->sith)) ||
             (!isset($request->admin)) || (!isset($request->active)) || (!isset($request->east)) || (!isset($request->lundby)) || (!isset($request->angered)) ||
-            (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->education)) || (!isset($request->policy_it_signed)) || (!isset($request->doorkey))
+            (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->education)) || (!isset($request->policy_it_signed)) ||
+            (!isset($request->doorkey)) || (!isset($request->card))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -127,6 +130,7 @@ class EmployeeController extends Controller
                 'policy_it_signed' => $request->policy_it_signed,
                 'comment' => $request->comment ?? '',
                 'doorkey' => $request->doorkey,
+                'card' => $request->card,
             ]);
 
             $this->renameOrCreate(false, $personId, $request->name);

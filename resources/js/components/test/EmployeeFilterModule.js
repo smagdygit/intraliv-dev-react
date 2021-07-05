@@ -60,6 +60,7 @@ function Test(props) {
 			'policy_it_signed',
 			'comment',
 			'doorkey',
+			'card',
 		],
 		dynamicData: props.data.phone_id,
 		dynamicKey: 'phone_id',
@@ -74,6 +75,7 @@ function Test(props) {
 			'vh',
 			'education',
 			'doorkey',
+			'card',
 		],
 		layout: {
 			areaTopLeft: [
@@ -96,6 +98,11 @@ function Test(props) {
 					type: 'checkbox',
 					data: 'doorkey',
 					text: 'Nyckelbricka',
+				},
+				{
+					type: 'checkbox',
+					data: 'card',
+					text: 'Foto',
 				},
 			],
 			areaBottomLeft: [

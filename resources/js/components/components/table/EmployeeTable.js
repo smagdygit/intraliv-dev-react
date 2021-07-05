@@ -10,14 +10,14 @@ function Main(props) {
 	const [fetching, setFetching] = useState(true);
 	const [people, setPeople] = useState([
 		{
-			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...',
+			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...', card: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
 			care_id_2: 'Laddar...', education: 'Laddar...', doorkey: false, comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
 	const [fetchedPeople, setFetchedPeople] = useState([
 		{
-			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...',
+			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...', card: 'Laddar...',
 			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
 			care_id_2: 'Laddar...', education: 'Laddar...', doorkey: false, comment: 'Laddar...', phone: { id: 'loading' }
 		},
@@ -62,13 +62,13 @@ function Main(props) {
 		const output = input.flatMap((item, index) => {
 
 			if (filter.text !== '') {
-				if (!((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.email.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
+				if (!((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.email.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.care_id_2.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.policy_it_signed.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
 					return [];
 				}
 			}
 
 			let boolFail = false;
-			if (['active', 'admin', 'education', 'east', 'lundby', 'angered', 'vh', 'backa', 'doorkey'].forEach((filterItem) => {
+			if (['active', 'admin', 'education', 'east', 'lundby', 'angered', 'vh', 'backa', 'doorkey', 'card'].forEach((filterItem) => {
 				if (filter[filterItem]) {
 					if (!item[filterItem]) boolFail = true;
 				}
@@ -133,6 +133,13 @@ function Main(props) {
 	}
 
 	function renderRow(item, index) {
+		const locationArr = [];
+		if (item.east) locationArr.push('Ö');
+		if (item.lundby) locationArr.push('L');
+		if (item.angered) locationArr.push('A');
+		if (item.vh) locationArr.push('V');
+		if (item.backa) locationArr.push('B');
+		const location = locationArr.join('-');
 		const itemRows = [
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
@@ -141,16 +148,13 @@ function Main(props) {
 				<Table.Cell textAlign='center'>{item.phone.name === 0 ? '❌' : item.phone.name}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '❌' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.admin === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.east === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.angered === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.lundby === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.vh === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.backa === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell>{location}</Table.Cell>
 				<Table.Cell>{item.id}</Table.Cell>
 				<Table.Cell>{item.care_id_2}</Table.Cell>
 				<Table.Cell>{item.policy_it_signed === 'N Do' ? '❌' : item.policy_it_signed}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.education === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.doorkey === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.card === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];
