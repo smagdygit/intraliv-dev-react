@@ -135,7 +135,12 @@ function ViewClients() {
 						</Grid.Row>
 						<Grid.Row className="p-1">
 							<Grid.Column width={3}>
-								
+								<Checkbox
+									toggle
+									label="Aktiv"
+									checked={filter.active}
+									onChange={(e, data) => handleInputChange(e, data, 'active')}
+								/>
 							</Grid.Column>
 							<Grid.Column width={3}>
 								<Checkbox
