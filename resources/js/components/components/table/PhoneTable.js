@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import _ from 'lodash';
-import PersonEditModule from './PhoneEditModule';
+import PersonEditModule from '../../test/PhoneFilterModule';
 import TableFunctionCaret from './TableFunctionCaret';
 
 
@@ -10,13 +10,13 @@ function Main(props) {
 	const [fetching, setFetching] = useState(true);
 	const [phones, setPhones] = useState([
 		{
-			id: 0, name: 'Laddar...', status: 'Laddar...', free: 'Laddar...', personal: 'Laddar...', east: 'Laddar...',
+			id: 0, name: 'Laddar...', status: 'Laddar...', free: 'Laddar...', personal: 'Laddar...', east: 'Laddar...', telenumber: 'Laddar...',
 			lundby: 'Laddar...', angered: 'Laddar...', phoniro_status: 'Laddar...', employees: [{ id: '9998', name: 'Laddar...' }, { id: '9999', name: 'Laddar...' }], comment: 'Laddar...',
 		},
 	]);
 	const [fetchedPhones, setFetchedPhones] = useState([
 		{
-			id: 0, name: 'Laddar...', status: 'Laddar...', free: 'Laddar...', personal: 'Laddar...', east: 'Laddar...',
+			id: 0, name: 'Laddar...', status: 'Laddar...', free: 'Laddar...', personal: 'Laddar...', east: 'Laddar...', telenumber: 'Laddar...',
 			lundby: 'Laddar...', angered: 'Laddar...', phoniro_status: 'Laddar...', employees: [{ id: '9998', name: 'Laddar...' }, { id: '9999', name: 'Laddar...' }], comment: 'Laddar...',
 		},
 	]);
@@ -58,7 +58,7 @@ function Main(props) {
 		const output = input.flatMap((item, index) => {
 
 			if (filter.text !== '') {
-				if (!((item.name.toString().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
+				if (!((item.name.toString().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.telenumber.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
 					return [];
 				}
 			}
@@ -152,6 +152,7 @@ function Main(props) {
 
 				<Table.Cell textAlign='center'>{item.phoniro_status === 'Yes' ? '✔️' : item.phoniro_status === 'Half' ? '🗨️' : item.phoniro_status === 'No' ? '❌' : '???'}</Table.Cell>
 				<Table.Cell>{employeeList}</Table.Cell>
+				<Table.Cell>{item.telenumber}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];

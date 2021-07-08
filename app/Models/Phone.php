@@ -23,6 +23,7 @@ class Phone extends Model
         'backa',
         'phoniro_status',
         'comment',
+        'telenumber',
     ];
 
     public function employees()

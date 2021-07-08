@@ -39,7 +39,7 @@ function Main() {
 	}
 
 	const headers = [['name', 'Namn', 2], ['status', 'Status', 2], ['free', 'Ledig', 2], ['personal', 'Personlig', 2], ['east', 'Östra', 2], ['lundby', 'Lundby', 2],
-	['angered', 'Angered', 2], ['phoniro_status', 'Phoniro Status', 4],  ['employees', 'Användare', 6], ['comment', 'Kommentar', 14]];
+	['angered', 'Angered', 2], ['phoniro_status', 'Phoniro Status', 4],  ['employees', 'Användare', 6], ['telenumber', 'Telefonnr.', 6], ['comment', 'Kommentar', 14]];
 
 	return (
 		<div className="mb-5">

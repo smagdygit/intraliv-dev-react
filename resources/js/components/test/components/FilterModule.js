@@ -212,8 +212,8 @@ function FilterModule(props) {
 											<Form.Dropdown
 												key={"areaRight" + index + subIndex}
 												name='phone'
-												label='Telefon ID'
-												placeholder='WPXX'
+												label={subItem.text}
+												placeholder={subItem.placeholder}
 												disabled={props.data.dynamicDataList.length === 0}
 												fluid
 												selection

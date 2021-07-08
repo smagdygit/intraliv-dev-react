@@ -24,6 +24,7 @@ class CreatePhonesTable extends Migration
             $table->boolean('angered');
             $table->string('phoniro_status');
             $table->string('comment');
+            $table->string('telenumber');
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AbaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,4 +50,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('clients', [ClientController::class, 'create']);
     Route::delete('clients', [ClientController::class, 'delete']);
     Route::put('clients', [ClientController::class, 'update']);
+    
 });
+
+
+Route::get('abax', [AbaxController::class, 'getAll']);

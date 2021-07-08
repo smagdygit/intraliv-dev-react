@@ -44,6 +44,7 @@ class PhoneController extends Controller
             'backa' => $request->backa,
             'phoniro_status' => $request->phoniro_status,
             'comment' => $request->comment ?? '',
+            'telenumber' => $request->telenumber ?? '',
         ]);
 
         //Update phone_id for every employee now assigned to this phone
@@ -77,6 +78,7 @@ class PhoneController extends Controller
                 'backa' => $request->backa,
                 'phoniro_status' => $request->phoniro_status,
                 'comment' => $request->comment ?? '',
+                'telenumber' => $request->telenumber ?? '',
             ]);
 
             //Update phone_id for every employee now assigned to this phone

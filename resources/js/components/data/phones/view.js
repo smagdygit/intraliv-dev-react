@@ -74,7 +74,7 @@ function ViewPhones() {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 2], ['status', 'Status', 2], ['free', 'Ledig', 2], ['personal', 'Personlig', 2], ['location', 'Stadsdel', 4], ['phoniro_status', 'Phoniro Status', 4], ['employees', 'Användare', 6], ['comment', 'Kommentar', 14]];
+	const headers = [['name', 'Namn', 2], ['status', 'Status', 2], ['free', 'Ledig', 2], ['personal', 'Personlig', 2], ['location', 'Stadsdel', 4], ['phoniro_status', 'Phoniro Status', 4], ['employees', 'Användare', 6], ['telenumber', 'Telefonnr.', 6], ['comment', 'Kommentar', 14]];
 
 	return (
 		<div className="container-fluid center" style={{ width: "90%" }}>
@@ -216,7 +216,7 @@ function ViewPhones() {
 					className="p-5"
 					data={{
 						name: '', free: '', personal: '', phoniro_status: 'No', id: '',
-						east: '', angered: '', lundby: '', vh: '',
+						east: '', angered: '', lundby: '', vh: '', telenumber: '',
 						backa: '', status: 'Usable', comment: '', employees: []
 					}}
 					sendDataToParent={sendDataToParent} />

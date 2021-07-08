@@ -26,6 +26,7 @@ class PhoneSeeder extends Seeder
             'angered' => false,
             'phoniro_status' => 'Yes',
             'comment' => 'No Phone',
+            'telenumber' => '',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -39,6 +40,7 @@ class PhoneSeeder extends Seeder
             'angered' => false,
             'phoniro_status' => 'Yes',
             'comment' => 'Unknown Phone ID',
+            'telenumber' => '',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -61,6 +63,7 @@ class PhoneSeeder extends Seeder
                 'angered' => $angered,
                 'phoniro_status' => 'No',
                 'comment' => '',
+                'telenumber' => '',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

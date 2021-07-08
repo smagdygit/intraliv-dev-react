@@ -58,6 +58,7 @@ function Test(props) {
 			'vh',
 			'backa',
 			'comment',
+			'telenumber',
 		],
 		dynamicData: props.data.employees,
 		dynamicKey: 'employees',
@@ -125,12 +126,20 @@ function Test(props) {
 						text: 'Status',
 						options: optionsStatus,
 					},
+					{
+						type: 'input',
+						data: 'telenumber',
+						text: 'Telefonnr.',
+						placeholder: '072-xxxxxxx',
+					},
 				],
 				[
 					{
 						type: 'dropdown',
 						data: 'dynamic',
 						multiple: true,
+						text: 'Användare',
+						placeholder: 'Klas Bertilsson',
 					},
 					{
 						type: 'dropdown',

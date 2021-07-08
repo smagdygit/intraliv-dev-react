@@ -158,6 +158,8 @@ function Test(props) {
 						type: 'dropdown',
 						data: 'dynamic',
 						multiple: false,
+						text: 'Telefon ID',
+						placeholder: 'WPXX',
 					},
 					{
 						type: 'input',

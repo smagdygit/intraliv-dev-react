@@ -58,7 +58,7 @@ function Main(props) {
 		const output = input.flatMap((item, index) => {
 
 			if (filter.text !== '') {
-				if (!((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
+				if (!((item.name.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.comment.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1) || (item.telenumber.toLowerCase().indexOf(filter.text.toLowerCase()) !== -1))) {
 					return [];
 				}
 			}
