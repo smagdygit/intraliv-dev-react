@@ -60,7 +60,9 @@ function Test(props) {
 			'comment',
 			'telenumber',
 		],
-		dynamicData: props.data.employees,
+		dynamicData: props.data.employees.map((item) => {
+			return(item.id);
+		}),
 		dynamicKey: 'employees',
 		dynamicDataList: [],
 		booleanList: [
