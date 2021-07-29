@@ -168,7 +168,7 @@ function ViewClients() {
 							<Grid.Column width={3}>
 								<Checkbox
 									toggle
-									label="Västra Frölunda"
+									label="Västra Hisingen"
 									checked={filter.vh}
 									onChange={(e, data) => handleInputChange(e, data, 'vh')}
 								/>

@@ -1,20 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './UserContext';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Input, Menu, Divider } from 'semantic-ui-react';
 
 
-function Navbar() {
+function Navbar(props) {
 	const [activeItem, setActiveItem] = useState('Personal');
 	const { user, setUser } = useContext(UserContext);
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [oldPathName, setOldPathName] = useState(window.location.pathname);
+	const location = useLocation();
 
 	const history = useHistory();
 
 	useEffect(() => {
-		setActiveItem(window.location.pathname);
-	}, [window.location.pathname])
+		if (window.location.pathname === '/' || window.location.pathname === '/undefined') {
+			setActiveItem('/login');
+		} else {
+			setActiveItem(window.location.pathname);
+		}
+	}, [window.location.pathname, props.updateUrl, location])
 
 	function handleItemClick(e, { name, url }) {
 		setActiveItem(name);
@@ -38,7 +43,7 @@ function Navbar() {
 						</h2>
 					</div>
 					<Menu.Item
-						name='Dashboard'
+						name='Hem'
 						url='/data/dashboard'
 						active={activeItem === '/data/dashboard'}
 						onClick={handleItemClick}
@@ -50,23 +55,19 @@ function Navbar() {
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
+						name='Kunder'
+						url='/data/clients/view'
+						active={activeItem === '/data/clients/view'}
+						onClick={handleItemClick}
+					/>
+					<Menu.Item
 						name='Telefoner'
 						url='/data/phones/view'
 						active={activeItem === '/data/phones/view'}
 						onClick={handleItemClick}
 					/>
-					<Menu.Item
-						name='Användare'
-						url='/data/users/view'
-						active={activeItem === '/data/users/view'}
-						onClick={handleItemClick}
-					/>
-					<Menu.Item
-						name='Brukare'
-						url='/data/clients/view'
-						active={activeItem === '/data/clients/view'}
-						onClick={handleItemClick}
-					/>
+
+
 					<Menu.Menu position='right'>
 						<Menu.Item>
 							<Input icon='search' placeholder='Search...' />
@@ -74,13 +75,19 @@ function Navbar() {
 						{userObject !== null &&
 							<>
 								<Menu.Item
-									name={userObject.name}
-									active={activeItem === 'logout'}
+									name='Användare'
+									url='/data/users/view'
+									active={activeItem === '/data/users/view'}
 									onClick={handleItemClick}
-								/>
+								/>{/*
+								<Menu.Item
+									name={userObject.name}
+									active={activeItem === '/login'}
+									onClick={handleItemClick}
+								/>*/}
 								<Menu.Item
 									name='Logga Ut'
-									active={activeItem === 'logout'}
+									active={activeItem === '/login'}
 									onClick={handleLogout}
 								/>
 							</>
@@ -88,7 +95,7 @@ function Navbar() {
 						{userObject === null &&
 							<Menu.Item
 								name='Logga In'
-								active={activeItem === 'logout'}
+								active={activeItem === '/login'}
 								onClick={handleItemClick}
 							/>
 						}

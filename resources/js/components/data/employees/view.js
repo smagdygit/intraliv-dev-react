@@ -21,7 +21,7 @@ const optionsPolicyIt = [
 ]
 
 
-function ViewEmployees() {
+function ViewEmployees(props) {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
 	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, doorkey: false, text: '', sith: 'null', policy_it_signed: 'null', });
@@ -78,7 +78,7 @@ function ViewEmployees() {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], ['admin', 'Adm.', 2], 
+	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], 
 	['location', 'Stadsdel', 2], ['id', 'ID', 2], ['care_id_2', 'Anst. ID', 3], ['policy_it_signed', 'IT Policy', 3], ['education', 'UTB', 2],
 	['doorkey', 'Nyckel', 2], ['card', 'Foto', 2], ['comment', 'Kommentar', 12]];
 
@@ -182,7 +182,7 @@ function ViewEmployees() {
 							<Grid.Column width={3}>
 								<Checkbox
 									toggle
-									label="Västra Frölunda"
+									label="Västra Hisingen"
 									checked={filter.vh}
 									onChange={(e, data) => handleInputChange(e, data, 'vh')}
 								/>

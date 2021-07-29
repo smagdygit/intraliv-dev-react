@@ -20,6 +20,7 @@ import PrivateRoute from './PrivateRoute';
 
 function App() {
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+	const [url, setUrl] = useState(false);
 	const userObject = JSON.parse(localStorage.getItem('user'));
 
 	const value = useMemo(() => ({ user, setUser }), [user, setUser]);
@@ -30,23 +31,29 @@ function App() {
 		</p>
 	))
 
+	function setParentUrl() {
+		//setUrl(!url);
+	}
+
 	return (
 		<Router history={createBrowserHistory()}>
 			<>
 				<header className="">
-					<Navbar />
+					<Navbar updateUrl={setUrl}/>
 				</header>
 				<div id="app">
 
 					<UserContext.Provider value={value}>
 						<Switch>
 							<Route path="/login" component={Login} exact />
+							<Route path="/" component={Login} exact />
+							<Route path="/undefined" component={Login} exact />
 							<PrivateRoute path="/loggedin" component={LoggedIn} exact />
 							<PrivateRoute path="/data/employees/view" component={DataEmployeesView} exact />
 							<PrivateRoute path="/data/phones/view" component={DataPhonesView} exact />
 							<PrivateRoute path="/data/users/view" component={DataUsersView} exact />
 							<PrivateRoute path="/data/clients/view" component={DataClientsView} exact />
-							<PrivateRoute path="/data/dashboard" component={Dashboard} exact />
+							<PrivateRoute path="/data/dashboard" component={Dashboard} exact updateParentUrl={setParentUrl}/>
 							<PrivateRoute path="/login" component={Login} exact />
 							<PrivateRoute path="/data/vehicles" component={Vehicles} exact />
 

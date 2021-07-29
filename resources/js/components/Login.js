@@ -37,8 +37,8 @@ const Login = function () {
 						setUser(result.user);
 						localStorage.setItem('user', JSON.stringify(result.user));
 						localStorage.setItem('token', result.user.token);
-						history.push('/data/employees/view');
-						
+						//history.push('/data/employees/view');
+						window.location.pathname = '/data/dashboard';
 
 					} else {
 						setErrorText(result.text);

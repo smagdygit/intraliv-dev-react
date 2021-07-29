@@ -148,7 +148,7 @@ function Main(props) {
 				<Table.Cell textAlign='center'>{item.status === 'Usable' ? '✔️' : item.status === 'Need Checkup' ? '👁️' : item.status === 'Does not Work' ? '🔥' : item.status === 'To Register' ? '🔜' : item.status === 'To Install' ? '💤' : item.status === 'Waiting for Mail' ? '✉️' : item.status === 'Missing Case' ? '💼' : '???'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.free === 0 ? '❌' : '✔️'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.personal === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell>{item.east === 1 ? 'Östra' : item.lundby === 1 ? 'Lundby' : item.angered === 1 ? 'Angered' : item.vh === 1 ? 'Västra Frölunda' : item.backa === 1 ? 'Backa' : ''}</Table.Cell>
+				<Table.Cell>{item.east === 1 ? 'Östra' : item.lundby === 1 ? 'Lundby' : item.angered === 1 ? 'Angered' : item.vh === 1 ? 'Västra Hisingen' : item.backa === 1 ? 'Backa' : ''}</Table.Cell>
 
 				<Table.Cell textAlign='center'>{item.phoniro_status === 'Yes' ? '✔️' : item.phoniro_status === 'Half' ? '🗨️' : item.phoniro_status === 'No' ? '❌' : '???'}</Table.Cell>
 				<Table.Cell>{employeeList}</Table.Cell>

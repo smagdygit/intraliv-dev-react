@@ -139,22 +139,22 @@ function Main(props) {
 		if (item.angered) locationArr.push('A');
 		if (item.vh) locationArr.push('V');
 		if (item.backa) locationArr.push('B');
-		const location = locationArr.join('-');
+		if (locationArr.length === 0) locationArr.push('-');
+		const location = locationArr.join(' : ');
 		const itemRows = [
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
-				<Table.Cell singleLine>{item.name}</Table.Cell>
+				<Table.Cell singleLine>{`${item.admin ? `👑 ` : ''}${item.name}`}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.phone.name === 0 ? '❌' : item.phone.name}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '❌' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.admin === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.phone.name === 0 ? '-' : item.phone.name}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '-' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
 				<Table.Cell>{location}</Table.Cell>
 				<Table.Cell>{item.id}</Table.Cell>
-				<Table.Cell>{item.care_id_2}</Table.Cell>
-				<Table.Cell>{item.policy_it_signed === 'N Do' ? '❌' : item.policy_it_signed}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.education === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.doorkey === 0 ? '❌' : '✔️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{item.card === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.care_id_2 !== '-1' ? item.care_id_2 : '-'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.policy_it_signed === 'N Do' ? '-' : item.policy_it_signed}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.education === 0 ? '-' : '📜'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.doorkey === 0 ? '-' : '🔑'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.card === 0 ? '-' : '🖼️'}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];
