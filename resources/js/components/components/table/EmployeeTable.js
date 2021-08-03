@@ -83,6 +83,10 @@ function Main(props) {
 				if (item.policy_it_signed !== filter.policy_it_signed) return [];
 			}
 
+			if (filter.group !== 'null') {
+				if (item.group !== filter.group) return [];
+			}
+
 			return [item];
 		});
 
@@ -140,7 +144,7 @@ function Main(props) {
 		if (item.vh) locationArr.push('V');
 		if (item.backa) locationArr.push('B');
 		if (locationArr.length === 0) locationArr.push('-');
-		const location = locationArr.join(' : ');
+		const location = locationArr.join(', ');
 		const itemRows = [
 			<Table.Row key={item.id} onClick={() => handleRowClick(index)}>
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
