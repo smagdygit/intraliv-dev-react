@@ -146,6 +146,7 @@ function Main(props) {
 				<TableFunctionCaret data={{ index: index, expandedRows: expandedRows }} />
 				<Table.Cell singleLine>{`${item.admin ? `👑 ` : ''}${item.name}`}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.active === 0 ? '❌' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.group === 0 ? '-' : item.group === '1' ? '🏅' : item.group === '2' ? '🥈' : item.group}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.phone.name === 0 ? '-' : item.phone.name}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.sith === 'Yes' ? '✔️' : item.sith === 'N Never' ? '-' : item.sith === 'To Install' ? '🕑' : item.sith === 'Ordered' ? '✉️' : item.sith === 'To Order' ? '❗' : item.sith === 'Delete' ? '🗑️' : item.sith === 'Deleted' ? '🗑️' : '???'}</Table.Cell>
 				<Table.Cell>{location}</Table.Cell>

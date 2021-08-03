@@ -20,11 +20,17 @@ const optionsPolicyIt = [
 	{ key: '210312A', text: '210312A', value: '210312A' },
 ]
 
+const optionsGroup = [
+	{ key: 'null', text: 'Filtrera Grupp', value: 'null' },
+	{ key: '1', text: 'Grupp 1 🥇', value: '1' },
+	{ key: '2', text: 'Grupp 2 🥈', value: '2' },
+]
+
 
 function ViewEmployees(props) {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
-	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, doorkey: false, text: '', sith: 'null', policy_it_signed: 'null', });
+	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, doorkey: false, text: '', sith: 'null', policy_it_signed: 'null', group: 'null' });
 	const [newEmployeeWindow, setNewEmployeeWindow] = useState(false);
 	const [resultCount, setResultCount] = useState(0);
 
@@ -78,7 +84,7 @@ function ViewEmployees(props) {
 		setResultCount(count);
 	}
 
-	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2], 
+	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['group', 'Grupp', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2],
 	['location', 'Stadsdel', 2], ['id', 'ID', 2], ['care_id_2', 'Anst. ID', 3], ['policy_it_signed', 'IT Policy', 3], ['education', 'UTB', 2],
 	['doorkey', 'Nyckel', 2], ['card', 'Foto', 2], ['comment', 'Kommentar', 12]];
 
@@ -135,12 +141,13 @@ function ViewEmployees(props) {
 							</Grid.Column>
 							<Grid.Column width={5}>
 								<Select
-									name='policy_it_signed'
-									options={optionsPolicyIt}
+									name='group'
+									options={optionsGroup}
 									fluid
-									defaultValue={filter.policy_it_signed}
-									onChange={(e, val) => handleSelectChange(e, 'policy_it_signed', val)}
+									defaultValue={filter.group}
+									onChange={(e, val) => handleSelectChange(e, 'group', val)}
 								/>
+
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row className="p-1">
@@ -162,12 +169,13 @@ function ViewEmployees(props) {
 							</Grid.Column>
 							<Grid.Column width={5}>
 								<Select
-									name='sith'
-									options={optionsSith}
+									name='policy_it_signed'
+									options={optionsPolicyIt}
 									fluid
-									defaultValue={filter.sith}
-									onChange={(e, val) => handleSelectChange(e, 'sith', val)}
+									defaultValue={filter.policy_it_signed}
+									onChange={(e, val) => handleSelectChange(e, 'policy_it_signed', val)}
 								/>
+
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row className="p-1">
@@ -188,7 +196,14 @@ function ViewEmployees(props) {
 								/>
 							</Grid.Column>
 							<Grid.Column width={5}>
-								<Button negative fluid>Återställ</Button>
+								<Select
+									name='sith'
+									options={optionsSith}
+									fluid
+									defaultValue={filter.sith}
+									onChange={(e, val) => handleSelectChange(e, 'sith', val)}
+								/>
+
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row className="p-1">
@@ -209,7 +224,8 @@ function ViewEmployees(props) {
 								/>
 							</Grid.Column>
 							<Grid.Column width={5}>
-								<Button positive fluid onClick={event => handleAddPress(event)}>Lägg Till Ny Person</Button>
+								<Button negative fluid>Återställ</Button>
+
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row className="p-1">
@@ -220,6 +236,25 @@ function ViewEmployees(props) {
 									checked={filter.card}
 									onChange={(e, data) => handleInputChange(e, data, 'card')}
 								/>
+							</Grid.Column>
+							<Grid.Column width={3}>
+							</Grid.Column>
+							<Grid.Column width={5}>
+								<Button positive fluid onClick={event => handleAddPress(event)}>Lägg Till Ny Person</Button>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row className="p-1">
+							<Grid.Column width={3}>
+								<Checkbox
+									toggle
+									label="Nyckelbricka"
+									checked={filter.doorkey}
+									onChange={(e, data) => handleInputChange(e, data, 'doorkey')}
+								/>
+							</Grid.Column>
+							<Grid.Column width={3}>
+							</Grid.Column>
+							<Grid.Column width={5}>
 							</Grid.Column>
 						</Grid.Row>
 					</Grid>
@@ -232,7 +267,7 @@ function ViewEmployees(props) {
 						name: '', email: '', active: 1, phone_id: '', sith: 'N Never', policy_it_signed: 'N Do',
 						admin: '', east: '', angered: '', lundby: '', vh: '',
 						backa: '', education: '', doorkey: '', id: '',
-						care_id_1: '', care_id_2: '', comment: ''
+						care_id_1: '', care_id_2: '', comment: '', group: '1'
 					}}
 					sendDataToParent={sendDataToParent} />
 			}

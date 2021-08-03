@@ -26,6 +26,12 @@ const optionsPolicyIt = [
 	{ key: '210312A', text: '210312A', value: '210312A' },
 ]
 
+const optionsGroup = [
+	{ key: 'null', text: 'Filtrera Grupp', value: 'null' },
+	{ key: '1', text: 'Grupp 1 🥇', value: '1' },
+	{ key: '2', text: 'Grupp 2 🥈', value: '2' },
+]
+
 
 
 function Test(props) {
@@ -61,6 +67,7 @@ function Test(props) {
 			'comment',
 			'doorkey',
 			'card',
+			'group',
 		],
 		dynamicData: props.data.phone_id,
 		dynamicKey: 'phone_id',
@@ -151,6 +158,12 @@ function Test(props) {
 						data: 'sith',
 						text: 'SITH Status',
 						options: optionsSith,
+					},
+					{
+						type: 'dropdown',
+						data: 'group',
+						text: 'Grupp',
+						options: optionsGroup,
 					},
 				],
 				[
