@@ -9,7 +9,7 @@ class ClientController extends Controller
 {
     public function renameOrCreate($create, $id, $newName)
     {
-        $dir = $_ENV['PATH_FOLDERS'].'/clients/';
+        $dir = $_ENV['PATH_FOLDERS'] . '/clients/';
         if (!$create) {
             $folders = scandir($dir);
             $result = '';
@@ -47,8 +47,9 @@ class ClientController extends Controller
             return ['status' => 'bad-data', 'field' => 'sith', 'id' => 'bad-sith', 'text' => 'Du måste välja en vårdtyp'];
         }
 
-        if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) || 
-            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active))
+        if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) ||
+            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active)) ||
+            (!isset($request->binder)) || (!isset($request->consent)) || (!isset($request->key))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -66,6 +67,11 @@ class ClientController extends Controller
             'permitted_hours' => $request->permitted_hours ?: 0,
             'comment' => $request->comment ?: '',
             'active' => $request->active,
+            'decision' => $request->decision,
+            'plan' => $request->plan,
+            'binder' => $request->binder,
+            'consent' => $request->consent,
+            'key' => $request->key,
         ]);
 
         $this->renameOrCreate(true, $newPerson->id, $request->name);
@@ -83,8 +89,9 @@ class ClientController extends Controller
             return ['status' => 'bad-data', 'field' => 'sith', 'id' => 'bad-sith', 'text' => 'Du måste välja en vårdtyp'];
         }
 
-        if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) || 
-            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active))
+        if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) ||
+            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active)) ||
+            (!isset($request->binder)) || (!isset($request->consent)) || (!isset($request->key))
         ) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
@@ -105,6 +112,11 @@ class ClientController extends Controller
                 'permitted_hours' => $request->permitted_hours ?: 0,
                 'comment' => $request->comment ?: '',
                 'active' => $request->active,
+                'decision' => $request->decision,
+                'plan' => $request->plan,
+                'binder' => $request->binder,
+                'consent' => $request->consent,
+                'key' => $request->key,
             ]);
 
             $this->renameOrCreate(false, $personId, $request->name);

@@ -50,6 +50,11 @@ function Test(props) {
 			'permitted_hours',
 			'comment',
 			'active',
+			'decision',
+			'plan',
+			'binder',
+			'consent',
+			'key',
 		],
 		dynamicData: '',
 		dynamicKey: '',
@@ -61,6 +66,14 @@ function Test(props) {
 			'backa',
 			'vh',
 			'active',
+			'plan',
+			'binder',
+			'consent',
+			'key',
+		],
+		dateList: [
+			'decision',
+			'plan'
 		],
 		layout: {
 			areaTopLeft: [
@@ -68,6 +81,21 @@ function Test(props) {
 					type: 'checkbox',
 					data: 'active',
 					text: 'Aktiv',
+				},
+				{
+					type: 'checkbox',
+					data: 'binder',
+					text: 'Info Pärm',
+				},
+				{
+					type: 'checkbox',
+					data: 'consent',
+					text: 'Samtycke',
+				},
+				{
+					type: 'checkbox',
+					data: 'key',
+					text: 'Nyckelkvittens',
 				},
 			],
 			areaBottomLeft: [
@@ -111,6 +139,18 @@ function Test(props) {
 						text: 'Vårdtyp',
 						options: optionsCareType,
 					},
+					{
+						type: 'date',
+						data: 'decision',
+						text: 'Beslut',
+						placeholder: '1997-09-01',
+					},
+					{
+						type: 'date',
+						data: 'plan',
+						text: 'Genomförandeplan',
+						placeholder: '1997-09-01',
+					},
 				],
 				[
 					{
@@ -131,7 +171,9 @@ function Test(props) {
 						text: 'Beviljade Timmar (veckovis)',
 						placeholder: '45',
 					},
+					
 				],
+
 				[
 					{
 						type: 'text',

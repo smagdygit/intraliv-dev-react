@@ -22,5 +22,10 @@ class Client extends Model
         'permitted_hours',
         'comment',
         'active',
+        'decision',
+        'plan',
+        'binder',
+        'consent',
+        'key',
     ];
 }

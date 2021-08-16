@@ -126,7 +126,7 @@ const carData = {
 	bought: '2019-01-01',
 	service: {
 		nextHalf: '2019-09-30',
-		nextFull: '2021-12-30',
+		nextFull: '2021-11-30',
 		history: [
 			{
 				type: 'Halvservice',
@@ -197,7 +197,7 @@ function Test(props) {
 		);
 		wheelsHtml.winterText.push(
 			<Grid.Column width={3} key={'winwhetxt' + i}>
-				{i <= carData.wheels.winter.amount ? <h3>Allround <Icon name="snowflake" /></h3> : <></>}
+				{i <= carData.wheels.winter.amount ? <h3>{carData.wheels.winter.type} <Icon name="snowflake" /></h3> : <></>}
 			</Grid.Column>
 		);
 		wheelsHtml.summerImages.push(
@@ -232,11 +232,12 @@ function Test(props) {
 	}
 
 
+
 	return (
 		<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
 			<center>
 				<h1 className="display-1">LKJ 689</h1>
-				<h3 style={{ marginBottom: '100px' }}>Toyota Aris | Vit | Lundby</h3>
+				<h3 style={{ marginBottom: '100px' }}>{carData.model} - {carData.color} - {carData.location}</h3>
 				{/*<div>
 					<Input />
 					<Dropdown defaultValue='01' options={optionsMonths} />
@@ -260,11 +261,12 @@ function Test(props) {
 								</Grid.Row>
 							</Grid>
 						</Grid.Column>
-						<Grid.Column width={8}>
+						<Grid.Column width={3} />
+						<Grid.Column width={5}>
 							<center>
-								<Grid className="h2" textAlign="left">
+								<Grid className="h2" textAlign="right">
 									<Grid.Row>
-										<Grid.Column width={8}>
+										<Grid.Column width={8} textAlign="left">
 											Försäkring / år
 										</Grid.Column>
 										<Grid.Column width={8}>
@@ -272,7 +274,7 @@ function Test(props) {
 										</Grid.Column>
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8}>
+										<Grid.Column width={8} textAlign="left">
 											Köpt
 										</Grid.Column>
 										<Grid.Column width={8}>
@@ -280,28 +282,32 @@ function Test(props) {
 										</Grid.Column>
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8}>
+										<Grid.Column width={8} textAlign="left">
 											Besiktning
 										</Grid.Column>
-										<Grid.Column width={8} className="text-danger">
+										<Grid.Column width={8} className={((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
 											{carData.inspection.next}
 										</Grid.Column>
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8}>
+										<Grid.Column width={8} textAlign="left">
 											Service
 										</Grid.Column>
-										<Grid.Column width={8} className="text-danger">
+										<Grid.Column width={8} className={((new Date(carData.service.nextHalf) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.service.nextHalf) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
 											{carData.service.nextHalf}
 										</Grid.Column>
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8}>
+										<Grid.Column width={8} textAlign="left">
 											Fullservice
 										</Grid.Column>
-										<Grid.Column width={8} className={((new Date(carData.service.nextFull) - new Date(carData.service.nextFull)) / (1000 * 3600 * 24 * 30)) <= 2 ? 'text-danger' : ''}>
+										<Grid.Column width={8} className={((new Date(carData.service.nextFull) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.service.nextFull) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
 											{carData.service.nextFull}
-											{(((new Date(carData.service.nextFull).getTime()) - (new Date(carData.service.nextFull)).getTime()) / (1000 * 3600 * 24 * 30)).toString()}
+										</Grid.Column>
+									</Grid.Row>
+									<Grid.Row>
+										<Grid.Column width={16}>
+											<del className="text-danger d-inline">Förmånsbil</del> / <p className="text-success d-inline">Abax</p> / <p className="text-success d-inline">Personalbil</p> / <p className="text-success d-inline">Automat</p>
 										</Grid.Column>
 									</Grid.Row>
 								</Grid>
@@ -383,6 +389,12 @@ function Test(props) {
 						</Grid.Column>
 					</Grid.Row>
 				</Grid>
+				<h1 className="mt-5">Kommentarer angående bilen</h1>
+				<Form>
+					<Form.TextArea>
+						{carData.comment}
+					</Form.TextArea>
+				</Form>
 			</center>
 		</div >
 	);

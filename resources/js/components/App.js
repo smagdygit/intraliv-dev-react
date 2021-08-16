@@ -11,12 +11,17 @@ import DataPhonesView from './data/phones/view';
 import DataUsersView from './data/users/view';
 import DataClientsView from './data/clients/view';
 import Vehicles from './data/vehicles/view';
+import AddVehicle from './data/vehicles/add';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css'
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import "react-datepicker/src/stylesheets/datepicker.scss";
 import { UserContext } from './components/UserContext';
 import { Image } from 'semantic-ui-react';
 import { createBrowserHistory } from 'history';
 import PrivateRoute from './PrivateRoute';
+import "./App.css";
 
 function App() {
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
@@ -56,6 +61,7 @@ function App() {
 							<PrivateRoute path="/data/dashboard" component={Dashboard} exact updateParentUrl={setParentUrl}/>
 							<PrivateRoute path="/login" component={Login} exact />
 							<PrivateRoute path="/data/vehicles" component={Vehicles} exact />
+							<PrivateRoute path="/data/vehicles/add" component={AddVehicle} exact />
 
 
 							{/*<Route component={Error} />*/}

@@ -40,6 +40,7 @@ function Main(props) {
 				setPhones(filteredPhones);
 				setFetchedPhones(data);
 				props.updateResultCount(filteredPhones.length);
+
 			});
 	}, [refresher]);
 
@@ -143,6 +144,11 @@ function Main(props) {
 				<Table.Cell>{item.ssn}</Table.Cell>
 				<Table.Cell>{item.address}</Table.Cell>
 				<Table.Cell>{item.permitted_hours}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.decision === null ? '-' : item.decision}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.plan === null ? '-' : item.plan}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.binder === 0 ? '-' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.consent === 0 ? '-' : '✔️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{item.key === 0 ? '-' : '✔️'}</Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];

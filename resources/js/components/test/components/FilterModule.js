@@ -9,6 +9,7 @@ import {
 	Grid,
 	Divider,
 } from 'semantic-ui-react';
+import DatePicker from "react-datepicker";
 
 
 
@@ -21,6 +22,10 @@ function FilterModule(props) {
 	const [dynamicDataList, setDynamicDataList] = useState([]);
 	const [phoneUserLog, setPhoneUserLog] = useState([]);
 	const userObject = JSON.parse(localStorage.getItem('user'));
+	
+	useEffect(() => {
+		
+	}, []);
 
 	useEffect(() => {
 		if (props.data.dynamicDataUrl) {
@@ -46,6 +51,11 @@ function FilterModule(props) {
 		const newForm = { ...props.data.table };
 		props.data.booleanList.map((item) => {
 			newForm[item] = props.data.table[item] === 1 ? true : false
+		});
+		props.data.dateList.map((item, index) => {
+			if (props.data.table[item] !== null)  {
+				newForm[item] = new Date(props.data.table[item]);
+			}
 		});
 		setForm({ ...newForm });
 	}
@@ -86,16 +96,33 @@ function FilterModule(props) {
 		setForm({ ...form });
 	}
 
+	function handleDateChange(date, name) {
+		form[name] = date;
+		setForm({ ...form });
+	}
+
 	function handleSubmit(event) {
 		event.preventDefault();
 
 		const body = {};
 		props.data.variableList.map((item, index) => {
+			//body[item] = JSON.stringify(form[item]);
 			body[item] = form[item];
 		});
+
+		props.data.dateList.map((item, index) => {
+			if (body[item] !== null && body[item] !== undefined && body[item] !== false) {
+				body[item] = JSON.stringify(body[item]).substring(1, 11);
+			} else {
+				body[item] = null;
+			}
+		});
+
 		if (props.data.dynamicKey) {
 			body[props.data.dynamicKey] = formDynamicData;
 		}
+
+		
 
 		setUploadingStatus({ status: 'uploading', text: 'Updaterar data, vänligen vänta...' });
 		const postMethod = (props.data.table.id !== '') ? 'PUT' : 'POST';
@@ -190,7 +217,7 @@ function FilterModule(props) {
 					})}
 				</GridColumn>
 				<GridColumn width={14}>
-					<Form>
+					<Form widths="equal">
 						{props.data.layout.areaRight.map((item, index) => {
 							const result = item.map((subItem, subIndex) => {
 								if (subItem.type === 'input') {
@@ -198,12 +225,35 @@ function FilterModule(props) {
 										<Form.Input
 											key={"areaRight" + index + subIndex}
 											name={subItem.data}
-											fluid
 											label={subItem.text}
 											placeholder={subItem.placeholder}
 											value={form[subItem.data]}
 											onChange={e => handleInputChange(e)}
 										/>
+									);
+								}
+								if (subItem.type === 'date') {
+									return (
+										<div key={"areaRight" + index + subIndex} className="ml-2" style={{ width: `${100 / item.length}%` }}>
+											<b>{subItem.text}</b>
+											<br />
+											<Form.Field>
+												<DatePicker
+													style={{ width: '100%' }}
+													key={"areaRight" + index + subIndex}
+													selected={form[subItem.data]}
+													onChange={(date) => handleDateChange(date, subItem.data)}
+													calendarStartDay={1}
+													peekNextMonth
+													showMonthDropdown
+													showYearDropdown
+													dropdownMode="select"
+													dateFormat="yyyy-MM-dd"
+													isClearable
+													placeholderText="Finns Ej"
+												/>
+											</Form.Field>
+										</div>
 									);
 								}
 								if (subItem.type === 'dropdown') {
@@ -215,7 +265,6 @@ function FilterModule(props) {
 												label={subItem.text}
 												placeholder={subItem.placeholder}
 												disabled={props.data.dynamicDataList.length === 0}
-												fluid
 												selection
 												multiple={subItem.multiple}
 												options={props.data.dynamicDataList}
@@ -252,7 +301,7 @@ function FilterModule(props) {
 								}
 							})
 							return (
-								<Form.Group widths='equal' key={"areaRight" + index}>
+								<Form.Group key={"areaRight" + index}>
 									{result}
 								</Form.Group>
 							);
