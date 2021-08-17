@@ -26,6 +26,7 @@ import "./App.css";
 function App() {
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 	const [url, setUrl] = useState(false);
+	const [night, setNight] = useState(localStorage.getItem('night') === 'true' ? true : false);
 	const userObject = JSON.parse(localStorage.getItem('user'));
 
 	const value = useMemo(() => ({ user, setUser }), [user, setUser]);
@@ -34,17 +35,34 @@ function App() {
 		<p ref={ref} {...props}>
 			<Image src="/livara_logga_0.png" size="small" alt="Livara Logga" />
 		</p>
-	))
+	));
+
+	useState(() => {
+		if (night) {
+			document.body.style = 'background: #545454;';
+		} else {
+			document.body.style = 'background: #FFFFFF;';
+		}
+	}, [night]);
 
 	function setParentUrl() {
 		//setUrl(!url);
+	}
+
+	function updateNight() {
+		if (!night) {
+			document.body.style = 'background: #545454;';
+		} else {
+			document.body.style = 'background: #FFFFFF;';
+		}
+		setNight(!night);
 	}
 
 	return (
 		<Router history={createBrowserHistory()}>
 			<>
 				<header className="">
-					<Navbar updateUrl={setUrl}/>
+					<Navbar updateUrl={setUrl} night={night} updateNight={updateNight}/>
 				</header>
 				<div id="app">
 
@@ -54,7 +72,7 @@ function App() {
 							<Route path="/" component={Login} exact />
 							<Route path="/undefined" component={Login} exact />
 							<PrivateRoute path="/loggedin" component={LoggedIn} exact />
-							<PrivateRoute path="/data/employees/view" component={DataEmployeesView} exact />
+							<PrivateRoute path="/data/employees/view" component={DataEmployeesView} exact night={night}/>
 							<PrivateRoute path="/data/phones/view" component={DataPhonesView} exact />
 							<PrivateRoute path="/data/users/view" component={DataUsersView} exact />
 							<PrivateRoute path="/data/clients/view" component={DataClientsView} exact />

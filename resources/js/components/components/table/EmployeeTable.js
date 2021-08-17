@@ -25,6 +25,11 @@ function Main(props) {
 	const [expandedRows, setExpandedRows] = useState([]);
 	const [refresher, setRefresher] = useState(false);
 	const userObject = JSON.parse(localStorage.getItem('user'));
+	const [night, setNight] = useState(localStorage.getItem('night') === 'true' ? true : false);
+
+	useEffect(() => {
+		setNight(localStorage.getItem('night') === 'true' ? true : false);
+	}, [localStorage.getItem('night')]);
 
 	useEffect(() => {
 		fetch(`/api/employees`, {
@@ -231,7 +236,7 @@ function Main(props) {
 
 	return (
 		<React.Fragment>
-			<Table sortable celled fixed striped selectable compact={props.data.tableSize === 0 ? false : props.data.tableSize === 1 ? true : 'very'}>
+			<Table inverted={night} sortable celled fixed striped selectable compact={props.data.tableSize === 0 ? false : props.data.tableSize === 1 ? true : 'very'}>
 				{/*<Dimmer active={true}>
 					<Loader size="large">Laddar...</Loader>
 				</Dimmer>*/}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './UserContext';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { Input, Menu, Divider } from 'semantic-ui-react';
+import { Input, Menu, Divider, Form, Checkbox } from 'semantic-ui-react';
+import { meanBy } from 'lodash';
 
 
 function Navbar(props) {
@@ -9,6 +10,7 @@ function Navbar(props) {
 	const { user, setUser } = useContext(UserContext);
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [oldPathName, setOldPathName] = useState(window.location.pathname);
+	const [night, setNight] = useState(localStorage.getItem('night') === 'true' ? true : false);
 	const location = useLocation();
 
 	const history = useHistory();
@@ -33,15 +35,21 @@ function Navbar(props) {
 		history.push('/login');
 	}
 
+	function updateNightChange() {
+		localStorage.setItem('night', !night)
+		setNight(!night);
+		props.updateNight();
+	}
+
 	return (
-		<div>
-			<div className="p-3 pl-5">
-				<Menu secondary>
-					<div className="d-flex justify-content-center mr-5" style={{}}>
+		<div style={{ backgroundColor: '#666666', color: '#EAEAEA' }}>
+			<div className="">
+				<Menu inverted>
+					<Menu.Item>
 						<h2 className="my-auto">
-							Intraliv <pre>{JSON.stringify(user, 0, '.')}</pre>
+							Intraliv
 						</h2>
-					</div>
+					</Menu.Item>
 					<Menu.Item
 						name='Hem'
 						url='/data/dashboard'
@@ -69,6 +77,14 @@ function Navbar(props) {
 
 
 					<Menu.Menu position='right'>
+						<Menu.Item>
+							<Checkbox
+								toggle
+								checked={night}
+								onChange={() => updateNightChange()}
+							/>
+						</Menu.Item>
+
 						<Menu.Item>
 							<Input icon='search' placeholder='Search...' />
 						</Menu.Item>

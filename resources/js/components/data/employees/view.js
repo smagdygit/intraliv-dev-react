@@ -33,6 +33,11 @@ function ViewEmployees(props) {
 	const [filter, setFilter] = useState({ active: true, admin: false, education: false, east: false, lundby: false, angered: false, vh: false, backa: false, doorkey: false, text: '', sith: 'null', policy_it_signed: 'null', group: 'null' });
 	const [newEmployeeWindow, setNewEmployeeWindow] = useState(false);
 	const [resultCount, setResultCount] = useState(0);
+	const [night, setNight] = useState(localStorage.getItem('night') === 'true' ? true : false);
+
+	useEffect(() => {
+		setNight(localStorage.getItem('night') === 'true' ? true : false);
+	}, [localStorage.getItem('night')]);
 
 	useEffect(() => {
 		//console.log(filter);
@@ -95,7 +100,7 @@ function ViewEmployees(props) {
 				<center>
 					<Header as='h2'>
 						<Icon name='user' />
-						<Header.Content>Personal</Header.Content>
+						<Header.Content inverted={night}>Personal</Header.Content>
 					</Header>
 				</center>
 			</div>
@@ -104,7 +109,7 @@ function ViewEmployees(props) {
 					<Grid>
 						<Grid.Row className="p-1">
 							<Grid.Column width={3}>
-								<Header as="h1">Filtrera</Header>
+								<Header inverted={night} as="h1">Filtrera</Header>
 							</Grid.Column>
 							<Grid.Column width={3}>
 								<Checkbox
@@ -129,7 +134,7 @@ function ViewEmployees(props) {
 						</Grid.Row>
 						<Grid.Row className="p-1">
 							<Grid.Column width={3}>
-								<p>{resultCount} resultat</p>
+								<p style={{color: night ? 'white' : ''}}>{resultCount} resultat</p>
 							</Grid.Column>
 							<Grid.Column width={3}>
 								<Checkbox
