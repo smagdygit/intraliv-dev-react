@@ -84,6 +84,7 @@ function Test(props) {
 			'doorkey',
 			'card',
 		],
+		dateList: [],
 		layout: {
 			areaTopLeft: [
 				{

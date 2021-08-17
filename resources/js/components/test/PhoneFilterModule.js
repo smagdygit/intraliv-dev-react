@@ -74,6 +74,7 @@ function Test(props) {
 			'backa',
 			'vh',
 		],
+		dateList: [],
 		layout: {
 			areaTopLeft: [
 				{
