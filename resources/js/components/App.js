@@ -41,7 +41,7 @@ function App() {
 		if (night) {
 			document.body.style = 'background: #545454;';
 		} else {
-			document.body.style = 'background: #FFFFFF;';
+			document.body.style = 'background: #67828B;';
 		}
 	}, [night]);
 
@@ -53,7 +53,7 @@ function App() {
 		if (!night) {
 			document.body.style = 'background: #545454;';
 		} else {
-			document.body.style = 'background: #FFFFFF;';
+			document.body.style = 'background: #67828B;';
 		}
 		setNight(!night);
 	}

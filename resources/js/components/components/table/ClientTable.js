@@ -220,7 +220,7 @@ function Main(props) {
 
 	return (
 		<React.Fragment>
-			<Table sortable celled fixed striped selectable compact={props.data.tableSize === 0 ? false : props.data.tableSize === 1 ? true : 'very'}>
+			<Table celled fixed striped selectable compact={props.data.tableSize === 0 ? false : props.data.tableSize === 1 ? true : 'very'}>
 				{/*<Dimmer active={true}>
 					<Loader size="large">Laddar...</Loader>
 				</Dimmer>*/}
