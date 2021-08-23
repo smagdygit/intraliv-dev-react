@@ -16,7 +16,7 @@ const optionsCareType = [
 function ViewClients() {
 	const [newPersonOpen, setNewPersonOpen] = useState(false);
 	const [reloadTable, setReloadTable] = useState(0);
-	const [filter, setFilter] = useState({ text: '', care_type: 'null', east: false, lundby: false, angered: false, vh: false, backa: false });
+	const [filter, setFilter] = useState({ text: '', active: true, care_type: 'null', east: false, lundby: false, angered: false, vh: false, backa: false });
 	const [newEmployeeWindow, setNewEmployeeWindow] = useState(false);
 	const [resultCount, setResultCount] = useState(0);
 
