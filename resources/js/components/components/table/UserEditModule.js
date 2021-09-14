@@ -118,6 +118,7 @@ function PersonEditModule(props) {
 							fluid
 							label='Lösenord'
 							placeholder='Lösenord'
+							type="password"
 							value={form.password}
 							onChange={e => handleInputChange(e)}
 					/>
