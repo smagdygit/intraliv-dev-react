@@ -27,9 +27,16 @@ const optionsPolicyIt = [
 ]
 
 const optionsGroup = [
-	{ key: 'null', text: 'Filtrera Grupp', value: 'null' },
+	{ key: 'null', text: 'Välj Grupp', value: 'null' },
 	{ key: '1', text: 'Grupp 1 🥇', value: '1' },
 	{ key: '2', text: 'Grupp 2 🥈', value: '2' },
+]
+
+const optionsDriverslicense = [
+	{ key: 'null', text: 'Välj Körkort', value: 'null' },
+	{ key: 'none', text: 'Inget Körkort', value: 'none' },
+	{ key: 'manual', text: 'Manuellt Körkort', value: 'manual' },
+	{ key: 'automatic', text: 'Automat Körkort', value: 'automatic' },
 ]
 
 
@@ -68,6 +75,7 @@ function Test(props) {
 			'doorkey',
 			'card',
 			'group',
+			'driverslicense',
 		],
 		dynamicData: props.data.phone_id,
 		dynamicKey: 'phone_id',
@@ -158,12 +166,14 @@ function Test(props) {
 						type: 'dropdown',
 						data: 'sith',
 						text: 'SITH Status',
+						default: 'N Never',
 						options: optionsSith,
 					},
 					{
 						type: 'dropdown',
 						data: 'group',
 						text: 'Grupp',
+						default: 'null',
 						options: optionsGroup,
 					},
 				],
@@ -185,8 +195,17 @@ function Test(props) {
 						type: 'dropdown',
 						data: 'policy_it_signed',
 						text: 'IT Policy Status',
+						default: 'N Do',
 						multiple: false,
 						options: optionsPolicyIt,
+					},
+					{
+						type: 'dropdown',
+						data: 'driverslicense',
+						text: 'Körkort',
+						default: 'null',
+						multiple: false,
+						options: optionsDriverslicense,
 					},
 				],
 				[

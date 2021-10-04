@@ -91,7 +91,7 @@ function ViewEmployees(props) {
 
 	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['group', 'Grupp', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2],
 	['location', 'Stadsdel', 2], ['id', 'ID', 2], ['care_id_2', 'Anst. ID', 3], ['policy_it_signed', 'IT Policy', 3], ['education', 'UTB', 2],
-	['doorkey', 'Nyckel', 2], ['card', 'Foto', 2], ['comment', 'Kommentar', 12]];
+	['doorkey', 'Nyckel', 2], ['card', 'Foto', 2], ['driverslicense', 'Körkort', 2], ['comment', 'Kommentar', 12]];
 
 	return (
 		<div className="container-fluid center" style={{ width: "90%" }}>

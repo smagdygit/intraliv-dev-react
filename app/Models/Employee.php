@@ -31,6 +31,7 @@ class Employee extends Model
         'doorkey',
         'card',
         'group',
+        'driverslicense',
     ];
 
     public function phone()

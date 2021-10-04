@@ -3,6 +3,10 @@ import { Table, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import _, { filter } from 'lodash';
 import PersonEditModule from '../../test/EmployeeFilterModule';
 import TableFunctionCaret from './TableFunctionCaret';
+import { FaRegAddressCard } from 'react-icons/fa';
+import { GiGearStickPattern } from 'react-icons/gi';
+import { MdBlock } from 'react-icons/md';
+import { BsQuestionLg } from 'react-icons/bs';
 
 
 
@@ -11,14 +15,14 @@ function Main(props) {
 	const [people, setPeople] = useState([
 		{
 			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...', card: 'Laddar...',
-			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
+			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...', driverslicense: 'Laddar...',
 			care_id_2: 'Laddar...', education: 'Laddar...', doorkey: false, comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
 	const [fetchedPeople, setFetchedPeople] = useState([
 		{
 			name: 'Laddar...', email: 'Laddar...', active: false, phone_id: 'Laddar...', sith: 'Laddar...', card: 'Laddar...',
-			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...',
+			admin: 'Laddar...', east: 'Laddar...', angered: 'Laddar...', lundby: 'Laddar...', id: 'Laddar...', driverslicense: 'Laddar...',
 			care_id_2: 'Laddar...', education: 'Laddar...', doorkey: false, comment: 'Laddar...', phone: { id: 'loading' }
 		},
 	]);
@@ -165,6 +169,7 @@ function Main(props) {
 				<Table.Cell textAlign='center'>{item.education === 0 ? '-' : '📜'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.doorkey === 0 ? '-' : '🔑'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.card === 0 ? '-' : '🖼️'}</Table.Cell>
+				<Table.Cell textAlign='center'>{<div> {(item.driverslicense === 'automatic' || item.driverslicense === 'manual') && <FaRegAddressCard style={{ color: item.driverslicense === 'automatic' ? 'green' : 'green' }} />} {item.driverslicense === 'manual' && <GiGearStickPattern style={{ color: 'green' }} />} {item.driverslicense === 'none' && <MdBlock style={{color: 'red'}}/>} {item.driverslicense === '' && <BsQuestionLg style={{color: 'orange'}}/>}</div>} </Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];
@@ -246,7 +251,7 @@ function Main(props) {
 							width={2}
 						>
 							Öppna
-                        </Table.HeaderCell>
+						</Table.HeaderCell>
 						{headerHtml}
 					</Table.Row>
 				</Table.Header>

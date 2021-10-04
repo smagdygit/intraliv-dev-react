@@ -281,7 +281,7 @@ function FilterModule(props) {
 												fluid
 												multiple={subItem.multiple}
 												label={subItem.text}
-												defaultValue={form[subItem.data]}
+												defaultValue={form[subItem.data] ? form[subItem.data] : subItem.default}
 												onChange={(e, val) => handleSelectChange(e, subItem.data, val)}
 											/>
 										);
