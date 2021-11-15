@@ -54,33 +54,33 @@ class CarController extends Controller
             'washed',
         ];
 
-        foreach ($varArray as $currentVar) {
+        /*foreach ($varArray as $currentVar) {
             if (!$request->has($currentVar)) return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
-        }
+        }*/
             
         $newCar = Car::create([
             'plate' => $request->plate,
-            'bought_location' => $request->bought_location,
-            'bought_date' => $request->bought_date,
-            'brand' => $request->brand,
-            'model' => $request->model,
-            'station' => $request->station,
-            'color' => $request->color,
-            'comment' => $request->comment,
+            'bought_location' => '',//$request->bought_location,
+            'bought_date' => null,//$request->bought_date,
+            'brand' => $request->brand ?: '',
+            'model' => $request->model ?: '',
+            'station' => $request->station ?: '',
+            'color' => '',//$request->color,
+            'comment' => $request->comment ?: '',
             'abax' => $request->abax,
-            'employee_car' => $request->employee_car,
-            'benefit' => $request->benefit,
-            'automatic' => $request->automatic,
-            'insurance_cost' => $request->insurance_cost,
-            'max_mileage' => $request->max_mileage,
-            'wheels_summer_amount' => $request->wheels_summer_amount,
-            'wheels_summer_type' => $request->wheels_summer_type,
-            'wheels_winter_amount' => $request->wheels_winter_amount,
-            'wheels_winter_type' => $request->wheels_winter_type,
-            'wheels_location' => $request->wheels_location,
-            'winter_wheels_on' => $request->winter_wheels_on,
-            'oil_checked' => $request->oil_checked,
-            'washed' => $request->washed,
+            'employee_car' => true,//$request->employee_car,
+            'benefit' => false,//$request->benefit,
+            'automatic' => $request->automatic ?: false,
+            'insurance_cost' => $request->insurance_cost ?: 0,
+            'max_mileage' => $request->max_mileage ?: 0,
+            'wheels_summer_amount' => $request->wheels_summer_amount ?: 0,
+            'wheels_summer_type' => $request->wheels_summer_type ?: '',
+            'wheels_winter_amount' => $request->wheels_winter_amount ?: 0,
+            'wheels_winter_type' => $request->wheels_winter_type ?: '',
+            'wheels_location' => '',//$request->wheels_location,
+            'winter_wheels_on' => $request->wheels_winter_on ?: false,
+            'oil_checked' => null,//$request->oil_checked,
+            'washed' => null,//$request->washed,
         ]);
 
         if ($request->has('fuel')) {
@@ -98,35 +98,35 @@ class CarController extends Controller
         unset($fuelItem);
 
         if ($request->has('inspection')) {
-            foreach (json_decode($request->inspection) as $inspectionItem) {
+            foreach ($request['inspection'] as $inspectionItem) {
                 Inspection::create([
                     'car_id' => $newCar->id,
-                    'date' => $inspectionItem->date,
-                    'approved' => $inspectionItem->approved,
-                    'comment' => $inspectionItem->comment,
+                    'date' => $inspectionItem['date'],
+                    'approved' => $inspectionItem['approved'],
+                    //'comment' => $inspectionItem['comment'],
                 ]);
             }
         }
         unset($inspectionItem);
 
         if ($request->has('mileage')) {
-            foreach (json_decode($request->mileage) as $mileageItem) {
+            foreach ($request['mileage'] as $mileageItem) {
                 Mileage::create([
                     'car_id' => $newCar->id,
-                    'date' => $mileageItem->date,
-                    'mileage' => $mileageItem->mileage,
+                    'date' => $mileageItem['date'],
+                    'mileage' => $mileageItem['mileage'],
                 ]);
             }
         }
         unset($mileageItem);
 
         if ($request->has('service')) {
-            foreach (json_decode($request->service) as $serviceItem) {
+            foreach ($request['service'] as $serviceItem) {
                 Service::create([
                     'car_id' => $newCar->id,
-                    'date' => $serviceItem->date,
-                    'full_service' => $serviceItem->full_service,
-                    'comment' => $serviceItem->comment,
+                    'date' => $serviceItem['date'],
+                    'full_service' => $serviceItem['full_service'],
+                    //'comment' => $serviceItem['comment'],
                 ]);
             }
         }

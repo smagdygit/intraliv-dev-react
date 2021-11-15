@@ -167,11 +167,65 @@ const carData = {
 	]
 }
 
-function Test(props) {
+function Vehicles(props) {
+	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [mileageAverageOpen, setMileageAverageOpen] = useState(false);
 	const [mileageOpen, setMileageOpen] = useState(false);
 	const [fuelCostOpen, setFuelCostOpen] = useState(false);
 	const [fuelCostMonthOpen, setFuelCostMonthOpen] = useState(false);
+	const [downloading, setDownloading] = useState(true);
+	const [car, setCar] = useState({});
+	const [carFuel, setCarFuel] = useState([]);
+	const [carFuelChart, setCarFuelChart] = useState([]);
+
+	useEffect(() => {
+		fetch('/api/cars', {
+			method: 'GET',
+			headers: {
+				'Authorization': userObject.token,
+			}
+		})
+			.then(response => response.json())
+			.then(data => {
+
+				//Set car
+				setCar(data[4]);
+
+				//Set fuel
+				const carFuel = (data[4].fuel.map((item) => {
+					const date = new Date(item.date);
+					return ({ date: item.date, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDay(), cost: item.cost });
+				}));
+
+				setCarFuelChart({
+					labels: carFuel.map(e => e.date),
+					datasets: [{
+						name: 'Bensinkostnad',
+						values: carFuel.map(e => e.cost),
+						chartType: 'line'
+					}]
+				})
+
+				setCarFuel([carFuel]);
+
+
+
+				/*const fuelCost = {
+		labels: ["19-07-25", "19-07-31", "19-08-14", "19-09-01", "19-09-15", "-19-10-03"],
+		datasets: [
+		{
+			name: "Bensinkostnad",
+			values: [309, 500, 470, 350, 674, 555],
+			chartType: 'line'
+		},
+	]
+}
+*/
+
+				//Set downloading to false
+				setDownloading(false);
+			});
+	}, [])
 
 	const fuelDivs = fuelArray.map((item, index) => {
 		return (
@@ -192,26 +246,26 @@ function Test(props) {
 	for (let i = 1; i < 5; i++) {
 		wheelsHtml.winterImages.push(
 			<Grid.Column width={3} key={'winwheimg' + i}>
-				{i <= carData.wheels.winter.amount ? <h1 className="display-3"><GiCarWheel /></h1> : <h1 className="display-3 text-danger"><ImCross /></h1>}
+				{i <= car.wheels_winter_amount ? <h1 className="display-3"><GiCarWheel /></h1> : <h1 className="display-3 text-danger"><ImCross /></h1>}
 			</Grid.Column>
 		);
 		wheelsHtml.winterText.push(
 			<Grid.Column width={3} key={'winwhetxt' + i}>
-				{i <= carData.wheels.winter.amount ? <h3>{carData.wheels.winter.type} <Icon name="snowflake" /></h3> : <></>}
+				{i <= car.wheels_winter_amount ? <h3>{carData.wheels.winter.type} <Icon name="snowflake" /></h3> : <></>}
 			</Grid.Column>
 		);
 		wheelsHtml.summerImages.push(
 			<Grid.Column width={3} key={'winwheimg' + i}>
-				{i <= carData.wheels.summer.amount ? <h1 className="display-3"><GiCarWheel /></h1> : <h1 className="display-3 text-danger"><ImCross /></h1>}
+				{i <= car.wheels_summer_amount ? <h1 className="display-3"><GiCarWheel /></h1> : <h1 className="display-3 text-danger"><ImCross /></h1>}
 			</Grid.Column>
 		);
 		wheelsHtml.summerText.push(
 			<Grid.Column width={3} key={'winwhetxt' + i}>
-				{i <= carData.wheels.summer.amount ? <h3>Sommar</h3> : <></>}
+				{i <= car.wheels_summer_amount ? <h3>Sommar</h3> : <></>}
 			</Grid.Column>
 		);
 	}
-	if (carData.wheels.current === 'winter') {
+	if (!!car.winter_wheels_on) {
 		wheelsHtml.winterImages.push(
 			<Grid.Column width={3} key={'winwheimgxtra'}>
 				<h1 className="display-3 text-success"><HiArrowLeft /></h1>
@@ -232,172 +286,179 @@ function Test(props) {
 	}
 
 
+	const tags = [];
+	tags.push(!!car.benefit ? <p className="text-success d-inline">Förmånsbil</p> : <del className="text-danger d-inline">Förmånsbil</del>);
+	tags.push(!!car.abax ? <p className="text-success d-inline">Abax</p> : <del className="text-danger d-inline">Abax</del>);
+	tags.push(!!car.employee_car ? <p className="text-success d-inline">Personalbil</p> : <del className="text-danger d-inline">Personalbil</del>);
+	tags.push(!!car.automatic ? <p className="text-success d-inline">Automat</p> : <del className="text-danger d-inline">Automat</del>);
 
 	return (
 		<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
-			<center>
-				<h1 className="display-1">LKJ 689</h1>
-				<h3 style={{ marginBottom: '100px' }}>{carData.model} - {carData.color} - {carData.location}</h3>
-				{/*<div>
+			{!downloading &&
+				<center>
+					<h1 className="display-1">{car.plate}</h1>
+					<h3 style={{ marginBottom: '100px' }}>{car.model}</h3>
+					{/*<div>
 					<Input />
 					<Dropdown defaultValue='01' options={optionsMonths} />
 					<Dropdown defaultValue='2019' options={optionsYears} />
 				</div>*/}
-				<Grid verticalAlign='middle'>
-					<Grid.Row className="mb-5">
-						<Grid.Column width={8}>
-							<Grid verticalAlign='middle'>
-								<Grid.Row>
-									{wheelsHtml.winterImages}
-								</Grid.Row>
-								<Grid.Row>
-									{wheelsHtml.winterText}
-								</Grid.Row>
-								<Grid.Row>
-									{wheelsHtml.summerImages}
-								</Grid.Row>
-								<Grid.Row>
-									{wheelsHtml.summerText}
-								</Grid.Row>
-							</Grid>
-						</Grid.Column>
-						<Grid.Column width={3} />
-						<Grid.Column width={5}>
-							<center>
-								<Grid className="h2" textAlign="right">
+					<Grid verticalAlign='middle'>
+						<Grid.Row className="mb-5">
+							<Grid.Column width={8}>
+								<Grid verticalAlign='middle'>
 									<Grid.Row>
-										<Grid.Column width={8} textAlign="left">
-											Försäkring / år
-										</Grid.Column>
-										<Grid.Column width={8}>
-											{carData.insuranceCost}
-										</Grid.Column>
+										{wheelsHtml.winterImages}
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8} textAlign="left">
-											Köpt
-										</Grid.Column>
-										<Grid.Column width={8}>
-											{carData.bought}
-										</Grid.Column>
+										{wheelsHtml.winterText}
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8} textAlign="left">
-											Besiktning
-										</Grid.Column>
-										<Grid.Column width={8} className={((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
-											{carData.inspection.next}
-										</Grid.Column>
+										{wheelsHtml.summerImages}
 									</Grid.Row>
 									<Grid.Row>
-										<Grid.Column width={8} textAlign="left">
-											Service
-										</Grid.Column>
-										<Grid.Column width={8} className={((new Date(carData.service.nextHalf) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.service.nextHalf) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
-											{carData.service.nextHalf}
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={8} textAlign="left">
-											Fullservice
-										</Grid.Column>
-										<Grid.Column width={8} className={((new Date(carData.service.nextFull) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.service.nextFull) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
-											{carData.service.nextFull}
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={16}>
-											<del className="text-danger d-inline">Förmånsbil</del> / <p className="text-success d-inline">Abax</p> / <p className="text-success d-inline">Personalbil</p> / <p className="text-success d-inline">Automat</p>
-										</Grid.Column>
+										{wheelsHtml.summerText}
 									</Grid.Row>
 								</Grid>
-							</center>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column width={8}>
-							<h1>Miltal</h1>
-							<p>6999</p>
-						</Grid.Column>
-						<Grid.Column width={8}>
-							<h1>Miltal per år</h1>
-							<p>2037</p>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column width={8}>
-							{mileageOpen &&
-								<div style={{ textAlign: "left" }}>
-									{fuelDivs}
-									<Input type='text' placeholder='Dag' action style={{ marginBottom: '10px' }}>
-										<input />
-										<Select defaultValue='01' options={optionsMonths} />
-										<Select defaultValue='2019' options={optionsYears} />
-										<Button type='submit' color="green">Add</Button>
-									</Input>
-									<Button fluid color="black" onClick={(() => setMileageOpen(!mileageOpen))}>Stäng</Button>
-								</div>
-							}
-							{!mileageOpen &&
-								<div onClick={(() => setMileageOpen(!mileageOpen))}>
-									<ReactFrappeChart
-										data={mileage}
-										type='axis-mixed'
-										height="250"
-										width="30%"
-										colors={['#7cd6fd', '#FF0000']}
-									/>
-								</div>
-							}
-						</Grid.Column>
-						<Grid.Column width={8}>
-							<ReactFrappeChart
-								data={mileageAverage}
-								type='axis-mixed'
-								height="250"
-								colors={['#7cd6fd', '#FF0000']}
-							/>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column width={8}>
-							<h1>Bensinkostnad</h1>
-							<p>197 / tillfälle</p>
-						</Grid.Column>
-						<Grid.Column width={8}>
-							<h1>Bensinkostnad per månad</h1>
-							<p>300 / månad</p>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column width={8}>
-							<ReactFrappeChart
-								data={fuelCost}
-								type='axis-mixed'
-								height="250"
-								width="30%"
-								colors={['#7cd6fd', '#FF0000']}
-							/>
-						</Grid.Column>
-						<Grid.Column width={8}>
-							<ReactFrappeChart
-								data={fuelCostMonth}
-								type='axis-mixed'
-								height="250"
-								colors={['#7cd6fd', '#FF0000']}
-							/>
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
-				<h1 className="mt-5">Kommentarer angående bilen</h1>
-				<Form>
-					<Form.TextArea>
-						{carData.comment}
-					</Form.TextArea>
-				</Form>
-			</center>
+							</Grid.Column>
+							<Grid.Column width={3} />
+							<Grid.Column width={5}>
+								<center>
+									<Grid className="h2" textAlign="right">
+										<Grid.Row>
+											<Grid.Column width={8} textAlign="left">
+												Försäkring / år
+											</Grid.Column>
+											<Grid.Column width={8}>
+												{car.insurance_cost}
+											</Grid.Column>
+										</Grid.Row>
+										<Grid.Row>
+											<Grid.Column width={8} textAlign="left">
+												Köpt
+											</Grid.Column>
+											<Grid.Column width={8}>
+												???
+											</Grid.Column>
+										</Grid.Row>
+										<Grid.Row>
+											<Grid.Column width={8} textAlign="left">
+												Besiktning
+											</Grid.Column>
+											<Grid.Column width={8} className={((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
+												{carData.inspection.next}
+											</Grid.Column>
+										</Grid.Row>
+										<Grid.Row>
+											<Grid.Column width={8} textAlign="left">
+												Service
+											</Grid.Column>
+											<Grid.Column width={8} className={((new Date(carData.service.nextHalf) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.service.nextHalf) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
+												{carData.service.nextHalf}
+											</Grid.Column>
+										</Grid.Row>
+										<Grid.Row>
+											<Grid.Column width={8} textAlign="left">
+												Fullservice
+											</Grid.Column>
+											<Grid.Column width={8} className={((new Date(carData.service.nextFull) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.service.nextFull) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
+												{carData.service.nextFull}
+											</Grid.Column>
+										</Grid.Row>
+										<Grid.Row>
+											<Grid.Column width={16}>
+												<del className="text-danger d-inline">Förmånsbil</del> / <p className="text-success d-inline">Abax</p> / <p className="text-success d-inline">Personalbil</p> / <p className="text-success d-inline">Automat</p>
+											</Grid.Column>
+										</Grid.Row>
+									</Grid>
+								</center>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column width={8}>
+								<h1>Miltal</h1>
+								<p>6999</p>
+							</Grid.Column>
+							<Grid.Column width={8}>
+								<h1>Miltal per år</h1>
+								<p>2037</p>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column width={8}>
+								{mileageOpen &&
+									<div style={{ textAlign: "left" }}>
+										{fuelDivs}
+										<Input type='text' placeholder='Dag' action style={{ marginBottom: '10px' }}>
+											<input />
+											<Select defaultValue='01' options={optionsMonths} />
+											<Select defaultValue='2019' options={optionsYears} />
+											<Button type='submit' color="green">Add</Button>
+										</Input>
+										<Button fluid color="black" onClick={(() => setMileageOpen(!mileageOpen))}>Stäng</Button>
+									</div>
+								}
+								{!mileageOpen &&
+									<div onClick={(() => setMileageOpen(!mileageOpen))}>
+										<ReactFrappeChart
+											data={mileage}
+											type='axis-mixed'
+											height="250"
+											width="30%"
+											colors={['#7cd6fd', '#FF0000']}
+										/>
+									</div>
+								}
+							</Grid.Column>
+							<Grid.Column width={8}>
+								<ReactFrappeChart
+									data={mileageAverage}
+									type='axis-mixed'
+									height="250"
+									colors={['#7cd6fd', '#FF0000']}
+								/>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column width={8}>
+								<h1>Bensinkostnad</h1>
+								<p>197 / tillfälle</p>
+							</Grid.Column>
+							<Grid.Column width={8}>
+								<h1>Bensinkostnad per månad</h1>
+								<p>300 / månad</p>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column width={8}>
+								<ReactFrappeChart
+									data={carFuelChart}
+									type='axis-mixed'
+									height="250"
+									width="30%"
+									colors={['#7cd6fd', '#FF0000']}
+								/>
+							</Grid.Column>
+							<Grid.Column width={8}>
+								<ReactFrappeChart
+									data={fuelCostMonth}
+									type='axis-mixed'
+									height="250"
+									colors={['#7cd6fd', '#FF0000']}
+								/>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
+					<h1 className="mt-5">Kommentarer angående bilen</h1>
+					<Form>
+						<Form.TextArea>
+							{carData.comment}
+						</Form.TextArea>
+					</Form>
+				</center>
+			}
 		</div >
 	);
 }
 
-export default Test;
+export default Vehicles;
