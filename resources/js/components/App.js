@@ -79,7 +79,7 @@ function App() {
 							<PrivateRoute path="/data/clients/view" component={DataClientsView} exact />
 							<PrivateRoute path="/data/dashboard" component={Dashboard} exact updateParentUrl={setParentUrl}/>
 							<PrivateRoute path="/login" component={Login} exact />
-							<PrivateRoute path="/data/vehicles" component={Vehicles} exact />
+							<PrivateRoute path="/data/vehicles/view/:id" component={Vehicles} exact />
 							<PrivateRoute path="/data/vehicles/add" component={AddVehicle} exact />
 							<PrivateRoute path="/data/vehicles/edit" component={EditVehicle} exact />
 

@@ -31,8 +31,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', [PassportAuthController::class, 'login']);
 
 Route::post('cars', [CarController::class, 'create']);
+Route::put('cars', [CarController::class, 'update']);
 Route::get('cars', [CarController::class, 'getAll']);
-Route::get('cars/:id', [CarController::class, 'get']);
+Route::get('cars/{id}', [CarController::class, 'get']);
 Route::delete('cars', [CarController::class, 'delete']);
 
 Route::middleware('auth:api')->group(function () {

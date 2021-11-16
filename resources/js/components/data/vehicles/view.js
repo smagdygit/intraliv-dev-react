@@ -13,6 +13,7 @@ import {
 	Dropdown,
 	Select,
 } from 'semantic-ui-react';
+import { Router, Route, Switch, Link, useParams } from 'react-router-dom';
 import ReactFrappeChart from 'react-frappe-charts';
 import { GiCarWheel } from 'react-icons/gi';
 import { ImCross } from 'react-icons/Im';
@@ -177,9 +178,10 @@ function Vehicles(props) {
 	const [car, setCar] = useState({});
 	const [carFuel, setCarFuel] = useState([]);
 	const [carFuelChart, setCarFuelChart] = useState([]);
+	let { id } = useParams();
 
 	useEffect(() => {
-		fetch('/api/cars', {
+		fetch(`/api/cars/${id}`, {
 			method: 'GET',
 			headers: {
 				'Authorization': userObject.token,
@@ -189,10 +191,10 @@ function Vehicles(props) {
 			.then(data => {
 
 				//Set car
-				setCar(data[4]);
+				setCar(data.car);
 
 				//Set fuel
-				const carFuel = (data[4].fuel.map((item) => {
+				const carFuel = (data.car.fuel.map((item) => {
 					const date = new Date(item.date);
 					return ({ date: item.date, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDay(), cost: item.cost });
 				}));

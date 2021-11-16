@@ -162,7 +162,13 @@ console.log(props);
 	}
 
 	function uploadCar() {
+
+		//Update car (PUT) or new car (POST)
+		const postMethod = id === -1 ? 'POST' : 'PUT';
+
+		//Object to send to API
 		const postObject = {
+			id: id,
 			plate: plate,
 			brand: brand,
 			model: model,
@@ -184,7 +190,7 @@ console.log(props);
 		};
 
 		fetch(`/api/cars`, {
-			method: 'POST',
+			method: postMethod,
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': userObject.token,
