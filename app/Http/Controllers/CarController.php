@@ -96,7 +96,7 @@ class CarController extends Controller
                 Mileage::create([
                     'car_id' => $newCar->id,
                     'date' => $mileageItem['date'],
-                    'mileage' => $mileageItem['mileage'],
+                    'mileage' => $mileageItem['number'],
                 ]);
             }
         }
