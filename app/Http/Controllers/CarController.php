@@ -85,7 +85,7 @@ class CarController extends Controller
                 Inspection::create([
                     'car_id' => $newCar->id,
                     'date' => $inspectionItem['date'],
-                    'approved' => $inspectionItem['approved'],
+                    'approved' => $inspectionItem['result'] === 'approved' ? true : false,
                 ]);
             }
         }
@@ -171,7 +171,7 @@ class CarController extends Controller
                     Inspection::create([
                         'car_id' => $request->id,
                         'date' => $inspectionItem['date'],
-                        'approved' => $inspectionItem['approved'],
+                        'approved' => $inspectionItem['result'] === 'approved' ? true : false,
                     ]);
                 }
             }
