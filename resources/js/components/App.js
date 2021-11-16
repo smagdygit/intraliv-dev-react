@@ -81,7 +81,7 @@ function App() {
 							<PrivateRoute path="/login" component={Login} exact />
 							<PrivateRoute path="/data/vehicles/view/:id" component={Vehicles} exact />
 							<PrivateRoute path="/data/vehicles/add" component={AddVehicle} exact />
-							<PrivateRoute path="/data/vehicles/edit" component={EditVehicle} exact />
+							<PrivateRoute path="/data/vehicles/edit/:id" component={EditVehicle} exact />
 
 
 							{/*<Route component={Error} />*/}

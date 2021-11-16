@@ -38,10 +38,10 @@ const optionsInspection = [
 
 const optionsWheelsAmount = [
 	{ key: 'null', text: 'Välj Antal Däck', value: 'null' },
-	{ key: '1', text: '1', value: '1' },
-	{ key: '2', text: '2', value: '2' },
-	{ key: '3', text: '3', value: '3' },
-	{ key: '4', text: '4', value: '4' },
+	{ key: 1, text: '1', value: 1 },
+	{ key: 2, text: '2', value: 2 },
+	{ key: 3, text: '3', value: 3 },
+	{ key: 4, text: '4', value: 4 },
 ]
 
 const optionsWheelsCurrent = [
@@ -84,7 +84,7 @@ function Test(props) {
 	const [comment, setComment] = useState('');
 	const [maxMileage, setMaxMileage] = useState(0);
 	const [id, setId] = useState(-1);
-console.log(props);
+
 	useState(() => {
 		if (props.car) {
 			setPlate(props.car.plate);
@@ -92,7 +92,7 @@ console.log(props);
 			setModel(props.car.model);
 			setInsuranceCost(props.car.insurance_cost);
 			setStation(props.car.station);
-			setInspectionArray(props.car.inspection);
+			setInspectionArray(props.car.inspection.map((item) =>  {item.result = item.approved ? 'approved' : 'denied'; return item;}));
 			setFuelArray(props.car.fuel);
 			setMileageArray(props.car.mileage);
 			setServiceArray(props.car.service);
@@ -116,8 +116,8 @@ console.log(props);
 		setInspectionArray([...inspectionArrayCopy]);
 	}
 
-	function handleRemoveService(full, date) {
-		const index = serviceArray.findIndex(x => x.date === date && x.full === full)
+	function handleRemoveService(full_service, date) {
+		const index = serviceArray.findIndex(x => x.date === date && x.full_service === full_service)
 		const serviceArrayCopy = [...serviceArray];
 		serviceArrayCopy.splice(index, 1);
 		setServiceArray([...serviceArrayCopy]);
@@ -130,33 +130,33 @@ console.log(props);
 		setFuelArray([...fuelArrayCopy]);
 	}
 
-	function handleRemoveMileage(number, date) {
-		const index = mileageArray.findIndex(x => x.date === date && x.number === number)
+	function handleRemoveMileage(mileage, date) {
+		const index = mileageArray.findIndex(x => x.date === date && x.mileage === mileage)
 		const mileageArrayCopy = [...mileageArray];
 		mileageArrayCopy.splice(index, 1);
 		setMileageArray([...mileageArrayCopy]);
 	}
 
 	function addNewInspection() {
-		setInspectionArray([...inspectionArray, { result: newInspectionResult, date: newInspectionDate }]);
+		setInspectionArray([...inspectionArray, { result: newInspectionResult, date: newInspectionDate.toISOString().split('T')[0] }]);
 		//setNewInspectionResult('null');
 	}
 
 	function addNewService() {
-		setServiceArray([...serviceArray, { full: newServiceFull, date: newServiceDate }]);
+		setServiceArray([...serviceArray, { full_service: newServiceFull, date: newServiceDate.toISOString().split('T')[0] }]);
 		setNewServiceFull(false);
 	}
 
-	function addNewFuel() {
-		if (newFuelNumber.replace(/[^0-9]/g, '') > 0) {
-			setFuelArray([...mileageArray, { fuel: newFuelCost.replace(/[^0-9]/g, ''), date: newFuelDate }]);
-			setNewFueleCost('');
-		}
+	function addNewFuel() {console.log(fuelArray);
+		//if (newFuelCost.replace(/[^0-9]/g, '') > 0) {
+			setFuelArray([...fuelArray, { cost: parseInt(newFuelCost), date: newFuelDate.toISOString().split('T')[0] }]);
+			setNewFuelCost('');
+		//}
 	}
 
 	function addNewMileage() {
 		if (newMileageNumber.replace(/[^0-9]/g, '') > 0) {
-			setMileageArray([...mileageArray, { number: newMileageNumber.replace(/[^0-9]/g, ''), date: newMileageDate }]);
+			setMileageArray([...mileageArray, { mileage: newMileageNumber.replace(/[^0-9]/g, ''), date: newMileageDate.toISOString().split('T')[0] }]);
 			setNewMileageNumber('');
 		}
 	}
@@ -207,7 +207,7 @@ console.log(props);
 				}
 			},
 				(error) => {
-					alert("error");
+					//alert("error");
 				}
 			);
 	}
@@ -305,7 +305,7 @@ console.log(props);
 														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
 													</Grid.Column>
 													<Grid.Column width={4} textAlign="center">
-														<h2>{item.result === 'approved' ? 'Godkänd' : 'Denied'}</h2>
+														<h2>{item.result === 'approved' ? 'Godkänd' : 'Nekad'}</h2>
 													</Grid.Column>
 													<Grid.Column width={6} textAlign="right">
 														<Button color="red" onClick={() => handleRemoveInspection(item.result, item.date)}>Ta Bort</Button>
@@ -401,10 +401,10 @@ console.log(props);
 														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
 													</Grid.Column>
 													<Grid.Column width={4} textAlign="center">
-														<h2>{item.full ? 'Full' : 'Halv'}</h2>
+														<h2>{item.full_service ? 'Full' : 'Halv'}</h2>
 													</Grid.Column>
 													<Grid.Column width={6} textAlign="right">
-														<Button color="red" onClick={() => handleRemoveService(item.full, item.date)}>Ta Bort</Button>
+														<Button color="red" onClick={() => handleRemoveService(item.full_service, item.date)}>Ta Bort</Button>
 													</Grid.Column>
 												</Grid.Row>
 											</Grid>
@@ -499,10 +499,10 @@ console.log(props);
 														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
 													</Grid.Column>
 													<Grid.Column width={4} textAlign="center">
-														<h2>{item.number}</h2>
+														<h2>{item.mileage}</h2>
 													</Grid.Column>
 													<Grid.Column width={6} textAlign="right">
-														<Button color="red" onClick={() => handleRemoveMileage(item.number, item.date)}>Ta Bort</Button>
+														<Button color="red" onClick={() => handleRemoveMileage(item.mileage, item.date)}>Ta Bort</Button>
 													</Grid.Column>
 												</Grid.Row>
 											</Grid>

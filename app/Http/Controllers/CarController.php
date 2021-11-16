@@ -20,7 +20,11 @@ class CarController extends Controller
             $car->fuel;
             $car->inspection;
             $car->mileage;
+
             $car->service;
+            foreach($car->service as $serv) {
+                $serv['result'] = $serv['approved'] ? 'approved' : 'denied';
+            }
 
             return ['status' => 'success', 'car' => $car];
         } else {
@@ -35,7 +39,12 @@ class CarController extends Controller
             $carItem->fuel;
             $carItem->inspection;
             $carItem->mileage;
+
             $carItem->service;
+            foreach($carItem->service as $serv) {
+                $serv['result'] = $serv['approved'] ? 'approved' : 'denied';
+            }
+
             array_push($carList, $carItem);
         }
         return $carList;
@@ -85,7 +94,8 @@ class CarController extends Controller
                 Inspection::create([
                     'car_id' => $newCar->id,
                     'date' => $inspectionItem['date'],
-                    'approved' => $inspectionItem['result'] === 'approved' ? true : false,
+                    'approved' => $inspectionItem['approved'] === 'approved' ? true : false,
+                    'comment' => '',
                 ]);
             }
         }
@@ -108,6 +118,7 @@ class CarController extends Controller
                     'car_id' => $newCar->id,
                     'date' => $serviceItem['date'],
                     'full_service' => $serviceItem['full_service'],
+                    'comment' => 0,
                 ]);
             }
         }
@@ -172,6 +183,7 @@ class CarController extends Controller
                         'car_id' => $request->id,
                         'date' => $inspectionItem['date'],
                         'approved' => $inspectionItem['result'] === 'approved' ? true : false,
+                        'comment' => '',
                     ]);
                 }
             }
@@ -200,6 +212,7 @@ class CarController extends Controller
                         'car_id' => $request->id,
                         'date' => $serviceItem['date'],
                         'full_service' => $serviceItem['full_service'],
+                        'comment' => 0,
                     ]);
                 }
             }

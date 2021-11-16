@@ -14,6 +14,7 @@ import {
 	Select,
 	Segment
 } from 'semantic-ui-react';
+import { Router, Route, Switch, Link, useParams } from 'react-router-dom';
 import ReactFrappeChart from 'react-frappe-charts';
 import { GiCarWheel, GiSacrificialDagger } from 'react-icons/gi';
 import { ImCross } from 'react-icons/Im';
@@ -28,9 +29,10 @@ function Edit(props) {
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [isDownloading, setIsDownloading] = useState(true);
 	const [car, setCar] = useState({});
-	console.log(1111)
+	let { id } = useParams();
+
 	useEffect(() => {
-		fetch('/api/cars', {
+		fetch(`/api/cars/${id}`, {
 			method: 'GET',
 			headers: {
 				'Authorization': userObject.token,
@@ -38,7 +40,7 @@ function Edit(props) {
 		})
 			.then(response => response.json())
 			.then(data => {
-				setCar(data[4]);
+				setCar(data.car);
 				setIsDownloading(false);
 			});
 	}, [])
