@@ -215,7 +215,7 @@ function Test(props) {
 	return (
 		<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
 			<center>
-				<h1 className="display-1">Lägg till bil</h1>
+				<h1 className="display-1">{props.car ? 'Uppdatera bil' : 'Lägg till bil'}</h1>
 				<Grid>
 					<Grid.Row>
 						<Grid.Column width={8} textAlign="left">

@@ -13,6 +13,7 @@ import DataClientsView from './data/clients/view';
 import Vehicles from './data/vehicles/view';
 import AddVehicle from './data/vehicles/add';
 import EditVehicle from './data/vehicles/edit';
+import AllVehicles from './data/vehicles/all';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css'
 import "react-datepicker/dist/react-datepicker.css";
@@ -82,6 +83,7 @@ function App() {
 							<PrivateRoute path="/data/vehicles/view/:id" component={Vehicles} exact />
 							<PrivateRoute path="/data/vehicles/add" component={AddVehicle} exact />
 							<PrivateRoute path="/data/vehicles/edit/:id" component={EditVehicle} exact />
+							<PrivateRoute path="/data/vehicles/all" component={AllVehicles} exact />
 
 
 							{/*<Route component={Error} />*/}
