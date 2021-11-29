@@ -226,16 +226,15 @@ class CarController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $id)
     {
-        $carId = $request->id;
-        if (Car::where('id', $carId)->exists()) {
-            $carToDelete = Car::where('id', $carId)->first();
+        if (Car::where('id', $id)->exists()) {
+            $carToDelete = Car::where('id', $id)->first();
             $carToDelete->delete();
-            Fuel::where('car_id', $carId)->delete();
-            Inspection::where('car_id', $carId)->delete();
-            Mileage::where('car_id', $carId)->delete();
-            Service::where('car_id', $carId)->delete();
+            Fuel::where('car_id', $id)->delete();
+            Inspection::where('car_id', $id)->delete();
+            Mileage::where('car_id', $id)->delete();
+            Service::where('car_id', $id)->delete();
             return ['status' => 'success', 'cars' => $this->getAll()];
         } else {
             return ['status' => 'not-found', 'field' => 'id', 'id' => 'id-not-found', 'text' => 'Det finns ingen bil registrerad med detta id'];

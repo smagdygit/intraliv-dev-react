@@ -23,7 +23,10 @@ function AllVehicles(props) {
 	const history = useHistory();
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [vehicles, setVehicles] = useState([]);
+	const [vehicleDeleting, setVehicleDeleting] = useState(false);
+	const [updateList, setUpdateList] = useState(false);
 
+	// DOWNLOAD THE CARS
 	useEffect(() => {
 		fetch(`/api/cars/`, {
 			method: 'GET',
@@ -34,19 +37,47 @@ function AllVehicles(props) {
 			.then(response => response.json())
 			.then(data => {
 				setVehicles(data);
+				setVehicleDeleting(false);
 			});
-	}, [])
+	}, [updateList])
 
+	// ADD A CAR
+	function handleNewClick(id) {
+		history.push(`/data/vehicles/add`);
+	}
+
+	// VIEW THE CAR
 	function handleViewClick(id) {
 		history.push(`/data/vehicles/view/${id}`);
 	}
 
+	// EDIT THE CAR
 	function handleEditClick(id) {
 		history.push(`/data/vehicles/edit/${id}`);
 	}
 
+	// DELETE THE CAR
 	function handleDeleteClick(id) {
-
+		setVehicleDeleting(true);
+		fetch(`/api/cars/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': userObject.token,
+			},
+		})
+			.then(res => res.json())
+			.then((result) => {
+				if (result.status === "success") {
+					setUpdateList(!updateList);
+				} else {
+					alert(result.text);
+				}
+			},
+				(error) => {
+					alert('Error, kontakta Systeradministratör');
+				}
+			);
 	}
 
 	return (
@@ -91,17 +122,22 @@ function AllVehicles(props) {
 								{item.automatic ? 'Auto' : 'Manuell'}
 							</Grid.Column>
 							<Grid.Column width={2}>
-								<Button fluid color="green" onClick={() => handleViewClick(item.id)}>Visa Bil</Button>
+								<Button fluid color="green" disabled={vehicleDeleting} onClick={() => handleViewClick(item.id)}>Visa Bil</Button>
 							</Grid.Column>
 							<Grid.Column width={2}>
-								<Button fluid color="yellow" onClick={() => handleEditClick(item.id)}>Ändra Bil</Button>
+								<Button fluid color="yellow" disabled={vehicleDeleting} onClick={() => handleEditClick(item.id)}>Ändra Bil</Button>
 							</Grid.Column>
 							<Grid.Column width={2}>
-								<Button fluid color="red" onClick={() => handleDeleteClick(item.id)}>Radera</Button>
+								<Button fluid color="red" disabled={vehicleDeleting} onClick={() => handleDeleteClick(item.id)}>Radera</Button>
 							</Grid.Column>
 						</Grid.Row>
 					);
 				})}
+				<Grid.Row>
+					<Grid.Column width={16}>
+						<Button fluid color="green" disabled={vehicleDeleting} onClick={handleNewClick}>Ny Bil</Button>
+					</Grid.Column>
+				</Grid.Row>
 			</Grid>
 		</div>
 	);

@@ -34,7 +34,7 @@ Route::post('cars', [CarController::class, 'create']);
 Route::put('cars', [CarController::class, 'update']);
 Route::get('cars', [CarController::class, 'getAll']);
 Route::get('cars/{id}', [CarController::class, 'get']);
-Route::delete('cars', [CarController::class, 'delete']);
+Route::delete('cars/{id}', [CarController::class, 'delete']);
 
 Route::middleware('auth:api')->group(function () {
     Route::resource('posts', PostController::class);
