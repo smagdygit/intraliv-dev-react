@@ -22,7 +22,7 @@ class CarController extends Controller
             $car->mileage;
 
             $car->service;
-            foreach($car->service as $serv) {
+            foreach ($car->service as $serv) {
                 $serv['result'] = $serv['approved'] ? 'approved' : 'denied';
             }
 
@@ -41,7 +41,7 @@ class CarController extends Controller
             $carItem->mileage;
 
             $carItem->service;
-            foreach($carItem->service as $serv) {
+            foreach ($carItem->service as $serv) {
                 $serv['result'] = $serv['approved'] ? 'approved' : 'denied';
             }
 
@@ -76,6 +76,9 @@ class CarController extends Controller
             'winter_wheels_on' => $request->wheels_winter_on ?: false,
             'oil_checked' => null, //$request->oil_checked,
             'washed' => null, //$request->washed,
+            'next_inspection' => $request->next_inspection,
+            'next_service' => $request->next_service,
+            'next_full_service' => $request->next_full_service,
         ]);
 
         if ($request->has('fuel')) {
@@ -157,6 +160,9 @@ class CarController extends Controller
                 'winter_wheels_on' => $request->wheels_winter_on ?: false,
                 'oil_checked' => null, //$request->oil_checked,
                 'washed' => null, //$request->washed,
+                'next_inspection' => $request->next_inspection,
+                'next_service' => $request->next_service,
+                'next_full_service' => $request->next_full_service,
             ]);
 
             //Replace fuel data

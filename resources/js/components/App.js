@@ -14,6 +14,9 @@ import Vehicles from './data/vehicles/view';
 import AddVehicle from './data/vehicles/add';
 import EditVehicle from './data/vehicles/edit';
 import AllVehicles from './data/vehicles/all';
+import AllStaff from './staff/all';
+import AllMobiles from './mobiles/all';
+//import Test from './data/vehicles/test';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css'
 import "react-datepicker/dist/react-datepicker.css";
@@ -80,10 +83,13 @@ function App() {
 							<PrivateRoute path="/data/clients/view" component={DataClientsView} exact />
 							<PrivateRoute path="/data/dashboard" component={Dashboard} exact updateParentUrl={setParentUrl}/>
 							<PrivateRoute path="/login" component={Login} exact />
-							<PrivateRoute path="/data/vehicles/view/:id" component={Vehicles} exact />
-							<PrivateRoute path="/data/vehicles/add" component={AddVehicle} exact />
-							<PrivateRoute path="/data/vehicles/edit/:id" component={EditVehicle} exact />
-							<PrivateRoute path="/data/vehicles/all" component={AllVehicles} exact />
+							<PrivateRoute path="/fordon/visa/:id" component={Vehicles} exact />
+							<PrivateRoute path="/fordon/visa/:id/:name" component={Vehicles} exact />
+							<PrivateRoute path="/fordon/lägg-till" component={AddVehicle} exact />
+							<PrivateRoute path="/fordon/ändra/:id" component={EditVehicle} exact />
+							<PrivateRoute path="/fordon/alla" component={AllVehicles} exact />
+							<PrivateRoute path="/personal" component={AllStaff} exact />
+							<PrivateRoute path="/telefoner" component={AllMobiles} exact />
 
 
 							{/*<Route component={Error} />*/}

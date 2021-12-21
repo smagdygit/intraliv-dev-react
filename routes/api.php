@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AbaxController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\MobileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +32,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
 
-Route::post('cars', [CarController::class, 'create']);
-Route::put('cars', [CarController::class, 'update']);
-Route::get('cars', [CarController::class, 'getAll']);
-Route::get('cars/{id}', [CarController::class, 'get']);
-Route::delete('cars/{id}', [CarController::class, 'delete']);
+
 
 Route::middleware('auth:api')->group(function () {
     Route::resource('posts', PostController::class);
@@ -55,8 +53,17 @@ Route::middleware('auth:api')->group(function () {
     Route::post('clients', [ClientController::class, 'create']);
     Route::delete('clients', [ClientController::class, 'delete']);
     Route::put('clients', [ClientController::class, 'update']);
-    
-    
+    Route::post('cars', [CarController::class, 'create']);
+    Route::put('cars', [CarController::class, 'update']);
+    Route::get('cars', [CarController::class, 'getAll']);
+    Route::get('cars/{id}', [CarController::class, 'get']);
+    Route::delete('cars/{id}', [CarController::class, 'delete']);
+    Route::get('staff', [StaffController::class, 'all']);
+    Route::post('staff', [StaffController::class, 'create']);
+    Route::put('staff', [StaffController::class, 'update']);
+    Route::get('mobiles', [MobileController::class, 'all']);
+    Route::post('mobiles', [MobileController::class, 'create']);
+    Route::put('mobiles', [MobileController::class, 'update']);
 });
 
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import {
 	Checkbox,
 	Form,
@@ -12,13 +13,16 @@ import {
 	Input,
 	Dropdown,
 	Select,
-	Segment
+	Segment,
+	Loader,
+	Dimmer,
 } from 'semantic-ui-react';
 import ReactFrappeChart from 'react-frappe-charts';
 import { GiCarWheel, GiSacrificialDagger } from 'react-icons/gi';
 import { ImCross } from 'react-icons/Im';
 import { HiArrowLeft } from 'react-icons/Hi';
 import DatePicker from "react-datepicker";
+import { moduleExpression } from '@babel/types';
 
 
 const optionsStation = [
@@ -53,6 +57,7 @@ const optionsWheelsCurrent = [
 
 
 function Test(props) {
+	const history = useHistory();
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [plate, setPlate] = useState('');
 	const [brand, setBrand] = useState('');
@@ -84,6 +89,10 @@ function Test(props) {
 	const [comment, setComment] = useState('');
 	const [maxMileage, setMaxMileage] = useState(0);
 	const [id, setId] = useState(-1);
+	const [nextInspection, setNextInspection] = useState(new Date(Date.now()));
+	const [nextService, setNextService] = useState(new Date(Date.now()));
+	const [nextFullService, setNextFullService] = useState(new Date(Date.now()));
+	const [isUploading, setIsUploading] = useState(false);
 
 	useState(() => {
 		if (props.car) {
@@ -92,7 +101,7 @@ function Test(props) {
 			setModel(props.car.model);
 			setInsuranceCost(props.car.insurance_cost);
 			setStation(props.car.station);
-			setInspectionArray(props.car.inspection.map((item) =>  {item.result = item.approved ? 'approved' : 'denied'; return item;}));
+			setInspectionArray(props.car.inspection.map((item) => { item.result = item.approved ? 'approved' : 'denied'; return item; }));
 			setFuelArray(props.car.fuel);
 			setMileageArray(props.car.mileage);
 			setServiceArray(props.car.service);
@@ -106,6 +115,9 @@ function Test(props) {
 			setComment(props.car.comment);
 			setMaxMileage(props.car.max_mileage);
 			setId(props.car.id);
+			setNextInspection(props.car.next_inspection ? new Date(props.car.next_inspection) : new Date(Date.now()));
+			setNextService(props.car.next_service ? new Date(props.car.next_service) : new Date(Date.now()));
+			setNextFullService(props.car.next_full_service ? new Date(props.car.next_full_service) : new Date(Date.now()));
 		}
 	}, [props])
 
@@ -147,21 +159,27 @@ function Test(props) {
 		setNewServiceFull(false);
 	}
 
-	function addNewFuel() {console.log(fuelArray);
+	function addNewFuel() {
 		//if (newFuelCost.replace(/[^0-9]/g, '') > 0) {
-			setFuelArray([...fuelArray, { cost: parseInt(newFuelCost), date: newFuelDate.toISOString().split('T')[0] }]);
-			setNewFuelCost('');
+		const moddedArray = [...fuelArray, { cost: parseInt(newFuelCost), date: newFuelDate.toISOString().split('T')[0] }];
+		const finalArray = moddedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+		setFuelArray(finalArray);
+		setNewFuelCost('');
 		//}
 	}
 
 	function addNewMileage() {
 		if (newMileageNumber.replace(/[^0-9]/g, '') > 0) {
-			setMileageArray([...mileageArray, { mileage: newMileageNumber.replace(/[^0-9]/g, ''), date: newMileageDate.toISOString().split('T')[0] }]);
+			const moddedArray = [...mileageArray, { mileage: newMileageNumber.replace(/[^0-9]/g, ''), date: newMileageDate.toISOString().split('T')[0] }];
+			const finalArray = moddedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+			setMileageArray(finalArray);
 			setNewMileageNumber('');
 		}
 	}
 
 	function uploadCar() {
+
+		setIsUploading(true);
 
 		//Update car (PUT) or new car (POST)
 		const postMethod = id === -1 ? 'POST' : 'PUT';
@@ -187,6 +205,9 @@ function Test(props) {
 			wheels_winter_type: wheelsWinterType,
 			wheels_winter_on: !!wheelsWinterOn,
 			comment: comment,
+			next_inspection: nextInspection ? nextInspection.toISOString().split('T')[0] : null,
+			next_service: nextService ? nextService.toISOString().split('T')[0] : null,
+			next_full_service: nextFullService ? nextFullService.toISOString().split('T')[0] : null,
 		};
 
 		fetch(`/api/cars`, {
@@ -199,11 +220,11 @@ function Test(props) {
 		})
 			.then(res => res.json())
 			.then((result) => {
-				setLoadingStatus('');
+				setIsUploading(false);
+				history.push(`/fordon/alla`);
 				if (result.status === "success") {
-					console.log(true);
+
 				} else {
-					console.log(false);
 				}
 			},
 				(error) => {
@@ -214,268 +235,77 @@ function Test(props) {
 
 	return (
 		<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
-			<center>
-				<h1 className="display-1">{props.car ? 'Uppdatera bil' : 'Lägg till bil'}</h1>
-				<Grid>
-					<Grid.Row>
-						<Grid.Column width={8} textAlign="left">
-							<h1>Bilinformation</h1>
-							<Form>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Registreringsskylt'
-									placeholder='ABC123'
-									value={plate}
-									onChange={(e) => setPlate(e.target.value)}
-								/>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Märke'
-									placeholder='Toyota'
-									value={brand}
-									onChange={(e) => setBrand(e.target.value)}
-								/>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Modell (inkl märke)'
-									placeholder='Toyota Hybrid 3.2'
-									value={model}
-									onChange={(e) => setModel(e.target.value)}
-								/>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Försäkringskostnad (år)'
-									placeholder='4000'
-									value={insuranceCost}
-									onChange={(e) => setInsuranceCost(e.target.value)}
-								/>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Max Miltak'
-									placeholder='1500'
-									value={maxMileage}
-									onChange={(e) => setMaxMileage(parseInt(e.target.value) || 0)}
-								/>
-								<Form.Dropdown
-									name="station"
-									label="Station"
-									fluid
-									selection
-									options={optionsStation}
-									value={station}
-									onChange={(e, data) => setStation(data.value)}
-								/>
-								<Form.Checkbox
-									className="p-2"
-									toggle
-									label="Automat"
-									name="Automat"
-									checked={automatic}
-									onChange={() => setAutomatic(!automatic)}
-								/>
-								<Form.Checkbox
-									className="p-2"
-									toggle
-									label="Abax"
-									name="Abax"
-									checked={abax}
-									onChange={() => setAbax(!abax)}
-								/>
-							</Form>
-						</Grid.Column>
-						<Grid.Column width={8} textAlign="left">
-							<h1>Besiktning</h1>
-							<Form>
-								{inspectionArray.map((item, index) => {
-									return (
-										<Segment key={'inspectionArray' + index}>
-											<Grid className="m-0 p-0">
-												<Grid.Row className="m-0 p-0">
-													<Grid.Column width={6} textAlign="left">
-														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
-													</Grid.Column>
-													<Grid.Column width={4} textAlign="center">
-														<h2>{item.result === 'approved' ? 'Godkänd' : 'Nekad'}</h2>
-													</Grid.Column>
-													<Grid.Column width={6} textAlign="right">
-														<Button color="red" onClick={() => handleRemoveInspection(item.result, item.date)}>Ta Bort</Button>
-													</Grid.Column>
-												</Grid.Row>
-											</Grid>
-										</Segment>
-									);
-								})}
-								<Dropdown
-									className="mb-3"
-									name="new-inspection"
-									fluid
-									selection
-									options={optionsInspection}
-									defaultValue={newInspectionResult}
-									onChange={(e, data) => setNewInspectionResult(data.value)}
-								/>
-								<DatePicker
-									className="mb-3"
-									selected={newInspectionDate}
-									onChange={(date) => setNewInspectionDate(date)}
-									calendarStartDay={1}
-									peekNextMonth
-									showMonthDropdown
-									showYearDropdown
-									dropdownMode="select"
-									dateFormat="yyyy-MM-dd"
-								/>
-								<Button color="green" fluid onClick={() => addNewInspection()}>Lägg Till</Button>
-							</Form>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column width={8} textAlign="left">
-							<h1>Däck</h1>
-							<Form>
-								<Form.Dropdown
-									name="winterAmount"
-									label="Antal Sommardäck"
-									fluid
-									selection
-									options={optionsWheelsAmount}
-									value={wheelsSummerAmount}
-									onChange={(e, data) => setWheelsSummerAmount(data.value)}
-								/>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Sommardäckstyp'
-									placeholder="Allround, Sommardäck, ..."
-									value={wheelsSummerType}
-									onChange={(e) => setWheelsSummerType(e.target.value)}
-								/>
-								<Form.Dropdown
-									name="winterAmount"
-									label="Antal Vinterdäck"
-									fluid
-									selection
-									options={optionsWheelsAmount}
-									value={wheelsWinterAmount}
-									onChange={(e, data) => setWheelsWinterAmount(data.value)}
-								/>
-								<Form.Input
-									fluid
-									icon='car'
-									iconPosition='left'
-									label='Vinterdäckstyp'
-									placeholder="Allround, Dubb, ..."
-									value={wheelsWinterType}
-									onChange={(e) => setWheelsWinterType(e.target.value)}
-								/>
-								<Form.Checkbox
-									className="p-2"
-									toggle
-									label="Vinterdäck Är På"
-									name="Vinterdäck Är På"
-									checked={wheelsWinterOn}
-									onChange={() => setCurrentWheelsWinterOn(!wheelsWinterOn)}
-								/>
-							</Form>
-						</Grid.Column>
-						<Grid.Column width={8} textAlign="left">
-							<h1>Service</h1>
-							<Form>
-								{serviceArray.map((item, index) => {
-									return (
-										<Segment key={'serviceArray' + index}>
-											<Grid className="m-0 p-0">
-												<Grid.Row className="m-0 p-0">
-													<Grid.Column width={6} textAlign="left">
-														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
-													</Grid.Column>
-													<Grid.Column width={4} textAlign="center">
-														<h2>{item.full_service ? 'Full' : 'Halv'}</h2>
-													</Grid.Column>
-													<Grid.Column width={6} textAlign="right">
-														<Button color="red" onClick={() => handleRemoveService(item.full_service, item.date)}>Ta Bort</Button>
-													</Grid.Column>
-												</Grid.Row>
-											</Grid>
-										</Segment>
-									);
-								})}
-								<p>Fullservice</p>
-								<Checkbox
-									key="serviceNew"
-									className="p-2"
-									toggle
-									label="Fullservice"
-									name="Fullservice"
-									checked={newServiceFull}
-									onChange={() => setNewServiceFull(!newServiceFull)}
-								/>
-								<p>Datum</p>
-								<DatePicker
-									className="mb-3"
-									selected={newServiceDate}
-									onChange={(date) => setNewServiceDate(date)}
-									calendarStartDay={1}
-									peekNextMonth
-									showMonthDropdown
-									showYearDropdown
-									dropdownMode="select"
-									dateFormat="yyyy-MM-dd"
-								/>
-								<Button color="green" fluid onClick={() => addNewService()}>Lägg Till</Button>
-							</Form>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column width={8} textAlign="left">
-							<h1>Tankningar</h1>
-							<Form className="d-inline">
-								{fuelArray.map((item, index) => {
-									return (
-										<Segment key={'fuelArrays' + index}>
-											<Grid className="m-0 p-0">
-												<Grid.Row className="m-0 p-0">
-													<Grid.Column width={6} textAlign="left">
-														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
-													</Grid.Column>
-													<Grid.Column width={4} textAlign="center">
-														<h2>{item.cost}</h2>
-													</Grid.Column>
-													<Grid.Column width={6} textAlign="right">
-														<Button color="red" onClick={() => handleRemoveFuel(item.cost, item.date)}>Ta Bort</Button>
-													</Grid.Column>
-												</Grid.Row>
-											</Grid>
-										</Segment>
-									);
-								})}
-								<div>
-									<p>Kostnad</p>
-									<Input
-										className="mb-3"
+			{isUploading &&
+				<Loader active inline="centered">Laddar...</Loader>
+			}
+			{!isUploading &&
+				<center>
+					<h1 className="display-1">{props.car ? 'Uppdatera bil' : 'Lägg till bil'}</h1>
+					<Grid>
+						<Grid.Row>
+							<Grid.Column width={8} textAlign="left">
+								<h1>Bilinformation</h1>
+								<Form>
+									<Form.Input
 										fluid
 										icon='car'
 										iconPosition='left'
-										placeholder="500"
-										value={newFuelCost}
-										onChange={(e) => setNewFuelCost(e.target.value)}
+										label='Registreringsskylt'
+										placeholder='ABC123'
+										value={plate}
+										onChange={(e) => setPlate(e.target.value)}
 									/>
-									<p>Datum</p>
+									<Form.Input
+										fluid
+										icon='car'
+										iconPosition='left'
+										label='Märke'
+										placeholder='Toyota'
+										value={brand}
+										onChange={(e) => setBrand(e.target.value)}
+									/>
+									<Form.Input
+										fluid
+										icon='car'
+										iconPosition='left'
+										label='Modell (inkl märke)'
+										placeholder='Toyota Hybrid 3.2'
+										value={model}
+										onChange={(e) => setModel(e.target.value)}
+									/>
+									<Form.Input
+										fluid
+										icon='car'
+										iconPosition='left'
+										label='Försäkringskostnad (år)'
+										placeholder='4000'
+										value={insuranceCost}
+										onChange={(e) => setInsuranceCost(e.target.value)}
+									/>
+									<Form.Input
+										fluid
+										icon='car'
+										iconPosition='left'
+										label='Max Miltak'
+										placeholder='1500'
+										value={maxMileage}
+										onChange={(e) => setMaxMileage(parseInt(e.target.value) || 0)}
+									/>
+									<Form.Dropdown
+										name="station"
+										label="Station"
+										fluid
+										selection
+										options={optionsStation}
+										value={station}
+										onChange={(e, data) => setStation(data.value)}
+									/>
+									<label htmlFor="next_inspection_element"><b>Nästa Besiktning</b></label>
 									<DatePicker
+										id="next_inspection_element"
 										className="mb-3"
-										selected={newFuelDate}
-										onChange={(date) => setNewFuelDate(date)}
+										selected={nextInspection}
+										onChange={(date) => setNextInspection(date)}
 										calendarStartDay={1}
 										peekNextMonth
 										showMonthDropdown
@@ -483,48 +313,12 @@ function Test(props) {
 										dropdownMode="select"
 										dateFormat="yyyy-MM-dd"
 									/>
-									<Button color="green" fluid onClick={() => addNewFuel()}>Lägg Till</Button>
-								</div>
-							</Form>
-						</Grid.Column>
-						<Grid.Column width={8} textAlign="left">
-							<h1>Antal Mil</h1>
-							<Form>
-								{mileageArray.map((item, index) => {
-									return (
-										<Segment key={'mileageArray' + index}>
-											<Grid className="m-0 p-0">
-												<Grid.Row className="m-0 p-0">
-													<Grid.Column width={6} textAlign="left">
-														<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
-													</Grid.Column>
-													<Grid.Column width={4} textAlign="center">
-														<h2>{item.mileage}</h2>
-													</Grid.Column>
-													<Grid.Column width={6} textAlign="right">
-														<Button color="red" onClick={() => handleRemoveMileage(item.mileage, item.date)}>Ta Bort</Button>
-													</Grid.Column>
-												</Grid.Row>
-											</Grid>
-										</Segment>
-									);
-								})}
-								<div>
-									<p>Miltal</p>
-									<Input
-										className="mb-3"
-										fluid
-										icon='car'
-										iconPosition='left'
-										placeholder="500"
-										value={newMileageNumber}
-										onChange={(e) => setNewMileageNumber(e.target.value)}
-									/>
-									<p>Datum</p>
+									<label htmlFor="next_service_element"><b>Nästa Service</b></label>
 									<DatePicker
+										id="next_service_element"
 										className="mb-3"
-										selected={newMileageDate}
-										onChange={(date) => setNewMileageDate(date)}
+										selected={nextService}
+										onChange={(date) => setNextService(date)}
 										calendarStartDay={1}
 										peekNextMonth
 										showMonthDropdown
@@ -532,23 +326,294 @@ function Test(props) {
 										dropdownMode="select"
 										dateFormat="yyyy-MM-dd"
 									/>
-									<Button color="green" fluid onClick={() => addNewMileage()}>Lägg Till</Button>
-								</div>
-							</Form>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row>
-						<Grid.Column>
-							<Form>
-								<h1>Kommentar</h1>
-								<TextArea placeholder="Övrig info om bilen..." value={comment} onChange={(e) => setComment(e.target.value)} />
-							</Form>
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
+									<label htmlFor="next_full_service_element"><b>Nästa Fullservice</b></label>
+									<DatePicker
+										id="next_full_service_element"
+										className="mb-3"
+										selected={nextFullService}
+										onChange={(date) => setNextFullService(date)}
+										calendarStartDay={1}
+										peekNextMonth
+										showMonthDropdown
+										showYearDropdown
+										dropdownMode="select"
+										dateFormat="yyyy-MM-dd"
+									/>
+									<Form.Checkbox
+										className="p-2"
+										toggle
+										label="Automat"
+										name="Automat"
+										checked={automatic}
+										onChange={() => setAutomatic(!automatic)}
+									/>
+									<Form.Checkbox
+										className="p-2"
+										toggle
+										label="Abax"
+										name="Abax"
+										checked={abax}
+										onChange={() => setAbax(!abax)}
+									/>
+								</Form>
+							</Grid.Column>
+							<Grid.Column width={8} textAlign="left">
+								<h1>Besiktning</h1>
+								<Form>
+									{inspectionArray.map((item, index) => {
+										return (
+											<Segment key={'inspectionArray' + index}>
+												<Grid className="m-0 p-0">
+													<Grid.Row className="m-0 p-0">
+														<Grid.Column width={6} textAlign="left">
+															<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
+														</Grid.Column>
+														<Grid.Column width={4} textAlign="center">
+															<h2>{item.result === 'approved' ? 'Godkänd' : 'Nekad'}</h2>
+														</Grid.Column>
+														<Grid.Column width={6} textAlign="right">
+															<Button color="red" onClick={() => handleRemoveInspection(item.result, item.date)}>Ta Bort</Button>
+														</Grid.Column>
+													</Grid.Row>
+												</Grid>
+											</Segment>
+										);
+									})}
+									<Dropdown
+										className="mb-3"
+										name="new-inspection"
+										fluid
+										selection
+										options={optionsInspection}
+										defaultValue={newInspectionResult}
+										onChange={(e, data) => setNewInspectionResult(data.value)}
+									/>
+									<DatePicker
+										className="mb-3"
+										selected={newInspectionDate}
+										onChange={(date) => setNewInspectionDate(date)}
+										calendarStartDay={1}
+										peekNextMonth
+										showMonthDropdown
+										showYearDropdown
+										dropdownMode="select"
+										dateFormat="yyyy-MM-dd"
+									/>
+									<Button color="green" fluid onClick={() => addNewInspection()}>Lägg Till</Button>
+								</Form>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column width={8} textAlign="left">
+								<h1>Däck</h1>
+								<Form>
+									<Form.Dropdown
+										name="winterAmount"
+										label="Antal Sommardäck"
+										fluid
+										selection
+										options={optionsWheelsAmount}
+										value={wheelsSummerAmount}
+										onChange={(e, data) => setWheelsSummerAmount(data.value)}
+									/>
+									<Form.Input
+										fluid
+										icon='car'
+										iconPosition='left'
+										label='Sommardäckstyp'
+										placeholder="Allround, Sommardäck, ..."
+										value={wheelsSummerType}
+										onChange={(e) => setWheelsSummerType(e.target.value)}
+									/>
+									<Form.Dropdown
+										name="winterAmount"
+										label="Antal Vinterdäck"
+										fluid
+										selection
+										options={optionsWheelsAmount}
+										value={wheelsWinterAmount}
+										onChange={(e, data) => setWheelsWinterAmount(data.value)}
+									/>
+									<Form.Input
+										fluid
+										icon='car'
+										iconPosition='left'
+										label='Vinterdäckstyp'
+										placeholder="Allround, Dubb, ..."
+										value={wheelsWinterType}
+										onChange={(e) => setWheelsWinterType(e.target.value)}
+									/>
+									<Form.Checkbox
+										className="p-2"
+										toggle
+										label="Vinterdäck Är På"
+										name="Vinterdäck Är På"
+										checked={wheelsWinterOn}
+										onChange={() => setCurrentWheelsWinterOn(!wheelsWinterOn)}
+									/>
+								</Form>
+							</Grid.Column>
+							<Grid.Column width={8} textAlign="left">
+								<h1>Service</h1>
+								<Form>
+									{serviceArray.map((item, index) => {
+										return (
+											<Segment key={'serviceArray' + index}>
+												<Grid className="m-0 p-0">
+													<Grid.Row className="m-0 p-0">
+														<Grid.Column width={6} textAlign="left">
+															<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
+														</Grid.Column>
+														<Grid.Column width={4} textAlign="center">
+															<h2>{item.full_service ? 'Full' : 'Halv'}</h2>
+														</Grid.Column>
+														<Grid.Column width={6} textAlign="right">
+															<Button color="red" onClick={() => handleRemoveService(item.full_service, item.date)}>Ta Bort</Button>
+														</Grid.Column>
+													</Grid.Row>
+												</Grid>
+											</Segment>
+										);
+									})}
+									<p>Fullservice</p>
+									<Checkbox
+										key="serviceNew"
+										className="p-2"
+										toggle
+										label="Fullservice"
+										name="Fullservice"
+										checked={newServiceFull}
+										onChange={() => setNewServiceFull(!newServiceFull)}
+									/>
+									<p>Datum</p>
+									<DatePicker
+										className="mb-3"
+										selected={newServiceDate}
+										onChange={(date) => setNewServiceDate(date)}
+										calendarStartDay={1}
+										peekNextMonth
+										showMonthDropdown
+										showYearDropdown
+										dropdownMode="select"
+										dateFormat="yyyy-MM-dd"
+									/>
+									<Button color="green" fluid onClick={() => addNewService()}>Lägg Till</Button>
+								</Form>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column width={8} textAlign="left">
+								<h1>Tankningar</h1>
+								<Form className="d-inline">
+									{fuelArray.map((item, index) => {
+										return (
+											<Segment key={'fuelArrays' + index}>
+												<Grid className="m-0 p-0">
+													<Grid.Row className="m-0 p-0">
+														<Grid.Column width={6} textAlign="left">
+															<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
+														</Grid.Column>
+														<Grid.Column width={4} textAlign="center">
+															<h2>{item.cost}</h2>
+														</Grid.Column>
+														<Grid.Column width={6} textAlign="right">
+															<Button color="red" onClick={() => handleRemoveFuel(item.cost, item.date)}>Ta Bort</Button>
+														</Grid.Column>
+													</Grid.Row>
+												</Grid>
+											</Segment>
+										);
+									})}
+									<div>
+										<p>Kostnad</p>
+										<Input
+											className="mb-3"
+											fluid
+											icon='car'
+											iconPosition='left'
+											placeholder="500"
+											value={newFuelCost}
+											onChange={(e) => setNewFuelCost(e.target.value)}
+										/>
+										<p>Datum</p>
+										<DatePicker
+											className="mb-3"
+											selected={newFuelDate}
+											onChange={(date) => setNewFuelDate(date)}
+											calendarStartDay={1}
+											peekNextMonth
+											showMonthDropdown
+											showYearDropdown
+											dropdownMode="select"
+											dateFormat="yyyy-MM-dd"
+										/>
+										<Button color="green" fluid onClick={() => addNewFuel()}>Lägg Till</Button>
+									</div>
+								</Form>
+							</Grid.Column>
+							<Grid.Column width={8} textAlign="left">
+								<h1>Antal Mil</h1>
+								<Form>
+									{mileageArray.map((item, index) => {
+										return (
+											<Segment key={'mileageArray' + index}>
+												<Grid className="m-0 p-0">
+													<Grid.Row className="m-0 p-0">
+														<Grid.Column width={6} textAlign="left">
+															<h2>{item.date.toString().slice(4, 10).replace(/-/g, "")}</h2>
+														</Grid.Column>
+														<Grid.Column width={4} textAlign="center">
+															<h2>{item.mileage}</h2>
+														</Grid.Column>
+														<Grid.Column width={6} textAlign="right">
+															<Button color="red" onClick={() => handleRemoveMileage(item.mileage, item.date)}>Ta Bort</Button>
+														</Grid.Column>
+													</Grid.Row>
+												</Grid>
+											</Segment>
+										);
+									})}
+									<div>
+										<p>Miltal</p>
+										<Input
+											className="mb-3"
+											fluid
+											icon='car'
+											iconPosition='left'
+											placeholder="500"
+											value={newMileageNumber}
+											onChange={(e) => setNewMileageNumber(e.target.value)}
+										/>
+										<p>Datum</p>
+										<DatePicker
+											className="mb-3"
+											selected={newMileageDate}
+											onChange={(date) => setNewMileageDate(date)}
+											calendarStartDay={1}
+											peekNextMonth
+											showMonthDropdown
+											showYearDropdown
+											dropdownMode="select"
+											dateFormat="yyyy-MM-dd"
+										/>
+										<Button color="green" fluid onClick={() => addNewMileage()}>Lägg Till</Button>
+									</div>
+								</Form>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row>
+							<Grid.Column>
+								<Form>
+									<h1>Kommentar</h1>
+									<TextArea placeholder="Övrig info om bilen..." value={comment} onChange={(e) => setComment(e.target.value)} />
+								</Form>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
 
-				<Button size="huge" color="green" fluid className="m-5" onClick={uploadCar}>Lägg Till Bil</Button>
-			</center>
+					<Button size="huge" color="green" fluid className="m-5" onClick={uploadCar}>{props.car ? 'Uppdatera Bil' : 'Lägg Till Bil'}</Button>
+				</center>
+			}
 		</div >
 	);
 }

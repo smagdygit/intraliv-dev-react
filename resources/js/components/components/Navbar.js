@@ -74,6 +74,12 @@ function Navbar(props) {
 						active={activeItem === '/data/phones/view'}
 						onClick={handleItemClick}
 					/>
+					<Menu.Item
+						name='Fordon'
+						url='/fordon/alla'
+						active={activeItem === '/fordon/alla'}
+						onClick={handleItemClick}
+					/>
 
 
 					<Menu.Menu position='right'>

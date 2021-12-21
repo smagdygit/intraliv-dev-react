@@ -177,7 +177,13 @@ function Vehicles(props) {
 	const [downloading, setDownloading] = useState(true);
 	const [car, setCar] = useState({});
 	const [carFuel, setCarFuel] = useState([]);
+	const [carFuelMonth, setCarFuelMonth] = useState([]);
 	const [carFuelChart, setCarFuelChart] = useState([]);
+	const [carFuelMonthChart, setCarFuelMonthChart] = useState([]);
+	const [carMileage, setCarMileage] = useState([]);
+	const [carMileageYear, setCarMileageYear] = useState([]);
+	const [carMileageChart, setCarMileageChart] = useState([]);
+	const [carMileageYearChart, setCarMileageYearChart] = useState([]);
 	let { id } = useParams();
 
 	useEffect(() => {
@@ -194,11 +200,12 @@ function Vehicles(props) {
 				setCar(data.car);
 
 				//Set fuel
-				const carFuel = (data.car.fuel.map((item) => {
+				const carFuel = data.car.fuel.map((item) => {
 					const date = new Date(item.date);
 					return ({ date: item.date, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDay(), cost: item.cost });
-				}));
+				});
 
+				//Set fuel chart
 				setCarFuelChart({
 					labels: carFuel.map(e => e.date),
 					datasets: [{
@@ -208,26 +215,75 @@ function Vehicles(props) {
 					}]
 				})
 
-				setCarFuel([carFuel]);
+				//Calculate months out of fuel data and group the costs together to a chart
+				const fuelMonths = [];
+				carFuel.forEach((item) => {
+					const month = item.date.slice(0, 7);
+					const monthIndex = fuelMonths.findIndex(x => x.month === month);
+					if (monthIndex !== -1) {
+						fuelMonths[monthIndex].cost += item.cost;
+					} else {
+						fuelMonths.push({ month: month, cost: item.cost });
+					}
+				});
 
+				//Set fuel month chart
+				setCarFuelMonthChart({
+					labels: fuelMonths.map(e => e.month),
+					datasets: [{
+						name: 'Bensinkostnad / Månad',
+						values: fuelMonths.map(e => e.cost),
+						chartType: 'line'
+					}]
+				})
 
+				//Set mileage
+				const carMileage = data.car.mileage.map((item) => {
+					const date = new Date(item.date);
+					return ({ date: item.date, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDay(), mileage: item.mileage });
+				});
 
-				/*const fuelCost = {
-		labels: ["19-07-25", "19-07-31", "19-08-14", "19-09-01", "19-09-15", "-19-10-03"],
-		datasets: [
-		{
-			name: "Bensinkostnad",
-			values: [309, 500, 470, 350, 674, 555],
-			chartType: 'line'
-		},
-	]
-}
-*/
+				//Set mileage chart
+				setCarMileageChart({
+					labels: carMileage.map(e => e.date),
+					datasets: [{
+						name: 'Miltal',
+						values: carMileage.map(e => e.mileage),
+						chartType: 'line'
+					}]
+				})
+
+				//Calculate months out of mileage data and group the mileage together to a chart
+				const mileageMonths = [];
+				carMileage.forEach((item) => {
+					const month = item.date.slice(0, 7);
+					const monthIndex = mileageMonths.findIndex(x => x.month === month);
+					if (monthIndex !== -1) {
+						mileageMonths[monthIndex].mileage = item.mileage;
+					} else {
+						mileageMonths.push({ month: month, mileage: item.mileage });
+					}
+				});
+
+				//Set mileage month chart
+				setCarMileageYearChart({
+					labels: mileageMonths.map(e => e.month),
+					datasets: [{
+						name: 'Miltal / Månad',
+						values: mileageMonths.map(e => e.mileage),
+						chartType: 'line'
+					}]
+				})
+
+				setCarFuel([...carFuel]);
+				setCarFuelMonth([...fuelMonths]);
+				setCarMileage([...carMileage]);
+				setCarMileageYear([...carMileage]);
 
 				//Set downloading to false
 				setDownloading(false);
 			});
-	}, [])
+	}, []);
 
 	const fuelDivs = fuelArray.map((item, index) => {
 		return (
@@ -253,7 +309,7 @@ function Vehicles(props) {
 		);
 		wheelsHtml.winterText.push(
 			<Grid.Column width={3} key={'winwhetxt' + i}>
-				{i <= car.wheels_winter_amount ? <h3>{carData.wheels.winter.type} <Icon name="snowflake" /></h3> : <></>}
+				{i <= car.wheels_winter_amount ? <h3>{car.wheels_winter_type} <Icon name="snowflake" /></h3> : <></>}
 			</Grid.Column>
 		);
 		wheelsHtml.summerImages.push(
@@ -263,7 +319,7 @@ function Vehicles(props) {
 		);
 		wheelsHtml.summerText.push(
 			<Grid.Column width={3} key={'winwhetxt' + i}>
-				{i <= car.wheels_summer_amount ? <h3>Sommar</h3> : <></>}
+				{i <= car.wheels_summer_amount ? <h3>{car.wheels_summer_type}</h3> : <></>}
 			</Grid.Column>
 		);
 	}
@@ -347,8 +403,8 @@ function Vehicles(props) {
 											<Grid.Column width={8} textAlign="left">
 												Besiktning
 											</Grid.Column>
-											<Grid.Column width={8} className={((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(carData.inspection.next) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
-												{carData.inspection.next}
+											<Grid.Column width={8} className={((new Date(car.next_inspection) - new Date(Date.now())) / (1000 * 3600 * 24)) < 60 ? 'text-danger' : ((new Date(car.next_inspection) - new Date(Date.now())) / (1000 * 3600 * 24)) < 120 ? 'text-warning' : ''}>
+												{car.next_inspection}
 											</Grid.Column>
 										</Grid.Row>
 										<Grid.Row>
@@ -379,75 +435,113 @@ function Vehicles(props) {
 						<Grid.Row>
 							<Grid.Column width={8}>
 								<h1>Miltal</h1>
-								<p>6999</p>
+								<p style={{ fontSize: '1.5rem' }}>{`${carMileage[carMileage.length - 1].mileage} / senast`}</p>
 							</Grid.Column>
 							<Grid.Column width={8}>
-								<h1>Miltal per år</h1>
-								<p>2037</p>
+								<h1>Miltal per månad</h1>
+								<p style={{ fontSize: '1.5rem' }}>{`${carMileage[carMileage.length - 1].mileage} / senast`}</p>
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row>
 							<Grid.Column width={8}>
-								{mileageOpen &&
-									<div style={{ textAlign: "left" }}>
-										{fuelDivs}
-										<Input type='text' placeholder='Dag' action style={{ marginBottom: '10px' }}>
-											<input />
-											<Select defaultValue='01' options={optionsMonths} />
-											<Select defaultValue='2019' options={optionsYears} />
-											<Button type='submit' color="green">Add</Button>
-										</Input>
-										<Button fluid color="black" onClick={(() => setMileageOpen(!mileageOpen))}>Stäng</Button>
-									</div>
+								{carMileageChart.labels.length > 1 &&
+									<>
+										{mileageOpen &&
+											<div style={{ textAlign: "left" }}>
+												{fuelDivs}
+												<Input type='text' placeholder='Dag' action style={{ marginBottom: '10px' }}>
+													<input />
+													<Select defaultValue='01' options={optionsMonths} />
+													<Select defaultValue='2019' options={optionsYears} />
+													<Button type='submit' color="green">Add</Button>
+												</Input>
+												<Button fluid color="black" onClick={(() => setMileageOpen(false))}>Stäng</Button>
+											</div>
+										}
+										{!mileageOpen &&
+											<div onClick={(() => setMileageOpen(false))}>
+												<ReactFrappeChart
+													data={carMileageChart}
+													type='axis-mixed'
+													height="250"
+													width="30%"
+													colors={['#7cd6fd', '#FF0000']}
+													lineOptions={{
+														regionFill: 0,
+														hideDots: 1,
+													}}
+												/>
+											</div>
+										}
+									</>
 								}
-								{!mileageOpen &&
-									<div onClick={(() => setMileageOpen(!mileageOpen))}>
-										<ReactFrappeChart
-											data={mileage}
-											type='axis-mixed'
-											height="250"
-											width="30%"
-											colors={['#7cd6fd', '#FF0000']}
-										/>
-									</div>
+								{carMileageChart.labels.length < 2 &&
+									<h1 className="m-5">Ingen mildata finns för denna bil</h1>
 								}
 							</Grid.Column>
 							<Grid.Column width={8}>
-								<ReactFrappeChart
-									data={mileageAverage}
-									type='axis-mixed'
-									height="250"
-									colors={['#7cd6fd', '#FF0000']}
-								/>
+								{carMileageChart.labels.length > 1 &&
+									<ReactFrappeChart
+										data={carMileageYearChart}
+										type='axis-mixed'
+										height="250"
+										colors={['#7cd6fd', '#FF0000']}
+										lineOptions={{
+											regionFill: 0,
+											hideDots: 1,
+										}}
+									/>
+								}
+								{carMileageChart.labels.length < 2 &&
+									<h1 className="m-5">Ingen mildata finns för denna bil</h1>
+								}
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row>
 							<Grid.Column width={8}>
 								<h1>Bensinkostnad</h1>
-								<p>197 / tillfälle</p>
+								<p style={{ fontSize: '1.5rem' }}>{`~${Math.ceil(carFuel.reduce((a, b) => a + parseInt(b.cost), 0) / carFuel.length)} / tillfälle`}</p>
 							</Grid.Column>
 							<Grid.Column width={8}>
 								<h1>Bensinkostnad per månad</h1>
-								<p>300 / månad</p>
+								<p style={{ fontSize: '1.5rem' }}>{`~${Math.ceil(carFuelMonth.reduce((a, b) => a + parseInt(b.cost), 0) / carFuelMonth.length)} / månad`}</p>
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row>
 							<Grid.Column width={8}>
-								<ReactFrappeChart
-									data={carFuelChart}
-									type='axis-mixed'
-									height="250"
-									width="30%"
-									colors={['#7cd6fd', '#FF0000']}
-								/>
+								{carFuelChart.labels.length > 1 &&
+									<ReactFrappeChart
+										data={carFuelChart}
+										type='axis-mixed'
+										height="250"
+										width="30%"
+										colors={['#7cd6fd', '#FF0000']}
+										lineOptions={{
+											regionFill: 0,
+											hideDots: 1,
+										}}
+									/>
+								}
+								{carFuelChart.labels.length < 2 &&
+									<h1 className="m-5">Ingen bensindata finns för denna bil</h1>
+								}
 							</Grid.Column>
 							<Grid.Column width={8}>
-								<ReactFrappeChart
-									data={fuelCostMonth}
-									type='axis-mixed'
-									height="250"
-									colors={['#7cd6fd', '#FF0000']}
-								/>
+								{carFuelMonthChart.labels.length > 1 &&
+									<ReactFrappeChart
+										data={carFuelMonthChart}
+										type='axis-mixed'
+										height="250"
+										colors={['#7cd6fd', '#FF0000']}
+										lineOptions={{
+											regionFill: 0,
+											hideDots: 1,
+										}}
+									/>
+								}
+								{carFuelMonthChart.labels.length < 2 &&
+									<h1 className="m-5">Ingen bensindata finns för denna bil</h1>
+								}
 							</Grid.Column>
 						</Grid.Row>
 					</Grid>

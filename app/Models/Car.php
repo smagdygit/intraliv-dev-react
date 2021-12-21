@@ -37,6 +37,9 @@ class Car extends Model
         'winter_wheels_on',
         'oil_checked',
         'washed',
+        'next_inspection',
+        'next_service',
+        'next_full_service',
     ];
 
     public function fuel() {
