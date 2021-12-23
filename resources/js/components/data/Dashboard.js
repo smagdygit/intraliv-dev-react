@@ -51,7 +51,7 @@ function Dashboard(props) {
 				<h1 className="display-1 mt-5" style={{ marginBottom: '100px', fontFamily: 'Roboto, sans-serif' }}>Intraliv</h1>
 				<Grid celled="internally" centered textAlign="center" style={{ paddingBottom: '300px', paddingTop: '50px' }}>
 					<Grid.Row columns={15} centered textAlign="center" stretched>
-						<StyledCol width={5} textAlign="center" className="p-5" onClick={() => history.push('/data/employees/view')}>
+						<StyledCol width={5} textAlign="center" className="p-5" onClick={() => history.push('/personal')}>
 							<div>
 								<Icon size='huge' name='user' />
 								<h1>Personal</h1>

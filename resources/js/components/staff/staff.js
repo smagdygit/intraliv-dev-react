@@ -82,7 +82,7 @@ const optionsPhone = [
 const optionsSith = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
 	{ key: 'Nej', text: 'Nej', value: 'Nej' },
-	{ key: 'Ja', text: 'Nej', value: 'Ja' },
+	{ key: 'Ja', text: 'Ja', value: 'Ja' },
 	{ key: 'Utelåst mm.', text: 'Utelåst mm.', value: 'Utelåst mm.' },
 	{ key: 'Behövs Beställas', text: 'Behövs Beställas', value: 'Behövs Beställas' },
 	{ key: 'På Ingång', text: 'På Ingång', value: 'På Ingång' },
@@ -153,8 +153,8 @@ function Staff(props) {
 				//Include form information and encode date variables to be PHP friendly
 				body: JSON.stringify({
 					...form,
-					delegation: form.delegation.toISOString().split('T')[0],
-					employment_expiry: form.employment_expiry.toISOString().split('T')[0],
+					delegation: form.delegation ? form.delegation.toISOString().split('T')[0] : null,
+					employment_expiry: form.employment_expiry ? form.employment_expiry.toISOString().split('T')[0] : null,
 				}),
 			})
 				.then(response => response.json())
@@ -350,7 +350,7 @@ function Staff(props) {
 												/>
 											</Form>
 										</Grid.Column>
-										<Grid.Column width={4} className="pr-0">
+										<Grid.Column width={3} className="pr-0">
 											<Form>
 												<Form.Field>
 													<label>Anst. Utgår</label>
@@ -366,6 +366,14 @@ function Staff(props) {
 														dropdownMode="select"
 														dateFormat="yyyy-MM-dd"
 													/>
+												</Form.Field>
+											</Form>
+										</Grid.Column>
+										<Grid.Column width={1} className="pr-0">
+											<Form>
+												<Form.Field>
+													<label>🗑️</label>
+													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, employment_expiry: null })}/>
 												</Form.Field>
 											</Form>
 										</Grid.Column>
@@ -397,7 +405,7 @@ function Staff(props) {
 												/>
 											</Form>
 										</Grid.Column>
-										<Grid.Column width={4} className="pr-0">
+										<Grid.Column width={3} className="pr-0">
 											<Form>
 												<Form.Field>
 													<label>Datum Delegering</label>
@@ -413,6 +421,14 @@ function Staff(props) {
 														dropdownMode="select"
 														dateFormat="yyyy-MM-dd"
 													/>
+												</Form.Field>
+											</Form>
+										</Grid.Column>
+										<Grid.Column width={1} className="pr-0">
+											<Form>
+												<Form.Field>
+													<label>🗑️</label>
+													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, delegation: null })}/>
 												</Form.Field>
 											</Form>
 										</Grid.Column>
@@ -433,7 +449,7 @@ function Staff(props) {
 													label='Telefon Status'
 													options={optionsPhone}
 													value={form.phone_status}
-													onChange={(e, val) => setForm({ ...form, phone_status: val.value, phone_id: -1 }) }
+													onChange={(e, val) => setForm({ ...form, phone_status: val.value, phone_id: -1 })}
 												/>
 											</Form>
 										</Grid.Column>

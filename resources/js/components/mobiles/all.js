@@ -26,7 +26,7 @@ import Staff from './mobile';
 import { groupBy } from 'lodash';
 
 function Allstaff(props) {
-	const animateStep = 5;
+	const animateStep = 50;
 	const animateLimit = 50;
 	const history = useHistory();
 	const userObject = JSON.parse(localStorage.getItem('user'));

@@ -223,86 +223,154 @@ function Allstaff(props) {
 					<BeatLoader color="green" />
 				}
 				{!isDownloading &&
-					<>
-						<Table sortable selectable striped className="p-0 m-0">
+				<>
+						<Table selectable striped className="p-0 m-0">
 							<Table.Header>
-								<Table.Row>
-									<Table.HeaderCell>
-										<b><h3>Namn</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Tele</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>SITH</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Stadsdel</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Anst. ID</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Delegering</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={3}>
-										<b><h3>Övrigt</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={4}>
-										<b><h3>Kommentar</h3></b>
-									</Table.HeaderCell>
-								</Table.Row>
+								<Table.HeaderCell>
+									<b><h3>Namn</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={1}>
+									<b><h3>Tele</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={1}>
+									<b><h3>SITH</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={1}>
+									<b><h3>Stadsdel</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={1}>
+									<b><h3>Anst. ID</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={2}>
+									<b><h3>Delegering</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={2}>
+									<b><h3>Övrigt</h3></b>
+								</Table.HeaderCell>
+								<Table.HeaderCell width={4}>
+									<b><h3>Kommentar</h3></b>
+								</Table.HeaderCell>
 							</Table.Header>
-							<Table.Body>
-								{staff.map((item, index) => {console.log('a', (new Date(item.delegation)).getTime() - new Date(Date.now()).getTime());
-									if (item.animating > 0) return (
-										<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
-											<Table.Cell width={4} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
-												{item.name}
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{item.phone_status === 'Ja' ? item.phone_id : item.phone_status}
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div
-													className="w-100 h-100 p-2"
-													style={{ backgroundColor: item.sith_status === 'Ja' ? 'rgba(0, 255, 0, 0.1)' : item.sith_status === 'Nej' ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 255, 0, 0.1)' }}
-												>
-													{item.sith_status}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div
-													className="w-100 h-100 p-2"
-													style={{ backgroundColor: getCityColor(item.home_area, 0.1) }}
-												>
-													{item.home_area}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{item.staff_number}
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div className="w-100 h-100 p-2"
-													style={{backgroundColor: item.delegation && (new Date(item.delegation)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : ''}}
-												>
-													{item.delegation}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={3} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{emojis(item)}
-											</Table.Cell>
-											<Table.Cell width={4} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div className="w-100 h-100 p-2">
-													{item.comment}
-												</div>
-											</Table.Cell>
-										</Table.Row>
-									);
-								})}
-							</Table.Body>
+							{staff.map((item, index) => {
+								if (item.animating > 0) return (
+									<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
+										<Table.Cell width={4} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
+											{item.name}
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+											{item.phone_status === 'Ja' ? item.phone_id : item.phone_status}
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.sith_status === 'Ja' ? 'rgba(0, 255, 0, 0.1)' : item.sith_status === 'Nej' ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 255, 0, 0.1)' }}
+											>
+												{item.sith_status}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+												style={{ backgroundColor: getCityColor(item.home_area, 0.1)}}
+											>
+												{item.home_area}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+											{item.staff_number}
+										</Table.Cell>
+										<Table.Cell width={2} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div className="w-100 h-100 p-2" >
+												{item.delegation}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={2} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+											{emojis(item)}
+										</Table.Cell>
+										<Table.Cell width={4} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+												style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
+											>
+												{item.comment}
+											</div>
+										</Table.Cell>
+									</Table.Row>
+								);
+							})}
 						</Table>
-					</>
+						<Grid.Row style={{ backgroundColor: 'lightgray' }} verticalAlign="middle" className="p-0">
+							<Grid.Column width={4}>
+								<b><h3>Namn</h3></b>
+							</Grid.Column>
+							<Grid.Column width={1}>
+								<b><h3>Tele</h3></b>
+							</Grid.Column>
+							<Grid.Column width={1}>
+								<b><h3>SITH</h3></b>
+							</Grid.Column>
+							<Grid.Column width={1}>
+								<b><h3>Stadsdel</h3></b>
+							</Grid.Column>
+							<Grid.Column width={1}>
+								<b><h3>Anst. ID</h3></b>
+							</Grid.Column>
+							<Grid.Column width={2}>
+								<b><h3>IT Policy</h3></b>
+							</Grid.Column>
+							<Grid.Column width={2}>
+								<b><h3>Misc.</h3></b>
+							</Grid.Column>
+							<Grid.Column width={4}>
+								<b><h3>Kommentar</h3></b>
+							</Grid.Column>
+						</Grid.Row>
+						
+						{staff.map((item, index) => {
+					if (item.animating > 0) return (
+						<Grid.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
+							<Grid.Column width={4} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
+								{item.name}
+							</Grid.Column>
+							<Grid.Column width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+								{item.phone_status === 'Ja' ? item.phone_id : item.phone_status}
+							</Grid.Column>
+							<Grid.Column color={item.sith_status === 'Ja' ? 'green' : item.sith_status === 'Nej' ? 'red' : 'yellow'} width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+								{item.sith_status}
+							</Grid.Column>
+							<Grid.Column width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+								{item.home_area}
+							</Grid.Column>
+							<Grid.Column width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+								{item.staff_number}
+							</Grid.Column>
+							<Grid.Column color={item.it_policy === 'Påskrivet' ? 'green' : item.it_policy === 'Ska EJ Skriva' ? 'red' : 'yellow'} width={2} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+								{item.it_policy}
+							</Grid.Column>
+							<Grid.Column width={2} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
+								{emojis(item)}
+							</Grid.Column>
+							<Grid.Column width={4} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+								<div className="m-0" style={{ backgroundColor: 'green' }}>
+									<div className="m-2">
+										{item.comment}
+									</div>
+								</div>
+							</Grid.Column>
+						</Grid.Row>
+					);
+				})}
+				{/*<Grid.Row style={{ height: '33px' }}>
+					<Grid.Column>
+						<h1>COOOL!</h1>
+					</Grid.Column>
+			</Grid.Row>*/}
+				<Grid.Row style={{ backgroundColor: 'white' }}>
+					<Grid.Column width={16}>
+						<Button fluid color="green" disabled={vehicleDeleting} onClick={handleNewClick}>Ny Personal</Button>
+					</Grid.Column>
+				</Grid.Row>
+				</>
 				}
 			</div>
 		</center >
