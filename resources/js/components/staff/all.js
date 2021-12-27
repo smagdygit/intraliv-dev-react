@@ -30,12 +30,113 @@ import { GiGearStickPattern } from 'react-icons/gi';
 import { MdBlock } from 'react-icons/md';
 import { BsQuestionLg } from 'react-icons/bs';
 
+const optionsIT = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Ska Skriva', text: 'Ska Skriva', value: 'Ska Skriva' },
+	{ key: 'Ska EJ Skriva', text: 'Ska EJ Skriva', value: 'Ska EJ Skriva' },
+	{ key: 'Påskrivet', text: 'Påskrivet', value: 'Påskrivet' },
+];
+
+const optionsDriving = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Inget Körkort', text: 'Inget Körkort', value: 'Inget Körkort' },
+	{ key: 'Manuellt Körkort', text: 'Manuellt Körkort', value: 'Manuellt Körkort' },
+	{ key: 'Automat Körkort', text: 'Automat Körkort', value: 'Automat Körkort' },
+];
+
+const optionsGroup = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 1, text: 'Grupp 1', value: 1 },
+	{ key: 2, text: 'Grupp 2', value: 2 },
+];
+
+const optionsEmployment = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Övrig', text: 'Övrig', value: 'Övrig' },
+	{ key: 'Timanställd', text: 'Timanställd', value: 'Timanställd' },
+	{ key: 'Vikarie', text: 'Vikarie', value: 'Vikarie' },
+	{ key: 'Provanställd', text: 'Provanställd', value: 'Provanställd' },
+	{ key: 'Tillsvidare', text: 'Tillsvidare', value: 'Tillsvidare' },
+];
+
+const optionsHome = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Lundby', text: 'Lundby', value: 'Lundby' },
+	{ key: 'Östra', text: 'Östra', value: 'Östra' },
+	{ key: 'Angered', text: 'Angered', value: 'Angered' },
+	{ key: 'Backa', text: 'Backa', value: 'Backa' },
+	{ key: 'V-H', text: 'V-H', value: 'V-H' },
+];
+
+const optionsCard = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Ska EJ Ha Kort', text: 'Ska EJ Ha Kort', value: 'Ska EJ Ha Kort' },
+	{ key: 'Behövs Foto', text: 'Behövs Foto', value: 'Behövs Foto' },
+	{ key: 'Behövs Beställas', text: 'Behövs Beställas', value: 'Behövs Beställas' },
+	{ key: 'Finns Redo', text: 'Finns Redo', value: 'Finns Redo' },
+	{ key: 'Har Kort', text: 'Har Kort', value: 'Har Kort' },
+];
+
+const optionsPhone = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Nej', text: 'Nej', value: 'Nej' },
+	{ key: 'Ska Ha Tele.', text: 'Ska Ha Tele', value: 'Ska Ha Tele' },
+	{ key: 'Fungerar', text: 'Fungerar', value: 'Fungerar' },
+	{ key: 'Fungerar EJ', text: 'Fungerar EJ', value: 'Fungerar EJ' },
+	{ key: 'På Lagning', text: 'På Lagning', value: 'På Lagning' },
+];
+
+const optionsSith = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Nej', text: 'Nej', value: 'Nej' },
+	{ key: 'Ja', text: 'Ja', value: 'Ja' },
+	{ key: 'Utelåst mm.', text: 'Utelåst mm.', value: 'Utelåst mm.' },
+	{ key: 'Behövs Beställas', text: 'Behövs Beställas', value: 'Behövs Beställas' },
+	{ key: 'På Ingång', text: 'På Ingång', value: 'På Ingång' },
+	{ key: 'Kan Bokas', text: 'Kan Bokas', value: 'Kan Bokas' },
+	{ key: 'Att Avbeställa', text: 'Att Avbeställa', value: 'Att Avbeställa' },
+];
+
+const optionsActive = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Ja', text: 'Ja', value: 'Ja' },
+	{ key: 'Nej', text: 'Nej', value: 'Nej' },
+];
+
+const optionsAdmin = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Ja', text: 'Ja', value: 'Ja' },
+	{ key: 'Nej', text: 'Nej', value: 'Nej' },
+];
+
+const optionsEducation = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Ja', text: 'Ja', value: 'Ja' },
+	{ key: 'Nej', text: 'Nej', value: 'Nej' },
+];
+
+const optionsDoorKey = [
+	{ key: 'Filtrera Ej', text: 'Filtrera Ej', value: 'Filtrera Ej' },
+	{ key: 'Ja', text: 'Ja', value: 'Ja' },
+	{ key: 'Nej', text: 'Nej', value: 'Nej' },
+];
+
+
 function Allstaff(props) {
 	const animateStep = 35;
 	const animateLimit = 35;
 	const history = useHistory();
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [staff, setstaff] = useState([]);
+	const [filteredStaff, setFilteredStaff] = useState([]);
 	const [vehicleDeleting, setVehicleDeleting] = useState(false);
 	const [staffShowing, setstaffShowing] = useState([]);
 	const [updateList, setUpdateList] = useState(false);
@@ -43,6 +144,22 @@ function Allstaff(props) {
 	const [staffBoxOpen, setStaffBoxOpen] = useState(0);
 	const [staffName, setStaffName] = useState('');
 	const [person, setPerson] = useState({});
+	const [form, setForm] = useState({
+		search: '',
+		group: 'Filtrera Ej',
+		employment_type: 'Filtrera Ej',
+		phone_status: 'Filtrera Ej',
+		sith_status: 'Filtrera Ej',
+		home_area: 'Filtrera Ej',
+		card: 'Filtrera Ej',
+		it_policy: 'Filtrera Ej',
+		drivers_license: 'Filtrera Ej',
+		active: 'Ja',
+		admin: 'Filtrera Ej',
+		education: 'Filtrera Ej',
+		door_key: 'Filtrera Ej',
+		comment: 'Filtrera Ej',
+	});
 
 	// DOWNLOAD THE CARS
 	useEffect(() => {
@@ -62,11 +179,57 @@ function Allstaff(props) {
 				//moddedArray[1].animating = 25;
 				setstaff([...moddedArray]);
 				setVehicleDeleting(false);
+				filterStaff([...moddedArray]);
 				//setInterval((aniLoop), 100);
 				setIsDownloading(false);
 
 			});
 	}, [updateList]);
+
+	//Run filter function again upon filter change
+	useEffect(() => {
+		filterStaff(staff);
+	}, [form]);
+
+	//Filter the list of staff based on the used chosen filters
+	function filterStaff(input) {
+		const filtered = input.filter(item =>
+			form.search === '' || (form.search !== '' && (
+				item.name.toString().toLowerCase().includes(form.search.toLowerCase()) ||
+				item.email.toString().toLowerCase().includes(form.search.toLowerCase()) ||
+				item.staff_number.toString().toLowerCase().includes(form.search.toLowerCase()) ||
+				item.carefox_id.toString().toLowerCase().includes(form.search.toLowerCase()) ||
+				item.sith_hsa.toString().toLowerCase().includes(form.search.toLowerCase()) ||
+				item.phone_id.toString().toLowerCase().includes(form.search.toLowerCase()) ||
+				item.comment.toString().toLowerCase().includes(form.search.toLowerCase())
+			))
+		).filter(item => {
+			for (const prop of [
+				'it_policy',
+				'drivers_license',
+				'group',
+				'employment_type',
+				'home_area',
+				'card',
+				'phone_status',
+				'sith_status']) {
+				if (form[prop] !== 'Filtrera Ej' && form[prop] !== item[prop]) return false;
+			}
+			return true;
+		}).filter(item => {
+			for (const prop of [
+				'active',
+				'admin',
+				'education',
+				'door_key',
+			]) {
+				if (form[prop] !== 'Filtrera Ej' && item[prop] !== (form[prop] === 'Ja' ? true : false)) return false;
+			}
+			return true;
+		});
+
+		setFilteredStaff([...filtered]);
+	}
 
 	//console.log("real",staff);
 
@@ -95,7 +258,7 @@ function Allstaff(props) {
 	}
 
 	// ADD STAFF
-	function handleNewClick(id) {
+	function handleNewClick() {
 		setStaffBoxOpen(-1);
 		setStaffName('Ny Personal');
 		setPerson({
@@ -121,30 +284,6 @@ function Allstaff(props) {
 			employment_expiry: new Date(Date.now()),
 			delegation: new Date(Date.now()),
 		});
-	}
-
-	// DELETE THE CAR
-	function handleDeleteClick(id) {
-		setVehicleDeleting(true);
-		fetch(`/api/cars/${id}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': userObject.token,
-			},
-		})
-			.then(res => res.json())
-			.then((result) => {
-				if (result.status === "success") {
-					setUpdateList(!updateList);
-				} else {
-					alert(result.text);
-				}
-			},
-				(error) => {
-					alert('Error, kontakta Systemadministratör');
-				}
-			);
 	}
 
 	function openStaffBox(id, name, person) {
@@ -217,12 +356,169 @@ function Allstaff(props) {
 		<center>
 			{!!staffBoxOpen && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
 			<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
-				<h1 className="display-1 mt-5" style={{ marginBottom: '100px', fontFamily: 'Roboto, sans-serif' }}>Personal</h1>
-
-				{isDownloading &&
+				<h1 className="display-1 mt-5" style={{ marginBottom: '10px', fontFamily: 'Roboto, sans-serif' }}>Personal</h1>
+				<Grid className="m-0 p-0 mb-3">
+					<Grid.Row>
+						<Grid.Column width={7}>
+							<Form style={{ textAlign: 'left' }}>
+								<Form.Input
+									error={form.search !== ''}
+									fluid
+									name="Sök"
+									label="Sök"
+									placeholder="Sök"
+									value={form.search}
+									onChange={e => setForm({ ...form, search: e.target.value })}
+								/>
+								<Form.Group widths='equal'>
+									<Form.Dropdown
+										error={form.it_policy !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='IT Policy'
+										label='IT Policy'
+										options={optionsIT}
+										value={form.it_policy}
+										onChange={(e, val) => setForm({ ...form, it_policy: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.drivers_license !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Körkort'
+										label='Körkort'
+										options={optionsDriving}
+										value={form.drivers_license}
+										onChange={(e, val) => setForm({ ...form, drivers_license: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.group !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Grupp'
+										label='Grupp'
+										options={optionsGroup}
+										value={form.group}
+										onChange={(e, val) => setForm({ ...form, group: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.employment_type !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Anställningstyp'
+										label='Anställningstyp'
+										options={optionsEmployment}
+										value={form.employment_type}
+										onChange={(e, val) => setForm({ ...form, employment_type: val.value })}
+									/>
+								</Form.Group>
+								<Form.Group widths='equal'>
+									<Form.Dropdown
+										error={form.home_area !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Hembas'
+										label='Hembas'
+										options={optionsHome}
+										value={form.home_area}
+										onChange={(e, val) => setForm({ ...form, home_area: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.card !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='ID Kort'
+										label='ID Kort'
+										options={optionsCard}
+										value={form.card}
+										onChange={(e, val) => setForm({ ...form, card: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.phone_status !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Telefon Status'
+										label='Telefon Status'
+										options={optionsPhone}
+										value={form.phone_status}
+										onChange={(e, val) => setForm({ ...form, phone_status: val.value, phone_id: -1 })}
+									/>
+									<Form.Dropdown
+										error={form.sith_status !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='SITH Status'
+										label='SITH Status'
+										options={optionsSith}
+										value={form.sith_status}
+										onChange={(e, val) => setForm({ ...form, sith_status: val.value })}
+									/>
+								</Form.Group>
+								<Form.Group widths='equal'>
+									<Form.Dropdown
+										error={form.active !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Aktiv'
+										label='Aktiv'
+										options={optionsActive}
+										value={form.active}
+										onChange={(e, val) => setForm({ ...form, active: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.admin !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Admin'
+										label='Admin'
+										options={optionsAdmin}
+										value={form.admin}
+										onChange={(e, val) => setForm({ ...form, admin: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.education !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Utbildning'
+										label='Utbildning'
+										options={optionsEducation}
+										value={form.education}
+										onChange={(e, val) => setForm({ ...form, education: val.value })}
+									/>
+									<Form.Dropdown
+										error={form.door_key !== 'Filtrera Ej'}
+										fluid
+										selection
+										name='Nyckelbricka'
+										label='Nyckelbricka'
+										options={optionsDoorKey}
+										value={form.door_key}
+										onChange={(e, val) => setForm({ ...form, door_key: val.value })}
+									/>
+								</Form.Group>
+							</Form>
+						</Grid.Column>
+						<Grid.Column width={2}>
+							<Divider vertical>•</Divider>
+						</Grid.Column>
+						<Grid.Column width={7} verticalAlign="middle">
+							<Button
+								size="massive"
+								fluid
+								color="green"
+								onClick={handleNewClick}
+							>
+								Ny Personal
+							</Button>
+						</Grid.Column>
+					</Grid.Row>
+				</Grid >
+				{
+					isDownloading &&
 					<BeatLoader color="green" />
 				}
-				{!isDownloading &&
+				{
+					!isDownloading &&
 					<>
 						<Table sortable selectable striped className="p-0 m-0">
 							<Table.Header>
@@ -254,7 +550,7 @@ function Allstaff(props) {
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
-								{staff.map((item, index) => {console.log('a', (new Date(item.delegation)).getTime() - new Date(Date.now()).getTime());
+								{filteredStaff.map((item, index) => {
 									if (item.animating > 0) return (
 										<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
 											<Table.Cell width={4} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
@@ -284,7 +580,7 @@ function Allstaff(props) {
 											</Table.Cell>
 											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 												<div className="w-100 h-100 p-2"
-													style={{backgroundColor: item.delegation && (new Date(item.delegation)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : ''}}
+													style={{ backgroundColor: item.delegation && (new Date(item.delegation)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' }}
 												>
 													{item.delegation}
 												</div>
@@ -304,7 +600,7 @@ function Allstaff(props) {
 						</Table>
 					</>
 				}
-			</div>
+			</div >
 		</center >
 	);
 }
