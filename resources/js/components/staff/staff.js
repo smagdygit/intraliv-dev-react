@@ -46,6 +46,7 @@ const optionsGroup = [
 const optionsEmployment = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
 	{ key: 'Övrig', text: 'Övrig', value: 'Övrig' },
+	{ key: 'Visstidsanställd', text: 'Visstidsanställd', value: 'Visstidsanställd' },
 	{ key: 'Timanställd', text: 'Timanställd', value: 'Timanställd' },
 	{ key: 'Vikarie', text: 'Vikarie', value: 'Vikarie' },
 	{ key: 'Provanställd', text: 'Provanställd', value: 'Provanställd' },
@@ -190,7 +191,7 @@ function Staff(props) {
 				<Modal.Description>
 					<Grid style={{ width: '1150px' }}>
 						<Grid.Row>
-							<Grid.Column width={3}>
+							<Grid.Column width={4} className="pl-3">
 								<Form.Field
 									className="p-2"
 									control={Checkbox}
@@ -227,8 +228,6 @@ function Staff(props) {
 									checked={form.door_key}
 									onChange={e => setForm({ ...form, door_key: !form.door_key })}
 								/>
-							</Grid.Column>
-							<Grid.Column width={1}>
 							</Grid.Column>
 							<Grid.Column width={12}>
 								<Grid className="m-0">

@@ -274,15 +274,15 @@ function Allstaff(props) {
 			sith_hsa: '',
 			home_area: 'Osäker',
 			admin: false,
-			active: false,
+			active: true,
 			education: false,
 			door_key: false,
 			card: 'Osäker',
 			it_policy: 'Osäker',
 			drivers_license: 'Osäker',
 			comment: '',
-			employment_expiry: new Date(Date.now()),
-			delegation: new Date(Date.now()),
+			employment_expiry: null,
+			delegation: null,
 		});
 	}
 
@@ -499,7 +499,7 @@ function Allstaff(props) {
 							</Form>
 						</Grid.Column>
 						<Grid.Column width={2}>
-							<Divider vertical>•</Divider>
+							<Divider vertical>Filter</Divider>
 						</Grid.Column>
 						<Grid.Column width={7} verticalAlign="middle">
 							<Button
