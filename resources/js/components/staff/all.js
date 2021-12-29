@@ -352,6 +352,61 @@ function Allstaff(props) {
 		if (city === 'Backa') return `rgba(60, 100, 0, ${opacity})`;
 	}
 
+	/*** SORTING MAGIC ***/
+	function exampleReducer(state, action) {
+		switch (action.type) {
+			case 'CHANGE_SORT':
+				if (state.column === action.column) {
+					setFilteredStaff([...filteredStaff.slice().reverse(),])
+					return {
+						...state,
+						data: filteredStaff.slice().reverse(),
+						direction:
+							state.direction === 'ascending' ? 'descending' : 'ascending',
+					}
+
+				}
+
+				setFilteredStaff([..._.sortBy(filteredStaff, [action.column]),])
+				return {
+					column: action.column,
+					data: _.sortBy(filteredStaff, [action.column]),
+					direction: 'ascending',
+				}
+			default:
+				throw new Error()
+		}
+	}
+	let [state, dispatch] = React.useReducer(exampleReducer, {
+		column: null,
+		data: filteredStaff,
+		direction: null,
+	})
+	let { column, data, direction } = state
+
+	const headers = [
+		{ data: 'name', name: 'Namn', width: 3 },
+		{ data: 'phone_id', name: 'Tele', width: 1 },
+		{ data: 'sith_status', name: 'SITH', width: 1 },
+		{ data: 'home_area', name: 'Stadsdel', width: 1 },
+		{ data: 'staff_number', name: 'Anst. ID', width: 1 },
+		{ data: 'delegation', name: 'Delegering', width: 1 },
+		{ data: 'employment_expiry', name: 'Anst. Utgår', width: 1 },
+		{ data: 'misc', name: 'Övrigt', width: 3 },
+		{ data: 'comment', name: 'Kommentar', width: 4 }
+	].map((item, index) => {
+		return (
+			<Table.HeaderCell
+				key={'header' + index}
+				width={item.width}
+				sorted={column === item.data ? direction : null}
+				onClick={() => dispatch({ type: 'CHANGE_SORT', column: item.data })}
+			>
+				<b><h3>{item.name}</h3></b>
+			</Table.HeaderCell>
+		)
+	});
+
 	return (
 		<center>
 			{!!staffBoxOpen && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
@@ -523,37 +578,14 @@ function Allstaff(props) {
 						<Table sortable selectable striped className="p-0 m-0">
 							<Table.Header>
 								<Table.Row>
-									<Table.HeaderCell>
-										<b><h3>Namn</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Tele</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>SITH</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Stadsdel</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Anst. ID</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={1}>
-										<b><h3>Delegering</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={3}>
-										<b><h3>Övrigt</h3></b>
-									</Table.HeaderCell>
-									<Table.HeaderCell width={4}>
-										<b><h3>Kommentar</h3></b>
-									</Table.HeaderCell>
+									{headers}
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
 								{filteredStaff.map((item, index) => {
 									if (item.animating > 0) return (
 										<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
-											<Table.Cell width={4} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
+											<Table.Cell width={3} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
 												{item.name}
 											</Table.Cell>
 											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
@@ -583,6 +615,13 @@ function Allstaff(props) {
 													style={{ backgroundColor: item.delegation && (new Date(item.delegation)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' }}
 												>
 													{item.delegation}
+												</div>
+											</Table.Cell>
+											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+												<div className="w-100 h-100 p-2"
+													style={{ backgroundColor: item.employment_expiry && (new Date(item.employment_expiry)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' }}
+												>
+													{item.employment_expiry}
 												</div>
 											</Table.Cell>
 											<Table.Cell width={3} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
