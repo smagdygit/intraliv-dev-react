@@ -13,7 +13,8 @@ import {
 	Dropdown,
 	Select,
 	Dimmer,
-	Card
+	Card,
+	Table
 } from 'semantic-ui-react';
 import { Router, Route, Switch, Link, useParams, useHistory, useLocation } from 'react-router-dom';
 import ReactFrappeChart from 'react-frappe-charts';
@@ -26,11 +27,12 @@ import Staff from './mobile';
 import { groupBy } from 'lodash';
 
 function Allstaff(props) {
-	const animateStep = 50;
-	const animateLimit = 50;
+	const animateStep = 35;
+	const animateLimit = 35;
 	const history = useHistory();
 	const userObject = JSON.parse(localStorage.getItem('user'));
 	const [staff, setstaff] = useState([]);
+	const [filteredStaff, setFilteredStaff] = useState([]);
 	const [vehicleDeleting, setVehicleDeleting] = useState(false);
 	const [staffShowing, setstaffShowing] = useState([]);
 	const [updateList, setUpdateList] = useState(false);
@@ -160,6 +162,72 @@ function Allstaff(props) {
 
 	}
 
+	function getCityColor(city, opacity) {
+		if (city === 'Osäker') return `rgba(255, 255, 0, ${opacity})`;
+		if (city === 'Angered') return `rgba(0, 255, 255, ${opacity})`;
+		if (city === 'Lundby') return `rgba(50, 0, 127, ${opacity})`;
+		if (city === 'Östra') return `rgba(255, 0, 200, ${opacity})`;
+		if (city === 'V-H') return `rgba(150, 80, 0, ${opacity})`;
+		if (city === 'Backa') return `rgba(60, 100, 0, ${opacity})`;
+	}
+
+	/*** SORTING MAGIC ***/
+	function exampleReducer(state, action) {
+		switch (action.type) {
+			case 'CHANGE_SORT':
+				if (state.column === action.column) {
+					setFilteredStaff([...filteredStaff.slice().reverse(),])
+					return {
+						...state,
+						data: filteredStaff.slice().reverse(),
+						direction:
+							state.direction === 'ascending' ? 'descending' : 'ascending',
+					}
+
+				}
+
+				setFilteredStaff([..._.sortBy(filteredStaff, [action.column]),])
+				return {
+					column: action.column,
+					data: _.sortBy(filteredStaff, [action.column]),
+					direction: 'ascending',
+				}
+			default:
+				throw new Error()
+		}
+	}
+	let [state, dispatch] = React.useReducer(exampleReducer, {
+		column: null,
+		data: filteredStaff,
+		direction: null,
+	})
+	let { column, data, direction } = state
+
+	const headers = [
+		{ data: 'name', name: 'Namn', width: 1 },
+		{ data: 'usable', name: 'Användbar', width: 1 },
+		{ data: 'installed', name: 'Installerad', width: 1 },
+		{ data: 'hardware', name: 'Hårdvara', width: 1 },
+		{ data: 'phoniro_status', name: 'Phoniro Status', width: 1 },
+		{ data: 'phoniro_home_area', name: 'Phoniro Area', width: 1 },
+		{ data: 'actual_home_area', name: 'Tillhör Area', width: 1 },
+		{ data: 'location', name: 'Finns i', width: 1 },
+		{ data: 'belongs_to', name: 'Tillhör', width: 1 },
+		{ data: 'sim_status', name: 'SIM', width: 1 },
+		{ data: 'comment', name: 'Kommentar', width: 4 }
+	].map((item, index) => {
+		return (
+			<Table.HeaderCell
+				key={'header' + index}
+				width={item.width}
+				sorted={column === item.data ? direction : null}
+				onClick={() => dispatch({ type: 'CHANGE_SORT', column: item.data })}
+			>
+				<b><h3>{item.name}</h3></b>
+			</Table.HeaderCell>
+		)
+	});
+
 	return (
 		<center>
 			{!!staffBoxOpen && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
@@ -170,77 +238,100 @@ function Allstaff(props) {
 					<BeatLoader color="green" />
 				}
 				{!isDownloading &&
-					<Dimmer.Dimmable as={Grid} dimmed={true} celled style={{ backgroundColor: 'white', marginBottom: '600px' }}>
-						<Dimmer active={false}>
-							<BeatLoader color="green" />
-						</Dimmer>
-						<Grid.Row style={{ backgroundColor: 'lightgray' }} verticalAlign="middle">
-							<Grid.Column width={4}>
-								<b><h3>Namn</h3></b>
-							</Grid.Column>
-							<Grid.Column width={1}>
-								<b><h3>Tele</h3></b>
-							</Grid.Column>
-							<Grid.Column width={1}>
-								<b><h3>SITH</h3></b>
-							</Grid.Column>
-							<Grid.Column width={1}>
-								<b><h3>Stadsdel</h3></b>
-							</Grid.Column>
-							<Grid.Column width={1}>
-								<b><h3>Anst. ID</h3></b>
-							</Grid.Column>
-							<Grid.Column width={2}>
-								<b><h3>IT Policy</h3></b>
-							</Grid.Column>
-							<Grid.Column width={2}>
-								<b><h3>Misc.</h3></b>
-							</Grid.Column>
-							<Grid.Column width={4}>
-								<b><h3>Kommentar</h3></b>
-							</Grid.Column>
-						</Grid.Row>
-						{staff.map((item, index) => {
-							if (item.animating > 0) return (
-								<Grid.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
-									<Grid.Column width={4} style={{ height: `${item.animating}px` }}>
-										{`${item.name}`}
-									</Grid.Column>
-									<Grid.Column width={1} style={{ height: `${item.animating}px` }}>
-										{item.phone_status === 'Ja' ? item.phone_id : item.phone_status}
-									</Grid.Column>
-									<Grid.Column width={1} style={{ height: `${item.animating}px` }}>
-										{item.sith_status}
-									</Grid.Column>
-									<Grid.Column width={1} style={{ height: `${item.animating}px` }}>
-										{item.home_area}
-									</Grid.Column>
-									<Grid.Column width={1} style={{ height: `${item.animating}px` }}>
-										{item.staff_number}
-									</Grid.Column>
-									<Grid.Column width={2} style={{ height: `${item.animating}px` }}>
-										{item.it_policy}
-									</Grid.Column>
-									<Grid.Column width={2} style={{ height: `${item.animating}px` }}>
-										{'ooo'}
-									</Grid.Column>
-									<Grid.Column width={4} style={{ height: `${item.animating}px` }}>
-										{item.comment}
-									</Grid.Column>
-								</Grid.Row>
-							);
-						})}
-						{/*<Grid.Row style={{ height: '33px' }}>
-					<Grid.Column>
-						<h1>COOOL!</h1>
-					</Grid.Column>
-			</Grid.Row>*/}
-						<Grid.Row style={{ backgroundColor: 'white' }}>
-							<Grid.Column width={16}>
-								<Button fluid color="green" disabled={vehicleDeleting} onClick={handleNewClick}>Ny Personal</Button>
-							</Grid.Column>
-						</Grid.Row>
-					</Dimmer.Dimmable>
+					<Table sortable selectable striped className="p-0 m-0">
+						<Table.Header>
+							<Table.Row>
+								{headers}
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							{staff.map((item, index) => {
+								if (item.animating > 0) return (
+									<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.name}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.usable}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.installed}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.hardware}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.phoniro_status}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+												style={{ backgroundColor: getCityColor(item.phoniro_home_area, 0.1) }}
+											>
+												{item.phoniro_home_area}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+												style={{ backgroundColor: getCityColor(item.actual_home_area, 0.1) }}
+											>
+												{item.actual_home_area}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.location}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.belongs_to}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.sim_status}
+											</div>
+										</Table.Cell>
+										<Table.Cell width={4} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
+											<div
+												className="w-100 h-100 p-2"
+											>
+												{item.comment}
+											</div>
+										</Table.Cell>
+									</Table.Row>
+								);
+							})}
+						</Table.Body>
+					</Table>
 				}
 			</div>
 		</center>

@@ -589,7 +589,7 @@ function Allstaff(props) {
 												{item.name}
 											</Table.Cell>
 											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{item.phone_status === 'Ja' ? item.phone_id : item.phone_status}
+												{item.phone_status === 'Fungerar' ? item.phone_id : item.phone_status === 'Osäker' ? '?' : item.phone_status}
 											</Table.Cell>
 											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 												<div

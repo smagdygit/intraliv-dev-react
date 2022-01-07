@@ -51,7 +51,7 @@ const optionsInstalled = [
 
 const optionsHardware = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
-	{ key: 'Fungerar', text: 'Fungerar', value: '1' },
+	{ key: 'Fungerar', text: 'Fungerar', value: 'Fungerar' },
 	{ key: 'Tactivo Fungerar Ej', text: 'Tactivo Fungerar Ej', value: 'Tactivo Fungerar Ej' },
 	{ key: 'Övrigt (Kommentar)', text: 'Övrigt (Kommentar)', value: 'Övrigt (Kommentar)' },
 ];
