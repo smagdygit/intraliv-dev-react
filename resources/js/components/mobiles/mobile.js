@@ -74,6 +74,7 @@ const optionsHomeCity = [
 
 const optionsHomePhysical = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
+	{ key: 'Ledig (Sysadmin)', text: 'Ledig (Sysadmin)', value: 'Ledig (Sysadmin)' },
 	{ key: 'Lundby', text: 'Lundby', value: 'Lundby' },
 	{ key: 'Kortedala', text: 'Kortedala', value: 'Kortedala' },
 	{ key: 'Personlig Telefon', text: 'Personlig Telefon', value: 'Personlig Telefon' },

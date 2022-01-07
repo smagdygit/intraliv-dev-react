@@ -228,6 +228,11 @@ function Allstaff(props) {
 		)
 	});
 
+	const none = '';
+	const green = 'rgba(0, 255, 0, 0.1)';
+	const red = 'rgba(0, 255, 0, 0.1)';
+	const yellow = 'rgba(255, 255, 0, 0.1)';
+
 	return (
 		<center>
 			{!!staffBoxOpen && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
@@ -258,6 +263,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.usable === 'Ja' ? green : item.usable === 'Nej' ? red : yellow }}
 											>
 												{item.usable}
 											</div>
@@ -265,6 +271,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.hardware === 'Ej Installerad' ? red : item.hardware === 'Osäker' ? yellow : green }}
 											>
 												{item.installed}
 											</div>
@@ -272,6 +279,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.hardware === 'Fungerar' ? green : item.hardware === 'Osäker' ? yellow : red }}
 											>
 												{item.hardware}
 											</div>
@@ -279,6 +287,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.phoniro_status === 'Upplagd med Stadsdel' ? green : item.phoniro_status === 'Ej Upplagd' ? red : yellow }}
 											>
 												{item.phoniro_status}
 											</div>
@@ -302,6 +311,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.location === 'Ledig (Sysadmin)' ? green : none }}
 											>
 												{item.location}
 											</div>
@@ -309,6 +319,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: item.belongs_to === 'Ledig (Sysadmin)' ? green : none }}
 											>
 												{item.belongs_to}
 											</div>
@@ -316,6 +327,7 @@ function Allstaff(props) {
 										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
 											<div
 												className="w-100 h-100 p-2"
+												style={{ backgroundColor: (item.sim_status === 'Finns Ej' || item.sim_status === 'Sim Dött') ? red : item.sim_status === 'Installerad + PIN Avstängt' ? green : yellow }}
 											>
 												{item.sim_status}
 											</div>

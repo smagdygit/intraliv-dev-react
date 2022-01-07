@@ -10,7 +10,7 @@ class MobileController extends Controller
     public function all()
     {
         $phoneList = array();
-        foreach (Mobile::orderBy('name', 'asc')->get() as $mobile) {
+        foreach (Mobile::orderBy('wp', 'asc')->get() as $mobile) {
             
             //Convert variables to be user friendly
             $mobile->sim_number = $mobile->sim_number === '-1' ? '' : $mobile->sim_number;
