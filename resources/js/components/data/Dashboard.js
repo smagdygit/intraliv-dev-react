@@ -63,7 +63,7 @@ function Dashboard(props) {
 								<h1>Kunder</h1>
 							</div>
 						</StyledCol>
-						<StyledCol width={5} textAlign="center" className="p-5" onClick={() => history.push('/data/phones/view')}>
+						<StyledCol width={5} textAlign="center" className="p-5" onClick={() => history.push('/telefoner')}>
 							<div>
 								<Icon size='huge' name='phone' />
 								<h1>Telefoner</h1>

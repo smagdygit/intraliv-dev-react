@@ -53,7 +53,7 @@ const optionsHardware = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
 	{ key: 'Fungerar', text: 'Fungerar', value: 'Fungerar' },
 	{ key: 'Tactivo Fungerar Ej', text: 'Tactivo Fungerar Ej', value: 'Tactivo Fungerar Ej' },
-	{ key: 'Övrigt (Kommentar)', text: 'Övrigt (Kommentar)', value: 'Övrigt (Kommentar)' },
+	{ key: 'Övrigt', text: 'Övrigt', value: 'Övrigt' },
 ];
 
 const optionsPhoniro = [
@@ -74,10 +74,11 @@ const optionsHomeCity = [
 
 const optionsHomePhysical = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
-	{ key: 'Ledig (Sysadmin)', text: 'Ledig (Sysadmin)', value: 'Ledig (Sysadmin)' },
+	{ key: 'Ledig', text: 'Ledig', value: 'Ledig' },
 	{ key: 'Lundby', text: 'Lundby', value: 'Lundby' },
 	{ key: 'Kortedala', text: 'Kortedala', value: 'Kortedala' },
 	{ key: 'Personlig Telefon', text: 'Personlig Telefon', value: 'Personlig Telefon' },
+	{ key: 'Reparation', text: 'Reparation', value: 'Reparation' },
 ];
 
 function HandoverPopup(props) {

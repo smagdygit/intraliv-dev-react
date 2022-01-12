@@ -205,16 +205,15 @@ function Allstaff(props) {
 
 	const headers = [
 		{ data: 'name', name: 'Namn', width: 1 },
+		{ data: 'staff', name: 'Personal', width: 2 },
+		{ data: 'sim_number', name: 'Tele nr', width: 1 },
 		{ data: 'usable', name: 'Användbar', width: 1 },
 		{ data: 'installed', name: 'Installerad', width: 1 },
 		{ data: 'hardware', name: 'Hårdvara', width: 1 },
 		{ data: 'phoniro_status', name: 'Phoniro Status', width: 1 },
-		{ data: 'phoniro_home_area', name: 'Phoniro Area', width: 1 },
 		{ data: 'actual_home_area', name: 'Tillhör Area', width: 1 },
-		{ data: 'location', name: 'Finns i', width: 1 },
-		{ data: 'belongs_to', name: 'Tillhör', width: 1 },
-		{ data: 'sim_status', name: 'SIM', width: 1 },
-		{ data: 'comment', name: 'Kommentar', width: 4 }
+		{ data: 'location', name: 'Finns i / Tillhör', width: 1 },
+		{ data: 'comment', name: 'Kommentar', width: 3 }
 	].map((item, index) => {
 		return (
 			<Table.HeaderCell
@@ -230,8 +229,68 @@ function Allstaff(props) {
 
 	const none = '';
 	const green = 'rgba(0, 255, 0, 0.1)';
-	const red = 'rgba(0, 255, 0, 0.1)';
+	const red = 'rgba(255, 0, 0, 0.1)';
 	const yellow = 'rgba(255, 255, 0, 0.1)';
+
+	const rows = [
+		{
+			name: 'name',
+			width: 1,
+			data: (x) => x.name,
+		},
+		{
+			name: 'staff',
+			width: 2,
+			data: (x) => x.staff[0] ? x.staff.map(y => [y.name.split(' ')[0]].concat([y.name.split(' ')[1][0]]).join(' ')).join(' - ') : '',
+		},
+		{
+			name: 'sim_number',
+			width: 1,
+			data: (x) => x.sim_number,
+			style: (x) => { return { backgroundColor: (x.sim_status === 'Finns Ej' || x.sim_status === 'Sim Dött') ? red : x.sim_status === 'Installerad + PIN Avstängt' ? green : yellow } },
+		},
+		{
+			name: 'usable',
+			width: 1,
+			data: (x) => x.usable,
+			style: (x) => { return { backgroundColor: x.usable === 'Ja' ? green : x.usable === 'Nej' ? red : yellow } },
+		},
+		{
+			name: 'installed',
+			width: 1,
+			data: (x) => x.installed,
+			style: (x) => { return { backgroundColor: x.hardware === 'Ej Installerad' ? red : x.hardware === 'Osäker' ? yellow : green } },
+		},
+		{
+			name: 'hardware',
+			width: 1,
+			data: (x) => x.hardware,
+			style: (x) => { return { backgroundColor: x.hardware === 'Fungerar' ? green : x.hardware === 'Osäker' ? yellow : red } },
+		},
+		{
+			name: 'phoniro_status',
+			width: 1,
+			data: (x) => x.phoniro_status,
+			style: (x) => { return { backgroundColor: x.phoniro_status === 'Upplagd med Stadsdel' ? green : x.phoniro_status === 'Ej Upplagd' ? red : yellow } },
+		},
+		{
+			name: 'actual_home_area',
+			width: 1,
+			data: (x) => x.actual_home_area,
+			style: (x) => { return { backgroundColor: getCityColor(x.actual_home_area, 0.1) } },
+		},
+		{
+			name: 'location',
+			width: 1,
+			data: (x) => x.location,
+			style: (x) => { return { backgroundColor: x.location !== x.belongs_to ? red : x.location === 'Ledig' ? green : yellow } },
+		},
+		{
+			name: 'comment',
+			width: 3,
+			data: (x) => x.comment,
+		},
+	]
 
 	return (
 		<center>
@@ -253,92 +312,18 @@ function Allstaff(props) {
 							{staff.map((item, index) => {
 								if (item.animating > 0) return (
 									<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-											>
-												{item.name}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: item.usable === 'Ja' ? green : item.usable === 'Nej' ? red : yellow }}
-											>
-												{item.usable}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: item.hardware === 'Ej Installerad' ? red : item.hardware === 'Osäker' ? yellow : green }}
-											>
-												{item.installed}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: item.hardware === 'Fungerar' ? green : item.hardware === 'Osäker' ? yellow : red }}
-											>
-												{item.hardware}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: item.phoniro_status === 'Upplagd med Stadsdel' ? green : item.phoniro_status === 'Ej Upplagd' ? red : yellow }}
-											>
-												{item.phoniro_status}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: getCityColor(item.phoniro_home_area, 0.1) }}
-											>
-												{item.phoniro_home_area}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: getCityColor(item.actual_home_area, 0.1) }}
-											>
-												{item.actual_home_area}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: item.location === 'Ledig (Sysadmin)' ? green : none }}
-											>
-												{item.location}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: item.belongs_to === 'Ledig (Sysadmin)' ? green : none }}
-											>
-												{item.belongs_to}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-												style={{ backgroundColor: (item.sim_status === 'Finns Ej' || item.sim_status === 'Sim Dött') ? red : item.sim_status === 'Installerad + PIN Avstängt' ? green : yellow }}
-											>
-												{item.sim_status}
-											</div>
-										</Table.Cell>
-										<Table.Cell width={4} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-											<div
-												className="w-100 h-100 p-2"
-											>
-												{item.comment}
-											</div>
-										</Table.Cell>
+										{rows.map((subtem, subdex) => {
+											return (
+												<Table.Cell key={'carses' + index + '+' + subdex} width={subtem.width} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle" textAlign="center">
+													<div
+														className="w-100 h-100 p-2"
+														style={subtem.style ? subtem.style(item) : {}}
+													>
+														{subtem.data(item)}
+													</div>
+												</Table.Cell>
+											)
+										})}
 									</Table.Row>
 								);
 							})}
