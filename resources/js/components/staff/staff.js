@@ -228,6 +228,10 @@ function Staff(props) {
 									checked={form.door_key}
 									onChange={e => setForm({ ...form, door_key: !form.door_key })}
 								/>
+								<div className="text-center">
+									<a target="_blank" href={`https://system.carefox.se/admin/employees/${form.carefox_id}`}><Button className="m-2 mt-3" color="blue" fluid icon='world' content="Carefox Profil" labelPosition='left' /></a>
+								</div>
+
 							</Grid.Column>
 							<Grid.Column width={12}>
 								<Grid className="m-0">
@@ -372,7 +376,7 @@ function Staff(props) {
 											<Form>
 												<Form.Field>
 													<label>🗑️</label>
-													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, employment_expiry: null })}/>
+													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, employment_expiry: null })} />
 												</Form.Field>
 											</Form>
 										</Grid.Column>
@@ -427,7 +431,7 @@ function Staff(props) {
 											<Form>
 												<Form.Field>
 													<label>🗑️</label>
-													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, delegation: null })}/>
+													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, delegation: null })} />
 												</Form.Field>
 											</Form>
 										</Grid.Column>
