@@ -330,7 +330,7 @@ function Allstaff(props) {
 						{person.door_key ? '🔑   ' : ''}
 					</Grid.Column>
 					<Grid.Column width={2}>
-						{person.card === 'Har' ? '🖼️   ' : ''}
+						<div alt="test">{person.card === 'Har Kort' ? '🖼️   ' : ''}</div>
 					</Grid.Column>
 					<Grid.Column width={2}>
 						{(person.drivers_license === 'Automat Körkort' || person.drivers_license === 'Manuellt Körkort') && <FaRegAddressCard style={{ color: person.drivers_license === 'Automat Körkort' ? 'green' : 'orange' }} />} {person.drivers_license === 'Inget Körkort' && <MdBlock style={{ color: 'red' }} />}
@@ -407,6 +407,200 @@ function Allstaff(props) {
 		)
 	});
 
+	const none = '';
+	const green = 'rgba(0, 255, 0, 0.1)';
+	const red = 'rgba(255, 0, 0, 0.1)';
+	const yellow = 'rgba(255, 255, 0, 0.1)';
+
+	const rows = [
+		{
+			name: 'name',
+			width: 3,
+			data: (x) => x.name,
+			style: (x) => { return { textAlign: 'left' } }
+		},
+		{
+			name: 'phome_status',
+			width: 1,
+			data: (x) => x.phone_status === 'Fungerar' ? x.phone_id : x.phone_status === 'Osäker' ? '?' : x.phone_status,
+		},
+		{
+			name: 'sith_status',
+			width: 1,
+			data: (x) => x.sith_status,
+			style: (x) => { return { backgroundColor: x.sith_status === 'Ja' ? 'rgba(0, 255, 0, 0.1)' : x.sith_status === 'Nej' ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 255, 0, 0.1)' } },
+		},
+		{
+			name: 'home_area',
+			width: 1,
+			data: (x) => x.home_area,
+			style: (x) => { return { backgroundColor: getCityColor(x.home_area, 0.1) } },
+		},
+		{
+			name: 'staff_number',
+			width: 1,
+			data: (x) => x.staff_number,
+		},
+		{
+			name: 'delegation',
+			width: 1,
+			data: (x) => x.delegation,
+			style: (x) => { return { backgroundColor: x.delegation && (new Date(x.delegation)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' } },
+		},
+		{
+			name: 'employment_expiry',
+			width: 1,
+			data: (x) => x.employment_expiry,
+			style: (x) => { return { backgroundColor: x.employment_expiry && (new Date(x.employment_expiry)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' } },
+		},
+		{
+			name: 'emojis(item)',
+			width: 3,
+			data: (x) => emojis(x),
+			style: (x) => { return { backgroundColor: getCityColor(x.actual_home_area, 0.1) } },
+		},
+		{
+			name: 'comment',
+			width: 4,
+			data: (x) => x.comment,
+			style: (x) => { return { textAlign: 'left' } }
+		},
+	];
+
+	const filters = [
+		{
+			items: 1,
+			children: [
+				{
+					name: 'search',
+					label: 'Sök Valfri Kolumn',
+					placeholder: 'Namn, kommentar, ID, datum, ...',
+					type: 'input',
+					data: 'search',
+					width: 1,
+				},
+			]
+		},
+		{
+			items: 4,
+			children: [
+				{
+					name: 'it_policy',
+					label: 'It Policy',
+					options: optionsIT,
+					type: 'select',
+					data: 'it_policy',
+					width: 1,
+				},
+				{
+					name: 'drivers_license',
+					label: 'Körkort',
+					options: optionsDriving,
+					type: 'select',
+					data: 'drivers_license',
+					width: 1,
+				},
+				{
+					name: 'group',
+					label: 'Grupp',
+					options: optionsGroup,
+					type: 'select',
+					data: 'group',
+					width: 1,
+				},
+				{
+					name: 'employment_type',
+					label: 'Anställningstyp',
+					options: optionsEmployment,
+					type: 'select',
+					data: 'employment_type',
+					width: 1,
+				},
+			]
+		},
+		{
+			items: 4,
+			children: [
+				{
+					name: 'home_area',
+					label: 'Hembas',
+					options: optionsHome,
+					type: 'select',
+					data: 'home_area',
+					width: 1,
+				},
+				{
+					name: 'card',
+					label: 'Körkort',
+					options: optionsDriving,
+					type: 'select',
+					data: 'card',
+					width: 1,
+				},
+				{
+					name: 'phone_status',
+					label: 'Telefon Status',
+					options: optionsPhone,
+					type: 'select',
+					data: 'phone_status',
+					width: 1,
+				},
+				{
+					name: 'sith_status',
+					label: 'SITH Status',
+					options: optionsSith,
+					type: 'select',
+					data: 'sith_status',
+					width: 1,
+				},
+			]
+		},
+		{
+			items: 4,
+			children: [
+				{
+					name: 'active',
+					label: 'Aktiv',
+					options: optionsActive,
+					type: 'select',
+					data: 'active',
+					width: 1,
+				},
+				{
+					name: 'admin',
+					label: 'Admin',
+					options: optionsAdmin,
+					type: 'select',
+					data: 'admin',
+					width: 1,
+				},
+				{
+					name: 'education',
+					label: 'Utbildning',
+					options: optionsEducation,
+					type: 'select',
+					data: 'education',
+					width: 1,
+				},
+				{
+					name: 'door_key',
+					label: 'Nyckelbricka',
+					options: optionsDoorKey,
+					type: 'select',
+					data: 'door_key',
+					width: 1,
+				},
+			]
+		}
+	]
+
+	function updateForm(e, item) {
+		const modded = { ...form };
+		if (item.type === 'input') modded[item.data] = e.target.value;
+		if (item.type === 'select') modded[item.data] = e.value;
+		setForm({ ...modded });
+	}
+
 	return (
 		<center>
 			{!!staffBoxOpen && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
@@ -416,155 +610,82 @@ function Allstaff(props) {
 					<Grid.Row>
 						<Grid.Column width={7}>
 							<Form style={{ textAlign: 'left' }}>
-								<Form.Input
-									error={form.search !== ''}
-									fluid
-									name="Sök"
-									label="Sök"
-									placeholder="Sök"
-									value={form.search}
-									onChange={e => setForm({ ...form, search: e.target.value })}
-								/>
-								<Form.Group widths='equal'>
-									<Form.Dropdown
-										error={form.it_policy !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='IT Policy'
-										label='IT Policy'
-										options={optionsIT}
-										value={form.it_policy}
-										onChange={(e, val) => setForm({ ...form, it_policy: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.drivers_license !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Körkort'
-										label='Körkort'
-										options={optionsDriving}
-										value={form.drivers_license}
-										onChange={(e, val) => setForm({ ...form, drivers_license: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.group !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Grupp'
-										label='Grupp'
-										options={optionsGroup}
-										value={form.group}
-										onChange={(e, val) => setForm({ ...form, group: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.employment_type !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Anställningstyp'
-										label='Anställningstyp'
-										options={optionsEmployment}
-										value={form.employment_type}
-										onChange={(e, val) => setForm({ ...form, employment_type: val.value })}
-									/>
-								</Form.Group>
-								<Form.Group widths='equal'>
-									<Form.Dropdown
-										error={form.home_area !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Hembas'
-										label='Hembas'
-										options={optionsHome}
-										value={form.home_area}
-										onChange={(e, val) => setForm({ ...form, home_area: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.card !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='ID Kort'
-										label='ID Kort'
-										options={optionsCard}
-										value={form.card}
-										onChange={(e, val) => setForm({ ...form, card: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.phone_status !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Telefon Status'
-										label='Telefon Status'
-										options={optionsPhone}
-										value={form.phone_status}
-										onChange={(e, val) => setForm({ ...form, phone_status: val.value, phone_id: -1 })}
-									/>
-									<Form.Dropdown
-										error={form.sith_status !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='SITH Status'
-										label='SITH Status'
-										options={optionsSith}
-										value={form.sith_status}
-										onChange={(e, val) => setForm({ ...form, sith_status: val.value })}
-									/>
-								</Form.Group>
-								<Form.Group widths='equal'>
-									<Form.Dropdown
-										error={form.active !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Aktiv'
-										label='Aktiv'
-										options={optionsActive}
-										value={form.active}
-										onChange={(e, val) => setForm({ ...form, active: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.admin !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Admin'
-										label='Admin'
-										options={optionsAdmin}
-										value={form.admin}
-										onChange={(e, val) => setForm({ ...form, admin: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.education !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Utbildning'
-										label='Utbildning'
-										options={optionsEducation}
-										value={form.education}
-										onChange={(e, val) => setForm({ ...form, education: val.value })}
-									/>
-									<Form.Dropdown
-										error={form.door_key !== 'Filtrera Ej'}
-										fluid
-										selection
-										name='Nyckelbricka'
-										label='Nyckelbricka'
-										options={optionsDoorKey}
-										value={form.door_key}
-										onChange={(e, val) => setForm({ ...form, door_key: val.value })}
-									/>
-								</Form.Group>
+								{filters.map((item, index) => {
+									return (
+										<Form.Group key={'row' + index} widths='equal'>
+											{item.children.map((subtem, subdex) => {
+												if (subtem.type === 'input') return (
+													<Form.Input
+														key={'rowcol' + index + subdex}
+														error={form[subtem.data] !== ''}
+														fluid
+														name={subtem.label}
+														label={subtem.label}
+														placeholder={subtem.placeholder}
+														value={form[subtem.data]}
+														onChange={e => updateForm(e, subtem)}
+													/>
+												)
+												if (subtem.type === 'select') return (
+													<Form.Dropdown
+														key={'rowcol' + index + subdex}
+														error={form[subtem.data] !== 'Filtrera Ej'}
+														fluid
+														selection
+														name={subtem.label}
+														label={subtem.label}
+														options={subtem.options}
+														value={form[subtem.data]}
+														onChange={(e, val) => updateForm(val, subtem)}
+													/>
+												);
+											})}
+										</Form.Group>
+									);
+								})}
 							</Form>
 						</Grid.Column>
 						<Grid.Column width={2}>
 							<Divider vertical>Filter</Divider>
 						</Grid.Column>
 						<Grid.Column width={7} verticalAlign="middle">
-							<Button
-								size="massive"
-								fluid
-								color="green"
-								onClick={handleNewClick}
-							>
-								Ny Personal
-							</Button>
+							<Grid>
+								<Grid.Row>
+									<Grid.Column>
+										<Button
+											size="massive"
+											fluid
+											color="green"
+											onClick={handleNewClick}
+										>
+											Ny Personal
+										</Button>
+									</Grid.Column>
+								</Grid.Row>
+								<Grid.Row columns={3}>
+									<Grid.Column verticalAlign="middle">
+										<h1>{filteredStaff.length} Resultat</h1>
+									</Grid.Column>
+									<Grid.Column className="text-left">
+										<p>🥇 - Grupp 1</p>
+										<p>🥈 - Grupp 2</p>
+										<p>📝 - IT Avtal</p>
+										<p>📜 - Utbildning</p>
+										<p>🔑 - Kodbricka</p>
+									</Grid.Column>
+									<Grid.Column className="text-left">
+										<p>🖼️ - Personalkort</p>
+										<p><FaRegAddressCard style={{ color: 'green' }} /> - Manuellt Körkort</p>
+										<p><FaRegAddressCard style={{ color: 'orange' }} /> - Automat Körkort</p>
+										<p><MdBlock style={{ color: 'red' }} /> - Inget Körkort</p>
+									</Grid.Column>
+								</Grid.Row>
+							</Grid>
+
+							<div >
+
+
+							</div>
 						</Grid.Column>
 					</Grid.Row>
 				</Grid >
@@ -585,53 +706,18 @@ function Allstaff(props) {
 								{filteredStaff.map((item, index) => {
 									if (item.animating > 0) return (
 										<Table.Row key={'cars' + index} style={{ height: `${item.animating}px` }} verticalAlign="middle" onClick={() => openStaffBox(item.id, item.name, item)}>
-											<Table.Cell width={3} style={{ height: `${item.animating}px`, textAlign: 'left' }} className="p-2" verticalAlign="middle">
-												{item.name}
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{item.phone_status === 'Fungerar' ? item.phone_id : item.phone_status === 'Osäker' ? '?' : item.phone_status}
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div
-													className="w-100 h-100 p-2"
-													style={{ backgroundColor: item.sith_status === 'Ja' ? 'rgba(0, 255, 0, 0.1)' : item.sith_status === 'Nej' ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 255, 0, 0.1)' }}
-												>
-													{item.sith_status}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div
-													className="w-100 h-100 p-2"
-													style={{ backgroundColor: getCityColor(item.home_area, 0.1) }}
-												>
-													{item.home_area}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{item.staff_number}
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div className="w-100 h-100 p-2"
-													style={{ backgroundColor: item.delegation && (new Date(item.delegation)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' }}
-												>
-													{item.delegation}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={1} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div className="w-100 h-100 p-2"
-													style={{ backgroundColor: item.employment_expiry && (new Date(item.employment_expiry)).getTime() - (new Date(Date.now())).getTime() < 4340851016 ? 'red' : '' }}
-												>
-													{item.employment_expiry}
-												</div>
-											</Table.Cell>
-											<Table.Cell width={3} style={{ height: `${item.animating}px` }} className="p-2" verticalAlign="middle">
-												{emojis(item)}
-											</Table.Cell>
-											<Table.Cell width={4} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle">
-												<div className="w-100 h-100 p-2">
-													{item.comment}
-												</div>
-											</Table.Cell>
+											{rows.map((subtem, subdex) => {
+												return (
+													<Table.Cell key={'carses' + index + '+' + subdex} width={subtem.width} style={{ height: `${item.animating}px` }} className="p-0" verticalAlign="middle" textAlign="center">
+														<div
+															className="w-100 h-100 p-2"
+															style={subtem.style ? subtem.style(item) : {}}
+														>
+															{subtem.data(item)}
+														</div>
+													</Table.Cell>
+												)
+											})}
 										</Table.Row>
 									);
 								})}
