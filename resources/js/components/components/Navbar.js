@@ -64,8 +64,8 @@ function Navbar(props) {
 					/>
 					<Menu.Item
 						name='Kunder'
-						url='/data/clients/view'
-						active={activeItem === '/data/clients/view'}
+						url='/kunder'
+						active={activeItem === '/kunder'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
