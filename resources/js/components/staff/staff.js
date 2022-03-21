@@ -1,27 +1,6 @@
-import { indexOf } from 'lodash';
-import React, { useState, useEffect, useContext } from 'react';
-import { GiConsoleController, GiForwardField, GiFruitTree } from 'react-icons/gi';
-import { useHistory, withRouter, Link, useParams } from 'react-router-dom';
-import {
-	Button,
-	Form,
-	Grid,
-	Header,
-	Image,
-	Message,
-	Segment,
-	Input,
-	Select,
-	Icon,
-	Loader,
-	Dimmer,
-	Divider,
-	Modal,
-	Checkbox,
-	TextArea,
-} from 'semantic-ui-react';
-import DatePicker from "react-datepicker";
-import { moduleExpression } from '@babel/types';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Popup from '../components/popup';
 
 const optionsIT = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
@@ -100,12 +79,16 @@ function Staff(props) {
 		delegation: props.person.delegation ? new Date(props.person.delegation) : null,
 		employment_expiry: props.person.employment_expiry ? new Date(props.person.employment_expiry) : null,
 	});
-	const [errorForm, setErrorForm] = useState(createErrorObject());
 	const [isUploading, setIsUploading] = useState(false);
 	const [isLoadingMobiles, setIsLoadingMobiles] = useState(true);
 	const [optionsPhoneId, setOptionsPhoneId] = useState([]);
 
 	useEffect(() => {
+
+		//Update URL
+		window.history.replaceState(null, form.name, `/personal/${form.id}/${form.name.replace(/\s+/g, '-').toLowerCase()}`);
+
+		//Download mobile data
 		fetch(`/api/mobiles`, {
 			method: 'GET',
 			headers: {
@@ -121,17 +104,205 @@ function Staff(props) {
 			});
 	}, []);
 
-	function createErrorObject() {
-		const reply = {};
-		Object.entries(props.person).forEach(([key, value]) => { reply[key] = false });
-		return reply;
+	const layout = {
+		sidebar: [
+			{
+				type: 'checkbox',
+				label: 'Aktiv',
+				data: 'active',
+			},
+			{
+				type: 'checkbox',
+				label: 'Admin',
+				data: 'admin',
+			},
+			{
+				type: 'checkbox',
+				label: 'Utbildning',
+				data: 'education',
+			},
+			{
+				type: 'checkbox',
+				label: 'Nyckelbricka',
+				data: 'door_key',
+			},
+			{
+				type: 'link',
+				label: 'Carefox Profil',
+				data: `https://system.carefox.se/admin/employees/${form.carefox_id}`,
+			},
+		],
+		main: [
+			[
+				{
+					type: 'title',
+					label: 'Grundläggande Information',
+				},
+			],
+			[
+				{
+					type: 'input',
+					label: 'Fullt Namn',
+					data: 'name',
+					placeholder: 'Fullt Namn',
+					width: 6,
+					min: 1,
+				},
+				{
+					type: 'input',
+					label: 'Mejl',
+					data: 'email',
+					placeholder: 'föreft@livara.se',
+					width: 6,
+				},
+				{
+					type: 'input',
+					label: 'Anst. ID',
+					data: 'staff_number',
+					placeholder: 'XX',
+					width: 4,
+				},
+			],
+			[
+				{
+					type: 'select',
+					label: 'IT Policy',
+					data: 'it_policy',
+					options: optionsIT,
+					width: 6,
+				},
+				{
+					type: 'select',
+					label: 'Körkort',
+					data: 'drivers_license',
+					options: optionsDriving,
+					width: 6,
+				},
+				{
+					type: 'select',
+					label: 'Grupp',
+					data: 'group',
+					options: optionsGroup,
+					width: 4,
+				},
+			],
+			[
+				{
+					type: 'title',
+					label: 'Anställning',
+				},
+			],
+			[
+				{
+					type: 'input',
+					label: 'Carefox ID',
+					data: 'carefox_id',
+					placeholder: 'XXXXXX',
+					width: 6,
+				},
+				{
+					type: 'select',
+					label: 'Anställningstyp',
+					data: 'employment_type',
+					options: optionsEmployment,
+					width: 6,
+				},
+				{
+					type: 'date',
+					label: 'Anst. Utgår',
+					data: 'employment_expiry',
+					width: 3,
+				},
+			],
+			[
+				{
+					type: 'select',
+					label: 'Hembas',
+					data: 'home_area',
+					options: optionsHome,
+					width: 6,
+				},
+				{
+					type: 'select',
+					label: 'Körkort',
+					data: 'card',
+					options: optionsCard,
+					width: 6,
+				},
+				{
+					type: 'date',
+					label: 'Datum Delegering',
+					data: 'delegation',
+					width: 3,
+				},
+			],
+			[
+				{
+					type: 'title',
+					label: 'Telefon & Sith',
+				},
+			],
+			[
+				{
+					type: 'select',
+					label: 'Telefon Status',
+					data: 'phone_status',
+					options: optionsPhone,
+					width: 8,
+				},
+				{
+					type: 'select',
+					disabled: () => isLoadingMobiles || form.phone_status === 'Osäker' || form.phone_status === 'Nej',
+					label: 'Telefon ID',
+					data: 'phone_id',
+					options: optionsPhoneId,
+					width: 8,
+				},
+			],
+			[
+				{
+					type: 'select',
+					label: 'SITH Status',
+					data: 'sith_status',
+					options: optionsSith,
+					width: 8,
+				},
+				{
+					type: 'input',
+					label: 'HSA',
+					data: 'sith_hsa',
+					placeholder: 'XXXXXXXXXXXXXXXX-XXXXXXX',
+					width: 8,
+				},
+			],
+			[
+				{
+					type: 'title',
+					label: 'Övrigt',
+				},
+			],
+			[
+				{
+					type: 'textbox',
+					label: 'Kommentar',
+					data: 'comment',
+					placeholder: 'Kommentarer..',
+					width: 16,
+				},
+			]
+		]
+	};
+
+	const data = {
+		loadForm: () => {
+			return {
+				...props.person,
+				delegation: props.person.delegation ? new Date(props.person.delegation) : null,
+				employment_expiry: props.person.employment_expiry ? new Date(props.person.employment_expiry) : null,
+			}
+		},
+		isUploading: isUploading,
 	}
-
-	/*function checkForErrors() {
-		if (form.name.length === 0) errorForm.name = true;
-
-		if (errorForm.name = true) return true; else return false;
-	}*/
 
 	function sendStaffUpdate() {
 
@@ -177,370 +348,19 @@ function Staff(props) {
 		}
 	}
 
-	return (
-		<Modal
-			size="large"
-			onClose={props.canceled}
-			open={true}
-		>
-			<Dimmer active={isUploading}>
-				<Loader size="huge" content="Skickar data..." />
-			</Dimmer>
-			<Modal.Header>{props.name}</Modal.Header>
-			<Modal.Content image>
-				<Modal.Description>
-					<Grid style={{ width: '1150px' }}>
-						<Grid.Row>
-							<Grid.Column width={4} className="pl-3">
-								<Form.Field
-									className="p-2"
-									control={Checkbox}
-									toggle
-									label='Aktiv'
-									name='active'
-									checked={form.active}
-									onChange={e => setForm({ ...form, active: !form.active })}
-								/>
-								<Form.Field
-									className="p-2"
-									control={Checkbox}
-									toggle
-									label='Admin'
-									name='admin'
-									checked={form.admin}
-									onChange={e => setForm({ ...form, admin: !form.admin })}
-								/>
-								<Form.Field
-									className="p-2"
-									control={Checkbox}
-									toggle
-									label='Utbildning'
-									name='education'
-									checked={form.education}
-									onChange={e => setForm({ ...form, education: !form.education })}
-								/>
-								<Form.Field
-									className="p-2"
-									control={Checkbox}
-									toggle
-									label='Nyckelbricka'
-									name='doorkey'
-									checked={form.door_key}
-									onChange={e => setForm({ ...form, door_key: !form.door_key })}
-								/>
-								<div className="text-center">
-									<a target="_blank" href={`https://system.carefox.se/admin/employees/${form.carefox_id}`}><Button className="m-2 mt-3" color="blue" fluid icon='world' content="Carefox Profil" labelPosition='left' /></a>
-								</div>
+	//Update URL
+	window.history.replaceState(null, form.name, `/personal/${form.id}/${form.name.replace(/\s+/g, '-').toLowerCase()}`);
 
-							</Grid.Column>
-							<Grid.Column width={12}>
-								<Grid className="m-0">
-									<Grid.Row className="pb-0">
-										<Grid.Column width={16}>
-											<h1>Grundläggande Information</h1>
-											<Divider className="mb-0" />
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Input
-													fluid
-													error={form.name.length < 1}
-													name="name"
-													label="Fullt Namn"
-													placeholder="Fullt Namn"
-													value={form.name}
-													onChange={e => setForm({ ...form, name: e.target.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Input
-													fluid
-													name="name"
-													label="Mejl"
-													placeholder="föreft@livara.se"
-													value={form.email}
-													onChange={e => setForm({ ...form, email: e.target.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={4} className="pr-0">
-											<Form>
-												<Form.Input
-													fluid
-													name="name"
-													label="Anst. ID"
-													placeholder="XX"
-													value={form.staff_number}
-													onChange={e => setForm({ ...form, staff_number: e.target.value })}
-												/>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='IT Policy'
-													label='IT Policy'
-													options={optionsIT}
-													value={form.it_policy}
-													onChange={(e, val) => setForm({ ...form, it_policy: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='Körkort'
-													label='Körkort'
-													options={optionsDriving}
-													value={form.drivers_license}
-													onChange={(e, val) => setForm({ ...form, drivers_license: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={4} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='Grupp'
-													label='Grupp'
-													options={optionsGroup}
-													value={form.group}
-													onChange={(e, val) => setForm({ ...form, group: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row className="pb-0">
-										<Grid.Column width={16}>
-											<h1>Anställning</h1>
-											<Divider className="mb-0" />
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Input
-													fluid
-													name="name"
-													label="Carefox ID"
-													placeholder="XXXXXX"
-													value={form.carefox_id}
-													onChange={e => setForm({ ...form, carefox_id: e.target.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='Anställningstyp'
-													label='Anställningstyp'
-													options={optionsEmployment}
-													value={form.employment_type}
-													onChange={(e, val) => setForm({ ...form, employment_type: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={3} className="pr-0">
-											<Form>
-												<Form.Field>
-													<label>Anst. Utgår</label>
-													<DatePicker
-														id="employment_expiry"
-														className="mb-3"
-														selected={form.employment_expiry}
-														onChange={(date) => setForm({ ...form, employment_expiry: date })}
-														calendarStartDay={1}
-														peekNextMonth
-														showMonthDropdown
-														showYearDropdown
-														dropdownMode="select"
-														dateFormat="yyyy-MM-dd"
-													/>
-												</Form.Field>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={1} className="pr-0">
-											<Form>
-												<Form.Field>
-													<label>🗑️</label>
-													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, employment_expiry: null })} />
-												</Form.Field>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='Hembas'
-													label='Hembas'
-													options={optionsHome}
-													value={form.home_area}
-													onChange={(e, val) => setForm({ ...form, home_area: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={6} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='ID Kort'
-													label='ID Kort'
-													options={optionsCard}
-													value={form.card}
-													onChange={(e, val) => setForm({ ...form, card: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={3} className="pr-0">
-											<Form>
-												<Form.Field>
-													<label>Datum Delegering</label>
-													<DatePicker
-														id="delegation"
-														className="mb-3"
-														selected={form.delegation}
-														onChange={(date) => setForm({ ...form, delegation: date })}
-														calendarStartDay={1}
-														peekNextMonth
-														showMonthDropdown
-														showYearDropdown
-														dropdownMode="select"
-														dateFormat="yyyy-MM-dd"
-													/>
-												</Form.Field>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={1} className="pr-0">
-											<Form>
-												<Form.Field>
-													<label>🗑️</label>
-													<Button fluid content="EJ" color="red" className="pl-3" onClick={() => setForm({ ...form, delegation: null })} />
-												</Form.Field>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row className="pb-0">
-										<Grid.Column width={16}>
-											<h1>Telefon & Sith</h1>
-											<Divider className="mb-0" />
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={8} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='Telefon Status'
-													label='Telefon Status'
-													options={optionsPhone}
-													value={form.phone_status}
-													onChange={(e, val) => setForm({ ...form, phone_status: val.value, phone_id: -1 })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={8} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													disabled={isLoadingMobiles || form.phone_status === 'Osäker' || form.phone_status === 'Nej'}
-													fluid
-													selection
-													name='Telefon ID'
-													label='Telefon ID'
-													options={optionsPhoneId}
-													value={form.phone_id}
-													onChange={(e, val) => setForm({ ...form, phone_id: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row>
-										<Grid.Column width={8} className="pr-0">
-											<Form>
-												<Form.Dropdown
-													fluid
-													selection
-													name='SITH Status'
-													label='SITH Status'
-													options={optionsSith}
-													value={form.sith_status}
-													onChange={(e, val) => setForm({ ...form, sith_status: val.value })}
-												/>
-											</Form>
-										</Grid.Column>
-										<Grid.Column width={8} className="pr-0">
-											<Form>
-												<Form.Input
-													fluid
-													name="HSA"
-													label="HSA"
-													placeholder="XXXXXXXXXXXXXXXX-XXXXXXX"
-													value={form.sith_hsa}
-													onChange={e => setForm({ ...form, sith_hsa: e.target.value })}
-												/>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row className="pb-0">
-										<Grid.Column width={16}>
-											<h1>Övrigt</h1>
-											<Divider className="mb-0" />
-										</Grid.Column>
-									</Grid.Row>
-									<Grid.Row className="pb-0">
-										<Grid.Column width={16}>
-											<Form>
-												<Form.TextArea
-													style={{ width: '100%', height: '100%' }}
-													rows={6}
-													name="Kommentar"
-													label="Kommentar"
-													placeholder="Kommentarer.."
-													value={form.comment}
-													onChange={e => setForm({ ...form, comment: e.target.value })}
-												/>
-											</Form>
-										</Grid.Column>
-									</Grid.Row>
-								</Grid>
-							</Grid.Column>
-						</Grid.Row>
-					</Grid>
-				</Modal.Description>
-			</Modal.Content>
-			<Modal.Actions>
-				<Button
-					color='red'
-					onClick={props.canceled}
-				>
-					Avbryt
-				</Button>
-				<Button
-					content="Skicka in"
-					labelPosition='right'
-					icon='checkmark'
-					positive
-					onClick={sendStaffUpdate}
-				/>
-			</Modal.Actions>
-		</Modal >
+	function popupCanceled() {
+		props.canceled();
+	}
+
+	function updateForm(form) {
+		setForm({ ...form })
+	}
+
+	return (
+		<Popup canceled={popupCanceled} data={data} layout={layout} sent={sendStaffUpdate} id={props.id} name={props.name} person={props.person} formToParent={updateForm} />
 	);
 }
 

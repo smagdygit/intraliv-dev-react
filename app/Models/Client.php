@@ -27,5 +27,6 @@ class Client extends Model
         'binder',
         'consent',
         'key',
+        'home_area',
     ];
 }

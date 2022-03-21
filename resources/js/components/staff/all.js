@@ -160,6 +160,7 @@ function Allstaff(props) {
 		door_key: 'Filtrera Ej',
 		comment: 'Filtrera Ej',
 	});
+	const [urlId, setUrlId] = useState(useParams().id);
 
 	// DOWNLOAD THE CARS
 	useEffect(() => {
@@ -183,6 +184,14 @@ function Allstaff(props) {
 				//setInterval((aniLoop), 100);
 				setIsDownloading(false);
 
+				//Open staff box if URL demands it
+				
+				
+				if (urlId !== undefined) {
+					setStaffBoxOpen(urlId);
+					setStaffName(moddedArray.find(x => x.id === parseInt(urlId)).name);
+					setPerson(moddedArray.find(x => x.id === parseInt(urlId)));
+				}
 			});
 	}, [updateList]);
 
@@ -230,8 +239,6 @@ function Allstaff(props) {
 
 		setFilteredStaff([...filtered]);
 	}
-
-	//console.log("real",staff);
 
 	useEffect(() => {
 		if (staff.length > 0 && staff[staff.length - 1].animating < animateLimit) {
@@ -293,12 +300,15 @@ function Allstaff(props) {
 	}
 
 	function popupCanceled() {
+		window.history.replaceState(null, form.name, `/personal/`);
 		setStaffBoxOpen(0);
 		setStaffName('');
 		setPerson({});
 	}
 
 	function popupSent() {
+		window.history.replaceState(null, form.name, `/personal/`);
+		setUrlId(undefined);
 
 		//Reset modal information
 		setStaffBoxOpen(0);
@@ -603,7 +613,7 @@ function Allstaff(props) {
 
 	return (
 		<center>
-			{!!staffBoxOpen && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
+			{!!staffBoxOpen && !isDownloading && Object.keys(person).length !== 0 &&  <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
 			<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
 				<h1 className="display-1 mt-5" style={{ marginBottom: '10px', fontFamily: 'Roboto, sans-serif' }}>Personal</h1>
 				<Grid className="m-0 p-0 mb-3">

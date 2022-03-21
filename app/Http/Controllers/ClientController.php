@@ -30,11 +30,18 @@ class ClientController extends Controller
 
     public function getAll()
     {
-        $phoneList = array();
-        foreach (Client::orderBy('name', 'asc')->get() as $phoneItem) {
-            array_push($phoneList, $phoneItem);
+        $clients = array();
+        foreach (Client::orderBy('name', 'asc')->get() as $client) {
+
+            array_push($clients, $client);
+
+            //Convert bools
+            $client->active = $client->active === 1 ? true : false;
+            $client->binder = $client->binder === 1 ? true : false;
+            $client->consent = $client->consent === 1 ? true : false;
+
         }
-        return $phoneList;
+        return $clients;
     }
 
     public function create(Request $request)
@@ -66,12 +73,13 @@ class ClientController extends Controller
             'address' => $request->address ?: '',
             'permitted_hours' => $request->permitted_hours ?: 0,
             'comment' => $request->comment ?: '',
-            'active' => $request->active,
+            'active' => $request->active ? true : false,
             'decision' => $request->decision,
             'plan' => $request->plan,
-            'binder' => $request->binder,
-            'consent' => $request->consent,
+            'binder' => $request->binder ? true : false,
+            'consent' => $request->consent ? true : false,
             'key' => $request->key,
+            'home_area' => $request->home_area,
         ]);
 
         $this->renameOrCreate(true, $newPerson->id, $request->name);
@@ -111,12 +119,13 @@ class ClientController extends Controller
                 'address' => $request->address ?: '',
                 'permitted_hours' => $request->permitted_hours ?: 0,
                 'comment' => $request->comment ?: '',
-                'active' => $request->active,
+                'active' => $request->active ? true : false,
                 'decision' => $request->decision,
                 'plan' => $request->plan,
-                'binder' => $request->binder,
-                'consent' => $request->consent,
+                'binder' => $request->binder ? true : false,
+                'consent' => $request->consent ? true : false,
                 'key' => $request->key,
+                'home_area' => $request->home_area,
             ]);
 
             $this->renameOrCreate(false, $personId, $request->name);

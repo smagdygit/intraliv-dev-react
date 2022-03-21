@@ -15,6 +15,7 @@ import AddVehicle from './data/vehicles/add';
 import EditVehicle from './data/vehicles/edit';
 import AllVehicles from './data/vehicles/all';
 import AllStaff from './staff/all';
+import AllClients from './clients/all';
 import AllMobiles from './mobiles/all';
 //import Test from './data/vehicles/test';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -81,6 +82,8 @@ function App() {
 							<PrivateRoute path="/data/phones/view" component={DataPhonesView} exact />
 							<PrivateRoute path="/data/users/view" component={DataUsersView} exact />
 							<PrivateRoute path="/data/clients/view" component={DataClientsView} exact />
+							<PrivateRoute path="/kunder" component={AllClients} exact />
+							<PrivateRoute path="/kunder/:id/:name" component={AllClients} exact />
 							<PrivateRoute path="/data/dashboard" component={Dashboard} exact updateParentUrl={setParentUrl}/>
 							<PrivateRoute path="/login" component={Login} exact />
 							<PrivateRoute path="/fordon/visa/:id" component={Vehicles} exact />
@@ -89,6 +92,7 @@ function App() {
 							<PrivateRoute path="/fordon/ändra/:id" component={EditVehicle} exact />
 							<PrivateRoute path="/fordon/alla" component={AllVehicles} exact />
 							<PrivateRoute path="/personal" component={AllStaff} exact />
+							<PrivateRoute path="/personal/:id/:name" component={AllStaff} exact />
 							<PrivateRoute path="/telefoner" component={AllMobiles} exact />
 
 
