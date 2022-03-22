@@ -175,27 +175,17 @@ function Allstaff(props) {
 		setStaffBoxOpen(-1);
 		setStaffName('Ny Kund');
 		setPerson({
-			name: '',
-			email: '',
-			staff_number: '',
-			carefox_id: '',
-			group: 'Osäker',
-			employment_type: 'Osäker',
-			phone_status: 'Osäker',
-			phone_id: '',
-			sith_status: 'Osäker',
-			sith_hsa: '',
-			home_area: 'Osäker',
-			admin: false,
 			active: true,
-			education: false,
-			door_key: false,
-			card: 'Osäker',
-			it_policy: 'Osäker',
-			drivers_license: 'Osäker',
+			binder: false,
+			consent: false,
+			name: '',
+			ssn: '',
+			decision: null,
+			address: '',
+			care_type: 'Osäker',
+			plan: null,
+			home_area: 'Osäker',
 			comment: '',
-			employment_expiry: null,
-			delegation: null,
 		});
 	}
 

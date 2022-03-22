@@ -5,7 +5,7 @@ import Popup from '../components/popup';
 const optionsCareType = [
 	{ key: 'Osäker', text: 'Osäker', value: 'Osäker' },
 	{ key: 'old', text: 'Äldreomsorg', value: 'old' },
-	{ key: 'young', text: 'Funktionshinder', value: 'young' },
+	{ key: 'disabled', text: 'Funktionshinder', value: 'disabled' },
 ];
 
 const optionsHome = [
