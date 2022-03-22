@@ -39,7 +39,6 @@ class ClientController extends Controller
             $client->active = $client->active === 1 ? true : false;
             $client->binder = $client->binder === 1 ? true : false;
             $client->consent = $client->consent === 1 ? true : false;
-
         }
         return $clients;
     }
@@ -54,21 +53,18 @@ class ClientController extends Controller
             return ['status' => 'bad-data', 'field' => 'sith', 'id' => 'bad-sith', 'text' => 'Du måste välja en vårdtyp'];
         }
 
-        if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) ||
-            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active)) ||
-            (!isset($request->binder)) || (!isset($request->consent)) || (!isset($request->key))
-        ) {
+        if ((!isset($request->name))) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
 
         $newPerson = Client::create([
             'name' => $request->name,
             'care_type' => $request->care_type,
-            'east' => $request->east,
-            'lundby' => $request->lundby,
-            'angered' => $request->angered,
-            'vh' => $request->vh,
-            'backa' => $request->backa,
+            'east' => 0,
+            'lundby' => 0,
+            'angered' => 0,
+            'vh' => 0,
+            'backa' => 0,
             'ssn' => $request->ssn ?: '',
             'address' => $request->address ?: '',
             'permitted_hours' => $request->permitted_hours ?: 0,
@@ -78,7 +74,7 @@ class ClientController extends Controller
             'plan' => $request->plan,
             'binder' => $request->binder ? true : false,
             'consent' => $request->consent ? true : false,
-            'key' => $request->key,
+            'key' => false,
             'home_area' => $request->home_area,
         ]);
 
@@ -97,10 +93,7 @@ class ClientController extends Controller
             return ['status' => 'bad-data', 'field' => 'sith', 'id' => 'bad-sith', 'text' => 'Du måste välja en vårdtyp'];
         }
 
-        if ((!isset($request->name)) || (!isset($request->care_type)) || (!isset($request->east)) || (!isset($request->lundby)) ||
-            (!isset($request->angered)) || (!isset($request->vh)) || (!isset($request->backa)) || (!isset($request->active)) ||
-            (!isset($request->binder)) || (!isset($request->consent)) || (!isset($request->key))
-        ) {
+        if ((!isset($request->name))) {
             return ['status' => 'missing-data', 'id' => 'missing-data', 'text' => 'Alla fält är ej ifyllda'];
         }
 
@@ -110,11 +103,11 @@ class ClientController extends Controller
             $oldPerson->update([
                 'name' => $request->name,
                 'care_type' => $request->care_type,
-                'east' => $request->east,
-                'lundby' => $request->lundby,
-                'angered' => $request->angered,
-                'vh' => $request->vh,
-                'backa' => $request->backa,
+                'east' => 0,
+                'lundby' => 0,
+                'angered' => 0,
+                'vh' => 0,
+                'backa' => 0,
                 'ssn' => $request->ssn ?: '',
                 'address' => $request->address ?: '',
                 'permitted_hours' => $request->permitted_hours ?: 0,
@@ -124,7 +117,7 @@ class ClientController extends Controller
                 'plan' => $request->plan,
                 'binder' => $request->binder ? true : false,
                 'consent' => $request->consent ? true : false,
-                'key' => $request->key,
+                'key' => false,
                 'home_area' => $request->home_area,
             ]);
 
