@@ -15,10 +15,10 @@ class CreateInspectionsTable extends Migration
     {
         Schema::create('inspections', function (Blueprint $table) {
             $table->id();
-            $table->string('car_id');
+            $table->string('car_id')->default('');
             $table->date('date');
-            $table->boolean('approved');
-            $table->string('comment');
+            $table->boolean('approved')->default(false);
+            $table->string('comment')->default('');
             $table->timestamps();
         });
     }

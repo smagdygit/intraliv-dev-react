@@ -34,6 +34,7 @@ function ViewEmployees(props) {
 	const [newEmployeeWindow, setNewEmployeeWindow] = useState(false);
 	const [resultCount, setResultCount] = useState(0);
 	const [night, setNight] = useState(localStorage.getItem('night') === 'true' ? true : false);
+	const [percentageFulltime, setPercentageFulltime] = useState(0);
 
 	useEffect(() => {
 		setNight(localStorage.getItem('night') === 'true' ? true : false);
@@ -85,8 +86,9 @@ function ViewEmployees(props) {
 		setFilter({ ...filter });
 	}
 
-	function updateResultCount(count) {
+	function updateResultCount(count, fulltime) {
 		setResultCount(count);
+		setPercentageFulltime(fulltime);
 	}
 
 	const headers = [['name', 'Namn', 8], ['active', 'Aktiv', 2], ['group', 'Grupp', 2], ['phone_id', 'Tele', 2], ['sith', 'SITH', 2],
@@ -135,6 +137,7 @@ function ViewEmployees(props) {
 						<Grid.Row className="p-1">
 							<Grid.Column width={3}>
 								<p style={{color: night ? 'white' : ''}}>{resultCount} resultat</p>
+								<p style={{color: night ? 'white' : ''}}>{percentageFulltime}% heltidsanställda</p>
 							</Grid.Column>
 							<Grid.Column width={3}>
 								<Checkbox

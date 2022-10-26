@@ -14,7 +14,7 @@ class AddCardToEmployeesTable extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->boolean('card');
+            $table->boolean('card')->default(false);
         });
     }
 

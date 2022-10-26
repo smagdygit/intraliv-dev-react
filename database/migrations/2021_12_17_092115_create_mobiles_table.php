@@ -17,20 +17,20 @@ class CreateMobilesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('wp');
-            $table->string('name');
-            $table->string('model');
-            $table->string('usable');
-            $table->string('installed');
-            $table->string('hardware');
-            $table->string('phoniro_status');
-            $table->string('phoniro_home_area');
-            $table->string('actual_home_area');
-            $table->string('location');
-            $table->string('sim_status');
-            $table->string('sim_code');
-            $table->string('sim_number');
-            $table->string('belongs_to');
-            $table->string('comment');
+            $table->string('name')->default('');
+            $table->string('model')->default('');
+            $table->string('usable')->default('');
+            $table->string('installed')->default('');
+            $table->string('hardware')->default('');
+            $table->string('phoniro_status')->default('');
+            $table->string('phoniro_home_area')->default('');
+            $table->string('actual_home_area')->default('');
+            $table->string('location')->default('');
+            $table->string('sim_status')->default('');
+            $table->string('sim_code')->default('');
+            $table->string('sim_number')->default('');
+            $table->string('belongs_to')->default('');
+            $table->string('comment')->default('');
         });
     }
 

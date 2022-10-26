@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDriverslicenseToEmployeesTable extends Migration
+class AddMonthlyHoursToStaffTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddDriverslicenseToEmployeesTable extends Migration
      */
     public function up()
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->string('driverslicense')->default('');
+        Schema::table('staff', function (Blueprint $table) {
+            $table->float('monthly_hours')->default(0);
         });
     }
 
@@ -25,7 +25,7 @@ class AddDriverslicenseToEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::table('employees', function (Blueprint $table) {
+        Schema::table('staff', function (Blueprint $table) {
             //
         });
     }

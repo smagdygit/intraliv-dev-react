@@ -71,7 +71,9 @@ class StaffController extends Controller
             'drivers_license' => ['s'],
             'comment' => ['s'],
             'employment_expiry' => ['d'],
-            'delegation' => ['d']
+            'delegation' => ['d'],
+            'monthly_hours' => ['d'],
+            'work_percentage' => ['d'],
         ];
 
         
@@ -108,6 +110,8 @@ class StaffController extends Controller
                 'comment' => $request->comment ?: '',
                 'employment_expiry' => $request->employment_expiry,
                 'delegation' => $request->delegation,
+                'monthly_hours' => $request->monthly_hours ?: 0,
+                'work_percentage' => $request->work_percentage ?: null,
             ]);
 
             $this->renameOrCreate(false, $personId, $request->name);
@@ -147,6 +151,8 @@ class StaffController extends Controller
             'comment' => $request->comment ?: '',
             'employment_expiry' => $request->employment_expiry,
             'delegation' => $request->delegation,
+            'monthly_hours' => $request->monthly_hours ?: 0,
+            'work_percentage' => $request->work_percentage ?: 0,
         ]);
 
         $this->renameOrCreate(true, $newPerson->id, $request->name);

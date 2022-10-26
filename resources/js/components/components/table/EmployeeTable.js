@@ -52,7 +52,10 @@ function Main(props) {
 					policy_it_signed: hed[12][1], education: hed[13][1], doorkey: hed[14][1], comment: hed[15][1]});*/
 				setPeople(filteredEmployees);
 				setFetchedPeople(data);
-				props.updateResultCount(filteredEmployees.length);
+				props.updateResultCount(
+					filteredEmployees.length,
+					filteredEmployees.filter(x => x.employment_type === 'Tillsvidare').length / filteredEmployees.length * 100
+				);
 			});
 	}, [refresher]);
 
@@ -169,7 +172,7 @@ function Main(props) {
 				<Table.Cell textAlign='center'>{item.education === 0 ? '-' : '📜'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.doorkey === 0 ? '-' : '🔑'}</Table.Cell>
 				<Table.Cell textAlign='center'>{item.card === 0 ? '-' : '🖼️'}</Table.Cell>
-				<Table.Cell textAlign='center'>{<div> {(item.driverslicense === 'automatic' || item.driverslicense === 'manual') && <FaRegAddressCard style={{ color: item.driverslicense === 'automatic' ? 'green' : 'green' }} />} {item.driverslicense === 'manual' && <GiGearStickPattern style={{ color: 'green' }} />} {item.driverslicense === 'none' && <MdBlock style={{color: 'red'}}/>} {item.driverslicense === '' && <BsQuestionLg style={{color: 'orange'}}/>}</div>} </Table.Cell>
+				<Table.Cell textAlign='center'>{<div> {(item.driverslicense === 'automatic' || item.driverslicense === 'manual') && <FaRegAddressCard style={{ color: item.driverslicense === 'automatic' ? 'green' : 'green' }} />} {item.driverslicense === 'manual' && <GiGearStickPattern style={{ color: 'green' }} />} {item.driverslicense === 'none' && <MdBlock style={{ color: 'red' }} />} {item.driverslicense === '' && <BsQuestionLg style={{ color: 'orange' }} />}</div>} </Table.Cell>
 				<Table.Cell>{item.comment}</Table.Cell>
 			</Table.Row>
 		];

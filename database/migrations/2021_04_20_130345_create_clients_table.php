@@ -15,17 +15,17 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('care_type');
-            $table->boolean('east');
-            $table->boolean('lundby');
-            $table->boolean('angered');
-            $table->boolean('vh');
-            $table->boolean('backa');
-            $table->string('ssn');
-            $table->string('address');
-            $table->string('permitted_hours');
-            $table->string('comment');
+            $table->string('name')->default('');
+            $table->string('care_type')->default('');
+            $table->boolean('east')->default(false);
+            $table->boolean('lundby')->default(false);
+            $table->boolean('angered')->default(false);
+            $table->boolean('vh')->default(false);
+            $table->boolean('backa')->default(false);
+            $table->string('ssn')->default('');
+            $table->string('address')->default('');
+            $table->string('permitted_hours')->default('');
+            $table->string('comment')->default('');
             $table->timestamps();
         });
     }

@@ -16,15 +16,15 @@ class CreatePhonesTable extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->id();
             $table->integer('name');
-            $table->string('status');
-            $table->boolean('free');
-            $table->boolean('personal');
-            $table->boolean('east');
-            $table->boolean('lundby');
-            $table->boolean('angered');
-            $table->string('phoniro_status');
-            $table->string('comment');
-            $table->string('telenumber');
+            $table->string('status')->default('');
+            $table->boolean('free')->default(false);
+            $table->boolean('personal')->default(false);
+            $table->boolean('east')->default(false);
+            $table->boolean('lundby')->default(false);
+            $table->boolean('angered')->default(false);
+            $table->string('phoniro_status')->default('');
+            $table->string('comment')->default('');
+            $table->string('telenumber')->default('');
             $table->timestamps();
         });
     }

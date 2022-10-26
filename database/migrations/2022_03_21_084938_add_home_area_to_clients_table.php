@@ -14,7 +14,7 @@ class AddHomeAreaToClientsTable extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('home_area');
+            $table->string('home_area')->default('');
         });
     }
 

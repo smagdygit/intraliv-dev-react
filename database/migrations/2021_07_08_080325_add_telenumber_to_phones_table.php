@@ -14,7 +14,7 @@ class AddTelenumberToPhonesTable extends Migration
     public function up()
     {
         Schema::table('phones', function (Blueprint $table) {
-            $table->string('telenumber');
+            //$table->string('telenumber')->default('');
         });
     }
 

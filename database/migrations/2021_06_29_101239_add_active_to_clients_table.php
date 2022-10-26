@@ -14,7 +14,7 @@ class AddActiveToClientsTable extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->boolean('active');
+            $table->boolean('active')->default(false);
         });
     }
 

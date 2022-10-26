@@ -15,19 +15,19 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('care_id_1');
-            $table->string('care_id_2');
+            $table->string('name')->default('');
+            $table->string('email')->default('');
+            $table->string('care_id_1')->default('');
+            $table->string('care_id_2')->default('');
             $table->integer('phone_id');
-            $table->string('sith');
-            $table->boolean('admin');
-            $table->boolean('active');
-            $table->boolean('east');
-            $table->boolean('lundby');
-            $table->boolean('angered');
-            $table->string('policy_it_signed');
-            $table->string('comment');
+            $table->string('sith')->default('');
+            $table->boolean('admin')->default(false);
+            $table->boolean('active')->default(false);
+            $table->boolean('east')->default(false);
+            $table->boolean('lundby')->default(false);
+            $table->boolean('angered')->default(false);
+            $table->string('policy_it_signed')->default('');
+            $table->string('comment')->default('');
             $table->timestamps();
         });
     }

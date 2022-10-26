@@ -15,7 +15,7 @@ class CreateMileagesTable extends Migration
     {
         Schema::create('mileages', function (Blueprint $table) {
             $table->id();
-            $table->string('car_id');
+            $table->string('car_id')->default('');
             $table->date('date');
             $table->integer('mileage');
             $table->timestamps();

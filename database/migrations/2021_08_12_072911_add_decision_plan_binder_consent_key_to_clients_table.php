@@ -16,9 +16,9 @@ class AddDecisionPlanBinderConsentKeyToClientsTable extends Migration
         Schema::table('clients', function (Blueprint $table) {
             $table->date('decision')->nullable($value = true);
             $table->date('plan')->nullable($value = true);
-            $table->boolean('binder');
-            $table->boolean('consent');
-            $table->boolean('key');
+            $table->boolean('binder')->default(false);
+            $table->boolean('consent')->default(false);
+            $table->boolean('key')->default(false);
         });
     }
 

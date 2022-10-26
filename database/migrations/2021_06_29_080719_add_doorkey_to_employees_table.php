@@ -14,7 +14,7 @@ class AddDoorkeyToEmployeesTable extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->boolean('doorkey');
+            $table->boolean('doorkey')->default(false);
         });
     }
 

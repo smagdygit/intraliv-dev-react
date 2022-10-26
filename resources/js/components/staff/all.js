@@ -290,6 +290,8 @@ function Allstaff(props) {
 			comment: '',
 			employment_expiry: null,
 			delegation: null,
+			monthly_hours: '',
+			work_percentage: '',
 		});
 	}
 
@@ -675,6 +677,8 @@ function Allstaff(props) {
 								<Grid.Row columns={3}>
 									<Grid.Column verticalAlign="middle">
 										<h1>{filteredStaff.length} Resultat</h1>
+										<p>{Math.round(filteredStaff.filter(x => x.work_percentage === 100).length / filteredStaff.length * 100) || 0}% Heltidsanställda</p>
+										<p>{Math.round(filteredStaff.filter(x => x.work_percentage === 100).reduce((a, b) => a + b.monthly_hours, 0) / filteredStaff.reduce((a, b) => a + b.monthly_hours, 0) * 100) || 0}% Timmar av Heltidsanställda</p>
 									</Grid.Column>
 									<Grid.Column className="text-left">
 										<p>🥇 - Grupp 1</p>

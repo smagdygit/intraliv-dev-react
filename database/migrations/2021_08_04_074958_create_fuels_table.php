@@ -15,7 +15,7 @@ class CreateFuelsTable extends Migration
     {
         Schema::create('fuels', function (Blueprint $table) {
             $table->id();
-            $table->string('car_id');
+            $table->string('car_id')->default('');
             $table->date('date');
             $table->integer('cost');
             $table->timestamps();

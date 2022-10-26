@@ -14,7 +14,7 @@ class AddGroupToEmployeesTable extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('group');
+            $table->string('group')->default('');
         });
     }
 

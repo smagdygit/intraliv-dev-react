@@ -15,29 +15,29 @@ class CreateCarsTable extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('plate');
-            $table->string('bought_location');
+            $table->string('plate')->default('');
+            $table->string('bought_location')->default('');
             $table->date('bought_date')->nullable();;
-            $table->string('brand');
-            $table->string('model');
-            $table->string('station');
-            $table->string('color');
-            $table->string('comment');
+            $table->string('brand')->default('');
+            $table->string('model')->default('');
+            $table->string('station')->default('');
+            $table->string('color')->default('');
+            $table->string('comment')->default('');
 
-            $table->boolean('abax');
-            $table->boolean('employee_car');
-            $table->boolean('benefit');
-            $table->boolean('automatic');
+            $table->boolean('abax')->default(false);
+            $table->boolean('employee_car')->default(false);
+            $table->boolean('benefit')->default(false);
+            $table->boolean('automatic')->default(false);
 
             $table->integer('insurance_cost');
             $table->integer('max_mileage');
             
             $table->integer('wheels_summer_amount');
-            $table->string('wheels_summer_type');
+            $table->string('wheels_summer_type')->default('');
             $table->integer('wheels_winter_amount');
-            $table->string('wheels_winter_type');
-            $table->string('wheels_location');
-            $table->boolean('winter_wheels_on');
+            $table->string('wheels_winter_type')->default('');
+            $table->string('wheels_location')->default('');
+            $table->boolean('winter_wheels_on')->default(false);
 
             $table->date('oil_checked')->nullable();;
             $table->date('washed')->nullable();;

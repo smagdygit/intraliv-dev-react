@@ -16,25 +16,25 @@ class CreateStaffTable extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->string('email');
+            $table->string('name')->default('');
+            $table->string('email')->default('');
             $table->integer('staff_number');
             $table->integer('carefox_id');
             $table->integer('group');
-            $table->string('employment_type');
-            $table->string('phone_status');
+            $table->string('employment_type')->default('');
+            $table->string('phone_status')->default('');
             $table->integer('phone_id');
-            $table->string('sith_status');
-            $table->string('sith_hsa');
-            $table->string('home_area');
-            $table->boolean('admin');
-            $table->boolean('active');
-            $table->boolean('education');
-            $table->string('door_key');
-            $table->string('card');
-            $table->string('it_policy');
-            $table->string('drivers_license');
-            $table->string('comment');
+            $table->string('sith_status')->default('');
+            $table->string('sith_hsa')->default('');
+            $table->string('home_area')->default('');
+            $table->boolean('admin')->default(false);
+            $table->boolean('active')->default(false);
+            $table->boolean('education')->default(false);
+            $table->string('door_key')->default('');
+            $table->string('card')->default('');
+            $table->string('it_policy')->default('');
+            $table->string('drivers_license')->default('');
+            $table->string('comment')->default('');
 
         });
     }

@@ -14,8 +14,8 @@ class AddVhBackaToPhonesTable extends Migration
     public function up()
     {
         Schema::table('phones', function (Blueprint $table) {
-            $table->boolean('vh');
-            $table->boolean('backa');
+            $table->boolean('vh')->default(false);
+            $table->boolean('backa')->default(false);
         });
     }
 

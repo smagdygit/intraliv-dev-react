@@ -15,9 +15,9 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('car_id');
+            $table->string('car_id')->default('');
             $table->date('date');
-            $table->boolean('full_service');
+            $table->boolean('full_service')->default(false);
             $table->integer('comment');
             $table->timestamps();
         });

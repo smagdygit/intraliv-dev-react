@@ -14,9 +14,9 @@ class AddEducationVhBackaToEmployeesTable extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->boolean('vh');
-            $table->boolean('backa');
-            $table->boolean('education');
+            $table->boolean('vh')->default(false);
+            $table->boolean('backa')->default(false);
+            $table->boolean('education')->default(false);
         });
     }
 

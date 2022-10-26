@@ -32,6 +32,8 @@ class Staff extends Model
         'comment',
         'employment_expiry',
         'delegation',
+        'monthly_hours',
+        'work_percentage',
     ];
 
     public function mobile()

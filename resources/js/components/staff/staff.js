@@ -283,6 +283,22 @@ function Staff(props) {
 			],
 			[
 				{
+					type: 'input',
+					label: '% Anställning',
+					data: 'work_percentage',
+					placeholder: '50',
+					width: 8,
+				},
+				{
+					type: 'input',
+					label: 'Timmar denna mån',
+					data: 'monthly_hours',
+					placeholder: '30',
+					width: 8,
+				},
+			],
+			[
+				{
 					type: 'textbox',
 					label: 'Kommentar',
 					data: 'comment',
