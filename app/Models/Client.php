@@ -28,5 +28,6 @@ class Client extends Model
         'consent',
         'key',
         'home_area',
+        'decision_end',
     ];
 }

@@ -161,6 +161,7 @@ function Allstaff(props) {
 		comment: 'Filtrera Ej',
 	});
 	const [urlId, setUrlId] = useState(useParams().id);
+	const [monthlyHours, setMonthlyHours] = useState(500);
 
 	// DOWNLOAD THE CARS
 	useEffect(() => {
@@ -185,8 +186,8 @@ function Allstaff(props) {
 				setIsDownloading(false);
 
 				//Open staff box if URL demands it
-				
-				
+
+
 				if (urlId !== undefined) {
 					setStaffBoxOpen(urlId);
 					setStaffName(moddedArray.find(x => x.id === parseInt(urlId)).name);
@@ -615,7 +616,7 @@ function Allstaff(props) {
 
 	return (
 		<center>
-			{!!staffBoxOpen && !isDownloading && Object.keys(person).length !== 0 &&  <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
+			{!!staffBoxOpen && !isDownloading && Object.keys(person).length !== 0 && <Staff canceled={popupCanceled} sent={popupSent} id={staffBoxOpen} name={staffName} person={person} />}
 			<div className="container-fluid center" style={{ width: '90%', marginLeft: '5%', marginRight: '5%', marginTop: '0px' }}>
 				<h1 className="display-1 mt-5" style={{ marginBottom: '10px', fontFamily: 'Roboto, sans-serif' }}>Personal</h1>
 				<Grid className="m-0 p-0 mb-3">
@@ -678,7 +679,16 @@ function Allstaff(props) {
 									<Grid.Column verticalAlign="middle">
 										<h1>{filteredStaff.length} Resultat</h1>
 										<p>{Math.round(filteredStaff.filter(x => x.work_percentage === 100).length / filteredStaff.length * 100) || 0}% Heltidsanställda</p>
-										<p>{Math.round(filteredStaff.filter(x => x.work_percentage === 100).reduce((a, b) => a + b.monthly_hours, 0) / filteredStaff.reduce((a, b) => a + b.monthly_hours, 0) * 100) || 0}% Timmar av Heltidsanställda</p>
+										{/*<p>{Math.round(filteredStaff.filter(x => x.work_percentage === 100).reduce((a, b) => a + b.monthly_hours, 0) / filteredStaff.reduce((a, b) => a + b.monthly_hours, 0) * 100) || 0}% Timmar av Heltidsanställda</p>*/}
+										<p>{Math.round(filteredStaff.filter(x => x.education).reduce((a, b) => a + b.work_percentage, 0) / filteredStaff.filter(x => !x.education).reduce((a, b) => a + b.work_percentage, 0) * 100)}% Timmar av Utbildad Personal</p>
+										<p>{Math.round(filteredStaff.filter(x => x.education).reduce((a, b) => a + b.work_percentage, 0) / filteredStaff.filter(x => !x.education).reduce((a, b) => a + b.work_percentage, 0) * monthlyHours)} Timmar av Utbildad Personal</p>
+										<Input
+											value={monthlyHours}
+											onChange={e => setMonthlyHours(parseInt(e.target.value) || 0)}
+											label="Totala Timmar"
+											labelPosition="left"
+											fluid
+										/>
 									</Grid.Column>
 									<Grid.Column className="text-left">
 										<p>🥇 - Grupp 1</p>

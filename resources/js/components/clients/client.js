@@ -24,6 +24,7 @@ function Staff(props) {
 	const [form, setForm] = useState({
 		...props.person,
 		decision: props.person.decision ? new Date(props.person.decision) : null,
+		decision_end: props.person.decision_end ? new Date(props.person.decision_end) : null,
 		plan: props.person.plan ? new Date(props.person.plan) : null,
 	});
 	const [isUploading, setIsUploading] = useState(false);
@@ -82,7 +83,7 @@ function Staff(props) {
 					label: 'Fullt Namn',
 					data: 'name',
 					placeholder: 'Fullt Namn',
-					width: 6,
+					width: 8,
 					min: 1,
 				},
 				{
@@ -90,13 +91,21 @@ function Staff(props) {
 					label: 'Personnummer',
 					data: 'ssn',
 					placeholder: 'xxxxxx-xxxx',
-					width: 6,
+					width: 8,
+				},
+			],
+			[
+				{
+					type: 'date',
+					label: 'Beslut-start',
+					data: 'decision',
+					width: 7,
 				},
 				{
 					type: 'date',
-					label: 'Beslut',
-					data: 'decision',
-					width: 3,
+					label: 'Beslut-slut',
+					data: 'decision_end',
+					width: 7,
 				},
 			],
 			[
@@ -153,6 +162,7 @@ function Staff(props) {
 			return {
 				...props.person,
 				decision: props.person.decision ? new Date(props.person.decision) : null,
+				decision_end: props.person.decision_end ? new Date(props.person.decision_end) : null,
 				plan: props.person.plan ? new Date(props.person.plan) : null,
 			}
 		},
@@ -181,6 +191,7 @@ function Staff(props) {
 				body: JSON.stringify({
 					...form,
 					decision: form.decision ? form.decision.toISOString().split('T')[0] : null,
+					decision_end: form.decision_end ? form.decision_end.toISOString().split('T')[0] : null,
 					plan: form.plan ? form.plan.toISOString().split('T')[0] : null,
 				}),
 			})

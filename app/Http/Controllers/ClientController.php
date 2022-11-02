@@ -76,6 +76,7 @@ class ClientController extends Controller
             'consent' => $request->consent ? true : false,
             'key' => false,
             'home_area' => $request->home_area,
+            'decision_end' => $request->decision_end,
         ]);
 
         $this->renameOrCreate(true, $newPerson->id, $request->name);
@@ -119,6 +120,7 @@ class ClientController extends Controller
                 'consent' => $request->consent ? true : false,
                 'key' => false,
                 'home_area' => $request->home_area,
+                'decision_end' => $request->decision_end,
             ]);
 
             $this->renameOrCreate(false, $personId, $request->name);

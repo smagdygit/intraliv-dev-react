@@ -291,7 +291,7 @@ function Staff(props) {
 				},
 				{
 					type: 'input',
-					label: 'Timmar denna mån',
+					label: 'Timmar denna mån (används ej i uträkningar)',
 					data: 'monthly_hours',
 					placeholder: '30',
 					width: 8,

@@ -185,6 +185,7 @@ function Allstaff(props) {
 			care_type: 'Osäker',
 			plan: null,
 			home_area: 'Osäker',
+			decision_end: null,
 			comment: '',
 		});
 	}
