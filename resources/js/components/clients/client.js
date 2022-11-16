@@ -69,6 +69,11 @@ function Staff(props) {
 				label: 'Samtycke',
 				data: 'consent',
 			},
+			{
+				type: 'checkbox',
+				label: 'Nyckel',
+				data: 'key',
+			},
 		],
 		main: [
 			[

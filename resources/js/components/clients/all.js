@@ -187,6 +187,7 @@ function Allstaff(props) {
 			home_area: 'Osäker',
 			decision_end: null,
 			comment: '',
+			key: false,
 		});
 	}
 
@@ -298,7 +299,9 @@ function Allstaff(props) {
 		{ data: 'ssn', name: 'Per. Num.', width: 2 },
 		{ data: 'address', name: 'Adress', width: 3 },
 		{ data: 'permitted_hours', name: 'Beviljade Tim.', width: 1 },
-		{ data: 'decision', name: 'Beslut', width: 1 },
+		{ data: 'decision', name: 'Beslut Från', width: 1 },
+		{ data: 'decision_end', name: 'Beslut Till', width: 1 },
+		{ data: 'plan', name: 'Planering Från', width: 1 },
 		{ data: 'binder', name: 'Infopärm', width: 1 },
 		{ data: 'consent', name: 'Samtycke', width: 1 },
 		{ data: 'comment', name: 'Kommentar', width: 2 },
@@ -357,6 +360,17 @@ function Allstaff(props) {
 			name: 'decision',
 			width: 1,
 			data: (x) => x.decision,
+		},
+		{
+			name: 'decision_end',
+			width: 1,
+			data: (x) => x.decision_end,
+			style: (x) => { return { backgroundColor: x.decision_end && (new Date(x.decision_end)).getTime() - (new Date(Date.now())).getTime() < 1210000000 ? 'red' : '' } },
+		},
+		{
+			name: 'plan',
+			width: 1,
+			data: (x) => x.plan,
 		},
 		{
 			name: 'binder',
@@ -518,19 +532,6 @@ function Allstaff(props) {
 								<Grid.Row columns={3}>
 									<Grid.Column verticalAlign="middle">
 										<h1>{filteredStaff.length} Resultat</h1>
-									</Grid.Column>
-									<Grid.Column className="text-left">
-										<p>🥇 - Grupp 1</p>
-										<p>🥈 - Grupp 2</p>
-										<p>📝 - IT Avtal</p>
-										<p>📜 - Utbildning</p>
-										<p>🔑 - Kodbricka</p>
-									</Grid.Column>
-									<Grid.Column className="text-left">
-										<p>🖼️ - Personalkort</p>
-										<p><FaRegAddressCard style={{ color: 'green' }} /> - Manuellt Körkort</p>
-										<p><FaRegAddressCard style={{ color: 'orange' }} /> - Automat Körkort</p>
-										<p><MdBlock style={{ color: 'red' }} /> - Inget Körkort</p>
 									</Grid.Column>
 								</Grid.Row>
 							</Grid>

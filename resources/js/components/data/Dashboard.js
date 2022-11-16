@@ -57,7 +57,7 @@ function Dashboard(props) {
 								<h1>Personal</h1>
 							</div>
 						</StyledCol>
-						<StyledCol width={5} textAlign="center" className="p-5" onClick={() => history.push('/data/clients/view')}>
+						<StyledCol width={5} textAlign="center" className="p-5" onClick={() => history.push('/kunder')}>
 							<div>
 								<Icon size='huge' name='universal access' />
 								<h1>Kunder</h1>

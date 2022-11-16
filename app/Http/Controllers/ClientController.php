@@ -39,6 +39,7 @@ class ClientController extends Controller
             $client->active = $client->active === 1 ? true : false;
             $client->binder = $client->binder === 1 ? true : false;
             $client->consent = $client->consent === 1 ? true : false;
+            $client->key = $client->key === 1 ? true : false;
         }
         return $clients;
     }
@@ -74,7 +75,7 @@ class ClientController extends Controller
             'plan' => $request->plan,
             'binder' => $request->binder ? true : false,
             'consent' => $request->consent ? true : false,
-            'key' => false,
+            'key' => $request->key ? true : false,
             'home_area' => $request->home_area,
             'decision_end' => $request->decision_end,
         ]);
@@ -118,7 +119,7 @@ class ClientController extends Controller
                 'plan' => $request->plan,
                 'binder' => $request->binder ? true : false,
                 'consent' => $request->consent ? true : false,
-                'key' => false,
+                'key' => $request->key ? true : false,
                 'home_area' => $request->home_area,
                 'decision_end' => $request->decision_end,
             ]);

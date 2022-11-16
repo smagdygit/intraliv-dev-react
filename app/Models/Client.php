@@ -29,5 +29,6 @@ class Client extends Model
         'key',
         'home_area',
         'decision_end',
+        'key',
     ];
 }
